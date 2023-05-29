@@ -202,3 +202,41 @@ def plot_cameras_and_scene_bbox(
         save_geometries(get_geometries_cache_path(), geometries)
 
     o3d.visualization.draw_geometries(geometries)
+
+
+def plot_rays(ray_os,
+              ray_ds,
+              near,
+              far,
+              sample_rate=0.001,
+              load_cache: bool = True,
+              update_cache: bool = True):
+    """
+    ray_os: (N, 3).
+    ray_ds: (N, 3).
+    """
+    num_samples = int(len(ray_os) * sample_rate)
+
+    # Sample evenly
+    sample_indices = np.linspace(0, len(ray_os) - 1, num_samples).astype(int)
+    ray_os = ray_os[sample_indices]
+    ray_ds = ray_ds[sample_indices]
+
+    ls = o3d.geometry.LineSet()
+    src_points = ray_os + ray_ds * near
+    dst_points = ray_os + ray_ds * far
+    all_points = np.concatenate([src_points, dst_points], axis=0)
+    all_lines = np.array([[i, i + len(ray_os)] for i in range(len(ray_os))])
+    ls.points = o3d.utility.Vector3dVector(all_points)
+    ls.lines = o3d.utility.Vector2iVector(all_lines)
+    ls.colors = o3d.utility.Vector3dVector(np.array([[1, 0, 0]] * len(all_lines)))
+
+    geometries = [ls]
+
+    # Handle cache.
+    if load_cache:
+        geometries = load_geometries(get_geometries_cache_path()) + geometries
+    if update_cache:
+        save_geometries(get_geometries_cache_path(), geometries)
+
+    o3d.visualization.draw_geometries(geometries)

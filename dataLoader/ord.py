@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from dataLoader.plotter import plot_cameras_and_scene_bbox, plot_geometries
+from dataLoader.plotter import plot_cameras_and_scene_bbox, plot_rays
 
 from dataLoader.ray_utils import get_ray_directions, get_rays
 
@@ -164,6 +164,15 @@ class ORD(Dataset):
                 ],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
                 camera_size=0.05,
+            )
+            plot_rays(
+                ray_os=self.all_rays[:h*w, :3].cpu().numpy(),
+                ray_ds=self.all_rays[:h*w, 3:].cpu().numpy(),
+                # near=self.near_far[0],
+                # far=self.near_far[1],
+                sample_rate=0.01,
+                near=0.01,
+                far=1.0,
             )
 
     def __len__(self):
