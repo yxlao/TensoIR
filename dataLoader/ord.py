@@ -68,6 +68,7 @@ class ORD(Dataset):
         num_images = len(im_rgbs)
         self.img_wh = (im_rgbs[0].shape[1], im_rgbs[0].shape[0])
         scene_bbox = result_dict["scene_bbox"]
+        near_far = result_dict["near_far"]
 
         # Compute directions
         w, h = self.img_wh  # Pay attention to the order.
@@ -123,12 +124,11 @@ class ORD(Dataset):
         self.all_depth = None
         self.all_light_idx = torch.zeros((total_num_pixels, 1),
                                          dtype=torch.long)
-        # all_masks = im_masks.reshape((total_num_pixels, -1))
-        # all_masks[all_masks > 0.5] = 1
-        # all_masks[all_masks <= 0.5] = 0
-        # all_masks = all_masks.bool()
-        # self.all_masks = all_masks
-        self.all_masks = None
+        all_masks = im_masks.reshape((total_num_pixels, -1))
+        all_masks[all_masks > 0.5] = 1
+        all_masks[all_masks <= 0.5] = 0
+        all_masks = all_masks.bool()
+        self.all_masks = all_masks
         self.all_rays = self.all_rays
         self.all_rgbs = im_rgbs.reshape((total_num_pixels, -1))
         self.blender2opencv = None
@@ -141,7 +141,7 @@ class ORD(Dataset):
         self.intrinsics = Ks[0]
         self.is_stack = False
         self.meta = None
-        self.near_far = [0.01, 1.0]
+        self.near_far = near_far
         self.poses = torch.stack([torch.linalg.inv(T) for T in Ts]).float()
         self.proj_mat = None
         self.radius = None
@@ -152,7 +152,7 @@ class ORD(Dataset):
         self.white_bg = None
 
         # Visualize.
-        if True:
+        if False:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
@@ -166,8 +166,8 @@ class ORD(Dataset):
                 camera_size=0.05,
             )
             plot_rays(
-                ray_os=self.all_rays[:h*w, :3].cpu().numpy(),
-                ray_ds=self.all_rays[:h*w, 3:].cpu().numpy(),
+                ray_os=self.all_rays[:h * w, :3].cpu().numpy(),
+                ray_ds=self.all_rays[:h * w, 3:].cpu().numpy(),
                 # near=self.near_far[0],
                 # far=self.near_far[1],
                 sample_rate=0.01,
@@ -328,8 +328,8 @@ class ORD(Dataset):
         distances = np.linalg.norm(train_Cs[:, None, :] -
                                    bbox_vertices[None, :, :],
                                    axis=-1)
-        estimated_near = np.min(distances)
-        estimated_far = np.max(distances)
+        estimated_near = float(np.min(distances))
+        estimated_far = float(np.max(distances))
         print(f"Estimated near: {estimated_near:.3f}, "
               f"far: {estimated_far:.3f}")
 
@@ -346,6 +346,7 @@ class ORD(Dataset):
         result_dict["test_im_rgbs"] = torch.tensor(test_im_rgbs).float()
         result_dict["test_im_masks"] = torch.tensor(test_im_masks).float()
         result_dict["scene_bbox"] = torch.tensor(scene_bbox).float()
+        result_dict["near_far"] = [estimated_near, estimated_far]
 
         return result_dict
 
