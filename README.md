@@ -22,6 +22,12 @@ data
     └── ship
 ```
 
+### Deps
+
+```bash
+pip install setuptools==59.5.0
+```
+
 ### Train
 
 ```bash
