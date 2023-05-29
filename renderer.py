@@ -8,10 +8,16 @@ import torch
 import torchvision.utils as vutils
 
 
-
 @torch.no_grad()
-def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
-    '''compute three channel rescale ratio for albedo by sampling some views
+def compute_rescale_ratio_rgb(tensoIR, dataset, sampled_num=20):
+    '''compute three channel rescale ratio for albedo (but using RGB) by 
+       sampling some views, this is only a very rough estimation.
+        
+    Example values:
+        single channel rescale ratio (rgb)   :  0.4612
+        three channels rescale ratio (rgb)   :  [0.4612, 0.3330, 0.2048]
+        single channel rescale ratio (albedo):  0.1594
+        three channels rescale ratio (albedo):  [0.1594, 0.0485, 0.0070]
     - Args:
         tensoIR: model
         dataset: dataset containing the G.T albedo
@@ -26,7 +32,58 @@ def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
     ratio_list = list()
     gt_albedo_list = []
     reconstructed_albedo_list = []
-    for idx in tqdm(idx_list, desc="compute rescale ratio"):
+    for idx in tqdm(idx_list, desc="compute rescale ratio (rgb)"):
+        item = dataset[idx]
+        frame_rays = item['rays'].squeeze(0).to(tensoIR.device) # [H*W, 6]
+        gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]
+        gt_albedo = item['rgbs'].squeeze(0).to(tensoIR.device) # [num_lights, H*W, 3]
+        gt_albedo = gt_albedo.mean(dim=0) # [num_lights, H*W, 3] -> [H*W, 3]
+        light_idx = torch.zeros((frame_rays.shape[0], 1), dtype=torch.int).to(tensoIR.device).fill_(0)
+        albedo_map = list()
+        chunk_idxs = torch.split(torch.arange(frame_rays.shape[0]), 3000) 
+        for chunk_idx in chunk_idxs:
+            with torch.enable_grad():
+                rgb_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, \
+                    fresnel_chunk, acc_chunk, *temp \
+                    = tensoIR(frame_rays[chunk_idx], light_idx[chunk_idx], is_train=False, white_bg=True, ndc_ray=False, N_samples=-1)
+            albedo_map.append(rgb_chunk.detach())
+        albedo_map = torch.cat(albedo_map, dim=0).reshape(H, W, 3)
+        gt_albedo = gt_albedo.reshape(H, W, 3)
+        gt_mask = gt_mask.reshape(H, W)
+        gt_albedo_list.append(gt_albedo[gt_mask])
+        reconstructed_albedo_list.append(albedo_map[gt_mask])
+    # ratio = torch.stack(ratio_list, dim=0).mean(dim=0)
+    gt_albedo_all = torch.cat(gt_albedo_list, dim=0)
+    albedo_map_all = torch.cat(reconstructed_albedo_list, dim=0)
+    single_channel_ratio = (gt_albedo_all / albedo_map_all.clamp(min=1e-6))[..., 0].median()
+    three_channel_ratio, _ = (gt_albedo_all / albedo_map_all.clamp(min=1e-6)).median(dim=0)
+
+    return single_channel_ratio, three_channel_ratio
+
+
+@torch.no_grad()
+def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
+    '''compute three channel rescale ratio for albedo by sampling some views
+    - Args:
+        tensoIR: model
+        dataset: dataset containing the G.T albedo
+    - Returns:
+        single_channel_ratio: median of the ratio of the first channel
+        three_channel_ratio: median of the ratio of the three channels
+    '''
+    single_channel_ratio_rgb, three_channel_ratio_rgb = compute_rescale_ratio_rgb(
+        tensoIR, dataset, sampled_num=sampled_num)
+    print("single channel rescale ratio (rgb)   : ", single_channel_ratio_rgb)
+    print("three channels rescale ratio (rgb)   : ", three_channel_ratio_rgb)
+
+    W, H = dataset.img_wh
+    data_num = len(dataset)
+    interval = data_num // sampled_num
+    idx_list = [i * interval for i in range(sampled_num)]
+    ratio_list = list()
+    gt_albedo_list = []
+    reconstructed_albedo_list = []
+    for idx in tqdm(idx_list, desc="compute rescale ratio (albedo)"):
         item = dataset[idx]
         frame_rays = item['rays'].squeeze(0).to(tensoIR.device) # [H*W, 6]
         gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]
@@ -50,8 +107,9 @@ def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
     albedo_map_all = torch.cat(reconstructed_albedo_list, dim=0)
     single_channel_ratio = (gt_albedo_all / albedo_map_all.clamp(min=1e-6))[..., 0].median()
     three_channel_ratio, _ = (gt_albedo_all / albedo_map_all.clamp(min=1e-6)).median(dim=0)
-    print("single channel rescale ratio: ", single_channel_ratio)
-    print("three channels rescale ratio: ", three_channel_ratio)
+    print("single channel rescale ratio (albedo): ", single_channel_ratio)
+    print("three channels rescale ratio (albedo): ", three_channel_ratio)
+
     return single_channel_ratio, three_channel_ratio
 
 
