@@ -21,6 +21,10 @@ class ORD(Dataset):
         scene_dir: str,
         split="train",
         downsample=1.0,
+        light_name=None, # Ignored
+        light_rotation=None, # Ignored
+        scene_bbox=None, # Ignored
+        is_stack=None, # Ignored
     ):
         # Well, the scene_dir is the scene_name, for now.
         # The dataset path is hard-coded.
@@ -135,7 +139,7 @@ class ORD(Dataset):
         self.intrinsics = Ks[0]
         self.is_stack = False
         self.meta = None
-        self.near_far = None
+        self.near_far = [0.01, 1.0]
         self.poses = torch.stack([torch.linalg.inv(T) for T in Ts]).float()
         self.proj_mat = None
         self.radius = None

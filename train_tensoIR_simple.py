@@ -112,8 +112,7 @@ def render_test(args):
 def reconstruction(args):
     # init dataset
     dataset = dataset_dict[args.dataset_name]
-    train_dataset = dataset(
-                            args.datadir, 
+    train_dataset = dataset(args.datadir, 
                             split='train', 
                             downsample=args.downsample_train, 
                             light_name=args.light_name,

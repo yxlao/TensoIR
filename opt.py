@@ -34,7 +34,7 @@ def config_parser(cmd=None):
     parser.add_argument("--save_iters", type=int, default=10000)
 
     parser.add_argument('--dataset_name', type=str, default='tensoIR_unknown_rotated_lights',
-                        choices=['blender', 'llff', 'nsvf', 'dtu','tankstemple', 'own_data', 
+                        choices=['ord', 'blender', 'llff', 'nsvf', 'dtu','tankstemple', 'own_data', 
                         'tensorf_init', 'shapeBuffer', 'tensoIR_unknown_rotated_lights', 'tensoIR_unknown_general_multi_lights',
                         'tensoIR_simple', 'tensoIR_relighting_test', 'tensoIR_material_editing_test', 'tensoIR_simple_dtu'])
 
