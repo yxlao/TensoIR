@@ -14,21 +14,17 @@ lr_decay_iters = 80000
 N_voxel_init = 2097152 # 128**3
 N_voxel_final = 27000000 # 300**3
 
-
 upsamp_list = [10000, 20000, 30000, 40000]
 update_AlphaMask_list = [10000, 15000, 20000, 25000, 30000, 35000]
 
 N_vis = 5
 vis_every = 5000
 
-
-
 render_test = 1
 
 n_lamb_sigma = [16,16,16]
 n_lamb_sh = [48,48,48]
 model_name = TensorVMSplit
-
 
 shadingMode = MLP_Fea
 fea2denseAct = softplus
@@ -37,14 +33,12 @@ view_pe = 2
 fea_pe = 2
 pos_pe = 2
 
-
 light_rotation = [000]
 
 light_kind = sg
 numLgtSGs = 128
  
 normals_kind = derived_plus_predicted
-
 
 normals_diff_weight = 0.005 # try different values on your own data if it does not work well
 normals_orientation_weight = 0.005
@@ -61,6 +55,3 @@ rm_weight_mask_thre = 1e-4
 
 TV_weight_density = 0.1
 TV_weight_app = 0.01
-
-
-

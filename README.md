@@ -2,9 +2,29 @@
 
 ## My notes
 
-```bash
-# Downloads
+### Dataset
 
+```bash
+(tensoir) ➜  ~/research/tensoir (main) tree -L 2 data
+data
+├── Environment_Maps
+│   ├── high_res_envmaps_1k
+│   └── high_res_envmaps_2k
+└── nerf_synthetic
+    ├── chair
+    ├── drums
+    ├── ficus
+    ├── hotdog
+    ├── lego
+    ├── materials
+    ├── mic
+    ├── README.txt
+    └── ship
+```
+
+### Train
+
+```bash
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)
