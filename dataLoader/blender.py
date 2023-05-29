@@ -110,33 +110,57 @@ class BlenderDataset(Dataset):
         return (points - self.center.to(device)) / self.radius.to(device)
 
     def __len__(self):
-        length = len(self.all_rgbs)
-        print(f"BlenderDataset.__len__(): {length}")
-        return length
-
+        """
+        Returns the number of images.
+        """
+        if self.split == "train":
+            raise NotImplementedError("In train, you should not call __len__")
+        
+        num_rays = len(self.all_rgbs)  # (len(self.meta['frames'])*h*w, 3)
+        width, height = self.img_wh
+        num_images = int(num_rays / (width * height))
+        assert num_images == len(self.meta['frames'])
+        return num_images
+        
+    
     def __getitem__(self, idx):
         print(f"BlenderDataset.__getitem__(): {idx}")
 
-        if self.split == 'train':  # use data in the buffers
+        # use data in the buffers
+        if self.split == 'train':
             sample = {
                       'rays': self.all_rays[idx],
                       'rgbs': self.all_rgbs[idx]
-                      
                       }
+            raise NotImplementedError("In train, you should not call __getitem__")
 
-        else:  # create data for each image separately
+        # create data for each image separately
+        else:
+            width, height = self.img_wh
+            wth = width * height
+            num_images = self.__len__()
 
-            img = self.all_rgbs[idx]
-            rays = self.all_rays[idx]
-            mask = self.all_masks[idx] # for quantity evaluation
-            light_idx = self.all_light_idx[idx]
+            # [128000000, 3] -> [200, 800 * 800, 3]
+            all_rgbs = self.all_rgbs.reshape(num_images, height * width, 3)
+            # [128000000, 6] -> [200, 800 * 800, 6]
+            all_rays = self.all_rays.reshape(num_images, height * width, 6)
+            # [128000000, 1] -> [200, 800 * 800, 1]
+            all_masks = self.all_masks.reshape(num_images, height * width, 1)
+            # [128000000, 1] -> [200, 800 * 800, 1]
+            all_light_idx = self.all_light_idx.reshape(num_images, height * width, 1)
+
             sample = {
-                      'img_wh': self.img_wh,  # (int, int)
-                      'light_idx': light_idx.view(1, -1, 1),
-                      'rays': rays,
-                      'rgbs': img.view(1, -1, 3),
-                      'rgbs_mask': mask
-                      }
+                'img_wh': self.img_wh,                            # (int, int)
+                'light_idx': all_light_idx[idx].view(-1, wth, 1), # [light_num, H*W, 1]
+                'rays': all_rays[idx],                            # [H*W, 6]
+                'rgbs': all_rgbs[idx].view(-1, wth, 3),           # [light_num, H*W, 3]
+                'rgbs_mask': all_masks[idx]                       # [H*W, 1]
+            }
+            print(f"light_idx.shape: {sample['light_idx'].shape}")
+            print(f"rays.shape     : {sample['rays'].shape}")
+            print(f"rgbs.shape     : {sample['rgbs'].shape}")
+            print(f"rgbs_mask.shape: {sample['rgbs_mask'].shape}")
+
         return sample
 
 
