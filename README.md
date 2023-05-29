@@ -28,7 +28,7 @@ data
 ### Deps
 
 ```bash
-pip install setuptools==59.5.0 imageio==2.11.1
+pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0
 pip install ipdb matplotlib
 ```
 

@@ -6,8 +6,9 @@ import os
 from PIL import Image
 from torchvision import transforms as T
 
-
 from dataLoader.ray_utils import *
+from dataLoader.plotter import plot_cameras_and_scene_bbox
+import camtools as ct
 
 
 class BlenderDataset(Dataset):
@@ -97,7 +98,15 @@ class BlenderDataset(Dataset):
             self.all_rgbs = torch.stack(self.all_rgbs, 0).reshape(-1,*self.img_wh[::-1], 3)  # (len(self.meta['frames']),h,w,3)
             self.all_masks = torch.stack(self.all_masks, 0).reshape(-1,*self.img_wh[::-1])  # (len(self.meta['frames']),h,w,1)
             self.all_light_idx = torch.zeros((*self.all_rays.shape[:-1], 1),dtype=torch.long).reshape(-1,*self.img_wh[::-1])
-        
+
+        # Try plotting with camtools
+        if True:
+            plot_cameras_and_scene_bbox(
+                Ks=[self.intrinsics.cpu().numpy() for _ in range(len(self.poses))],
+                Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
+                scene_bbox=self.scene_bbox.cpu().numpy(),
+            )
+
 
     def define_transforms(self):
         self.transform = T.ToTensor()
