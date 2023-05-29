@@ -110,9 +110,12 @@ class BlenderDataset(Dataset):
         return (points - self.center.to(device)) / self.radius.to(device)
 
     def __len__(self):
-        return len(self.all_rgbs)
+        length = len(self.all_rgbs)
+        print(f"BlenderDataset.__len__(): {length}")
+        return length
 
     def __getitem__(self, idx):
+        print(f"BlenderDataset.__getitem__(): {idx}")
 
         if self.split == 'train':  # use data in the buffers
             sample = {
@@ -149,4 +152,3 @@ if __name__ == '__main__':
     print(f'rays.shape {dataset.all_rays.shape}')  # [640000, 6]
 
     print(f'rgbs.shape : {dataset.all_rgbs.shape}')  # [640000, 3]
-
