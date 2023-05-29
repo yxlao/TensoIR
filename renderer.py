@@ -37,6 +37,7 @@ def compute_rescale_ratio_rgb(tensoIR, dataset, sampled_num=20):
         frame_rays = item['rays'].squeeze(0).to(tensoIR.device) # [H*W, 6]
         gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]
         gt_albedo = item['rgbs'].squeeze(0).to(tensoIR.device) # [num_lights, H*W, 3]
+        gt_albedo = gt_albedo.reshape((-1, H*W, 3))
         gt_albedo = gt_albedo.mean(dim=0) # [num_lights, H*W, 3] -> [H*W, 3]
         light_idx = torch.zeros((frame_rays.shape[0], 1), dtype=torch.int).to(tensoIR.device).fill_(0)
         albedo_map = list()

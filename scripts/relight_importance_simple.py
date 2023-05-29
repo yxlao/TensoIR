@@ -22,7 +22,7 @@ from models.relight_utils import *
 brdf_specular = GGX_specular
 from utils import rgb_ssim, rgb_lpips
 from models.relight_utils import Environment_Light
-from renderer import compute_rescale_ratio
+from renderer import compute_rescale_ratio_rgb
 
 
 
@@ -56,12 +56,18 @@ def relight(dataset, args):
     light_rotation_idx = 0
     ####
 
-    # TODO: Fix me with proper rescale_value. This can be done by converting
-    #       albedo comparison to RGB comparison.
-    # global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio(tensoIR, dataset)
-    # rescale_value = global_rescale_value_three
-    # For armodillo, the rescale ratio is tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
-    # rescale_value = torch.tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
+    # TODO: Fix me with proper rescale_value:
+    # - This is the code to estimate rescale_value
+    #   ```
+    #   global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio_rgb(tensoIR, dataset)
+    #   rescale_value = global_rescale_value_three
+    #   print(f"rescale_value computed with RGB (not accurate): {rescale_value}")
+    #   ```
+    # - For armodillo, the rescale ratio is tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
+    #   rescale_value = torch.tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
+    # - For mic, the rescale ratio computed with RGB is:
+    #   rescale_value =  tensor([1.0013, 1.0013, 1.0013], device='cuda:0')
+    #   Therefore, we simply use [1, 1, 1] for datasets without gt albedo.
     rescale_value = torch.tensor([1.0, 1.0, 1.0], device='cuda:0')
 
     relight_psnr = dict()
