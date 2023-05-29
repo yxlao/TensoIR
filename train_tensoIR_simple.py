@@ -117,7 +117,7 @@ def reconstruction(args):
                             downsample=args.downsample_train, 
                             light_name=args.light_name,
                             light_rotation=args.light_rotation,
-                            scene_bbox=args.scene_bbox
+                            scene_bbox=args.scene_bbox,
                             )
     test_dataset = dataset(
                             args.datadir, 
@@ -126,7 +126,7 @@ def reconstruction(args):
                             light_name=args.light_name,
                             light_rotation=args.light_rotation,
                             scene_bbox=args.scene_bbox,
-                            is_stack=True
+                            is_stack=True,
                             )
     # if is_distributed:
     #     train_sampler = torch.utils.data.DistributedSampler(train_dataset, num_replicas=dist.get_world_size(),

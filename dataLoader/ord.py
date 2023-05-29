@@ -50,7 +50,7 @@ class ORD(Dataset):
 
         # Read entire dataset.
         self.scene_name = self.scene_dir
-        result_dict = ORD.parse_ord_dataset(self.scene_name)
+        result_dict = ORD.parse_ord_dataset(self.scene_name, self.downsample)
 
         # Unpack result_dict
         if self.split == "train":
@@ -252,7 +252,7 @@ class ORD(Dataset):
         return Ks, Ts
 
     @staticmethod
-    def parse_ord_dataset(scene_name):
+    def parse_ord_dataset(scene_name, downsample=1.0):
         """
         Return: result_dict.
 
@@ -304,6 +304,34 @@ class ORD(Dataset):
         test_im_rgbs = np.array([ct.io.imread(p) for p in test_im_rgb_paths])
         # (num_test, 1165, 1746), float, from 0-1
         test_im_masks = np.array([ct.io.imread(p) for p in test_im_mask_paths])
+
+        # Downsample: changes the image and intrinsics
+        if downsample != 1.0:
+            assert downsample in {2.0, 4.0}
+
+            def downsample_K(K):
+                K_new = K.copy()
+                K_new[0, 0] /= downsample
+                K_new[1, 1] /= downsample
+                K_new[0, 2] /= downsample
+                K_new[1, 2] /= downsample
+                return K_new
+
+            def downsample_image(im):
+                width = int(im.shape[1] / downsample)
+                height = int(im.shape[0] / downsample)
+                return ct.image.resize(im, shape_wh=(width, height))
+
+            train_Ks = np.array([downsample_K(K) for K in train_Ks])
+            train_im_rgbs = np.array(
+                [downsample_image(im) for im in train_im_rgbs])
+            train_im_masks = np.array(
+                [downsample_image(im) for im in train_im_masks])
+            test_Ks = np.array([downsample_K(K) for K in test_Ks])
+            test_im_rgbs = np.array(
+                [downsample_image(im) for im in test_im_rgbs])
+            test_im_masks = np.array(
+                [downsample_image(im) for im in test_im_masks])
 
         # Read bounding boxes.
         # dataset/antman/test/inputs/object_bounding_box.txt

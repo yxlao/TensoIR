@@ -4,8 +4,8 @@ hdrdir = ""
 expname = antman
 basedir = ./log/log_ord
 add_timestamp = 1
-downsample_train = 1
-downsample_test = 1
+downsample_train = 2
+downsample_test = 2
 
 n_iters = 80000
 batch_size = 4096
