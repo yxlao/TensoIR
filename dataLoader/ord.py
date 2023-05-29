@@ -149,6 +149,15 @@ class ORD(Dataset):
         self.transform = None
         self.white_bg = None
 
+        # Visualize.
+        if False:
+            plot_cameras_and_scene_bbox(
+                Ks=[self.intrinsics.cpu().numpy() for _ in range(len(self.poses))],
+                Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
+                scene_bbox=self.scene_bbox.cpu().numpy(),
+                camera_size=0.05,
+            )
+
     def __len__(self):
         """
         Returns the number of images.
@@ -309,17 +318,6 @@ class ORD(Dataset):
               f"far: {estimated_far:.3f}")
 
         scene_bbox = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]])
-
-        # Visualize.
-        if False:
-            plot_cameras_and_scene_bbox(Ks=train_Ks,
-                                        Ts=train_Ts,
-                                        scene_bbox=scene_bbox,
-                                        camera_size=0.05)
-            plot_cameras_and_scene_bbox(Ks=test_Ks,
-                                        Ts=test_Ts,
-                                        scene_bbox=scene_bbox,
-                                        camera_size=0.05)
 
         # Write to result_dict
         result_dict = {}
