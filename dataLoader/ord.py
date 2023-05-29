@@ -69,10 +69,9 @@ class ORD(Dataset):
             raise ValueError(f"split must be train, test or val, got {split}.")
 
         # Use im_masks to set im_rgbs's background to white.
-        # im_masks: add dummy 1 dimension to the ned
         im_rgbs = im_rgbs * im_masks.unsqueeze(3) + (1 - im_masks.unsqueeze(3))
-        plt.imshow(im_rgbs[0].numpy())
-        plt.show()
+        # plt.imshow(im_rgbs[0].numpy())
+        # plt.show()
 
         num_images = len(im_rgbs)
         self.img_wh = (im_rgbs[0].shape[1], im_rgbs[0].shape[0])
