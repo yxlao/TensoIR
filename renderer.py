@@ -71,10 +71,10 @@ def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
         single_channel_ratio: median of the ratio of the first channel
         three_channel_ratio: median of the ratio of the three channels
     '''
-    single_channel_ratio_rgb, three_channel_ratio_rgb = compute_rescale_ratio_rgb(
-        tensoIR, dataset, sampled_num=sampled_num)
-    print("single channel rescale ratio (rgb)   : ", single_channel_ratio_rgb)
-    print("three channels rescale ratio (rgb)   : ", three_channel_ratio_rgb)
+    # single_channel_ratio_rgb, three_channel_ratio_rgb = compute_rescale_ratio_rgb(
+    #     tensoIR, dataset, sampled_num=sampled_num)
+    # print("single channel rescale ratio (rgb)   : ", single_channel_ratio_rgb)
+    # print("three channels rescale ratio (rgb)   : ", three_channel_ratio_rgb)
 
     W, H = dataset.img_wh
     data_num = len(dataset)
