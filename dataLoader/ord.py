@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from dataLoader.plotter import plot_cameras_and_scene_bbox
+from dataLoader.plotter import plot_cameras_and_scene_bbox, plot_geometries
 
 from dataLoader.ray_utils import get_ray_directions, get_rays
 
@@ -152,7 +152,7 @@ class ORD(Dataset):
         self.white_bg = None
 
         # Visualize.
-        if False:
+        if True:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
