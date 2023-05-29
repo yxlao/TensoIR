@@ -35,6 +35,7 @@ pos_pe = 2
 
 light_rotation = [000]
 
+
 light_kind = sg
 numLgtSGs = 128
  
@@ -45,6 +46,7 @@ normals_orientation_weight = 0.005
 rgb_brdf_weight = 0.2
 
 batch_size_test = 4096
+
 light_name = sunset
 albedo_smoothness_loss_weight = 0.001
 roughness_smoothness_loss_weight = 0.001
