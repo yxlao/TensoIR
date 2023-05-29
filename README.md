@@ -10,16 +10,19 @@ data
 ├── Environment_Maps
 │   ├── high_res_envmaps_1k
 │   └── high_res_envmaps_2k
-└── nerf_synthetic
-    ├── chair
-    ├── drums
-    ├── ficus
-    ├── hotdog
-    ├── lego
-    ├── materials
-    ├── mic
-    ├── README.txt
-    └── ship
+├── nerf_synthetic
+│   ├── chair
+│   ├── drums
+│   ├── ficus
+│   ├── hotdog
+│   ├── lego
+│   ├── materials
+│   ├── mic
+│   ├── README.txt
+│   └── ship
+└── TensoIR_Synthetic
+    ├── armadillo
+    └── ficus
 ```
 
 ### Deps
