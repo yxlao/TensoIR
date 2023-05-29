@@ -17,14 +17,14 @@ from dataLoader.ray_utils import get_ray_directions, get_rays
 
 class ORD(Dataset):
     def __init__(
-        self,
-        scene_dir: str,
-        split="train",
-        downsample=1.0,
-        light_name=None, # Ignored
-        light_rotation=None, # Ignored
-        scene_bbox=None, # Ignored
-        is_stack=None, # Ignored
+            self,
+            scene_dir: str,
+            split="train",
+            downsample=1.0,
+            light_name=None,  # Ignored
+            light_rotation=None,  # Ignored
+            scene_bbox=None,  # Ignored
+            is_stack=None,  # Ignored
     ):
         # Well, the scene_dir is the scene_name, for now.
         # The dataset path is hard-coded.
@@ -76,7 +76,7 @@ class ORD(Dataset):
         self.directions = get_ray_directions(h, w, [fx, fy])  # (h, w, 3)
         self.directions = self.directions / torch.norm(
             self.directions, dim=-1, keepdim=True)
-        
+
         # Compute rays
         self.all_rays = []
         for i in range(num_images):
@@ -121,7 +121,8 @@ class ORD(Dataset):
         total_num_pixels = num_images * h * w
         self.N_vis = None
         self.all_depth = None
-        self.all_light_idx = torch.zeros((total_num_pixels, 1), dtype=torch.long)
+        self.all_light_idx = torch.zeros((total_num_pixels, 1),
+                                         dtype=torch.long)
         all_masks = im_masks.reshape((total_num_pixels, -1))
         all_masks[all_masks > 0.5] = 1
         all_masks[all_masks <= 0.5] = 0
@@ -152,8 +153,14 @@ class ORD(Dataset):
         # Visualize.
         if False:
             plot_cameras_and_scene_bbox(
-                Ks=[self.intrinsics.cpu().numpy() for _ in range(len(self.poses))],
-                Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
+                Ks=[
+                    self.intrinsics.cpu().numpy()
+                    for _ in range(len(self.poses))
+                ],
+                Ts=[
+                    ct.convert.pose_to_T(pose)
+                    for pose in self.poses.cpu().numpy()
+                ],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
                 camera_size=0.05,
             )
@@ -164,24 +171,21 @@ class ORD(Dataset):
         """
         if self.split == "train":
             raise NotImplementedError("In train, you should not call __len__")
-        
+
         num_rays = len(self.all_rgbs)  # (len(self.meta['frames'])*h*w, 3)
         width, height = self.img_wh
         num_images = int(num_rays / (width * height))
         assert num_images == len(self.meta['frames'])
         return num_images
-        
-    
+
     def __getitem__(self, idx):
         print(f"BlenderDataset.__getitem__(): {idx}")
 
         # use data in the buffers
         if self.split == 'train':
-            sample = {
-                      'rays': self.all_rays[idx],
-                      'rgbs': self.all_rgbs[idx]
-                      }
-            raise NotImplementedError("In train, you should not call __getitem__")
+            sample = {'rays': self.all_rays[idx], 'rgbs': self.all_rgbs[idx]}
+            raise NotImplementedError(
+                "In train, you should not call __getitem__")
 
         # create data for each image separately
         else:
@@ -196,14 +200,16 @@ class ORD(Dataset):
             # [128000000, 1] -> [200, 800 * 800, 1]
             all_masks = self.all_masks.reshape(num_images, height * width, 1)
             # [128000000, 1] -> [200, 800 * 800, 1]
-            all_light_idx = self.all_light_idx.reshape(num_images, height * width, 1)
+            all_light_idx = self.all_light_idx.reshape(num_images,
+                                                       height * width, 1)
 
             sample = {
-                'img_wh': self.img_wh,                            # (int, int)
-                'light_idx': all_light_idx[idx].view(-1, wth, 1), # [light_num, H*W, 1]
-                'rays': all_rays[idx],                            # [H*W, 6]
-                'rgbs': all_rgbs[idx].view(-1, wth, 3),           # [light_num, H*W, 3]
-                'rgbs_mask': all_masks[idx]                       # [H*W, 1]
+                'img_wh': self.img_wh,  # (int, int)
+                'light_idx': all_light_idx[idx].view(-1, wth,
+                                                     1),  # [light_num, H*W, 1]
+                'rays': all_rays[idx],  # [H*W, 6]
+                'rgbs': all_rgbs[idx].view(-1, wth, 3),  # [light_num, H*W, 3]
+                'rgbs_mask': all_masks[idx]  # [H*W, 1]
             }
             print(f"light_idx.shape: {sample['light_idx'].shape}")
             print(f"rays.shape     : {sample['rays'].shape}")
