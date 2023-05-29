@@ -85,10 +85,15 @@ def relight(dataset, args):
         item = dataset[idx]
         frame_rays = item['rays'].squeeze(0).to(device) # [H*W, 6]
         # gt_normal = item['normals'].squeeze(0).cpu() # [H*W, 3]s
-        gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]
-        gt_rgb = item['rgbs'].squeeze(0).reshape(len(light_name_list), H, W, 3).cpu()  # [N, H, W, 3]
+        gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]        
+        
+        # gt_rgb = item['rgbs'].squeeze(0).reshape(len(light_name_list), H, W, 3).cpu()  # [N, H, W, 3]
+        # TODO: currently gt_rgb is simply replicated from [H, W, 3] -> [N, H, W, 3]
+        gt_rgb = item['rgbs'].squeeze(0).reshape(H, W, 3).cpu()
+        gt_rgb = gt_rgb.unsqueeze(0).repeat(len(args.light_names), 1, 1, 1)
 
-        gt_albedo = item['albedo'].squeeze(0).to(device) # [H*W, 3]
+        # TOOD: current gt_albedo is disabled.
+        # gt_albedo = item['albedo'].squeeze(0).to(device) # [H*W, 3]
         light_idx = torch.zeros((frame_rays.shape[0], 1), dtype=torch.int).to(device).fill_(light_rotation_idx)
 
         rgb_map, depth_map, normal_map, albedo_map, roughness_map, fresnel_map, normals_diff_map, normals_orientation_loss_map = [], [], [], [], [], [], [], []
@@ -96,7 +101,7 @@ def relight(dataset, args):
 
 
         chunk_idxs = torch.split(torch.arange(frame_rays.shape[0]), args.batch_size) # choose the first light idx
-        for chunk_idx in chunk_idxs:
+        for chunk_idx in tqdm(chunk_idxs, desc="Rendering chunks"):
             with torch.enable_grad():
                 rgb_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, \
                     fresnel_chunk, acc_chunk, *temp \
@@ -362,7 +367,7 @@ if __name__ == "__main__":
     args.if_save_acc = True
     args.if_save_rgb_video = False
     args.if_save_relight_rgb = True
-    args.if_save_albedo = True
+    args.if_save_albedo = False
     args.if_save_albedo_gamma_corrected = True
     args.acc_mask_threshold = 0.5
     args.if_render_normal = True
