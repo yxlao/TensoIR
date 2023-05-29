@@ -100,12 +100,53 @@ class BlenderDataset(Dataset):
             self.all_light_idx = torch.zeros((*self.all_rays.shape[:-1], 1),dtype=torch.long).reshape(-1,*self.img_wh[::-1])
 
         # Try plotting with camtools
-        if True:
+        if False:
             plot_cameras_and_scene_bbox(
                 Ks=[self.intrinsics.cpu().numpy() for _ in range(len(self.poses))],
                 Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
             )
+            # Print all properties.
+            all_properties = [
+                "N_vis",
+                "all_depth",
+                "all_light_idx",
+                "all_masks",
+                "all_rays",
+                "all_rgbs",
+                "blender2opencv"
+                "center",
+                "directions",
+                "downsample",
+                "focal",
+                "image_paths"
+                "img_wh",
+                "intrinsics",
+                "is_stack",
+                "meta",
+                "near_far",
+                "poses",
+                "proj_mat",
+                "radius",
+                "root_dir",
+                "scene_bbox",
+                "split",
+                "transform",
+                "white_bg",
+            ]
+            for key in all_properties:
+                try:
+                    val = getattr(self, key)
+                except:
+                    val = None
+                if isinstance(val, torch.Tensor):
+                    print(f"{key}: {val.shape}, {val.dtype}")
+                elif key == "image_paths":
+                    print(f"{key}: {len(val)} image paths")
+                elif key == "meta":
+                    print(f"{key}: with keys {val.keys()}")
+                else:
+                    print(f"{key}: {val}")
 
 
     def define_transforms(self):
