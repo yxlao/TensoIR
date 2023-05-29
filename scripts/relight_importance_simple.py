@@ -65,8 +65,8 @@ def relight(dataset, args):
     rescale_value = torch.tensor([1.0, 1.0, 1.0], device='cuda:0')
 
     relight_psnr = dict()
-    relight_l_alex, relight_l_vgg, relight_ssim = dict(), dict(), dict() 
-    for cur_light_name in dataset.light_names:
+    relight_l_alex, relight_l_vgg, relight_ssim = dict(), dict(), dict()
+    for cur_light_name in args.light_names:
         relight_psnr[f'{cur_light_name}'] = []
         relight_l_alex[f'{cur_light_name}'] = []
         relight_l_vgg[f'{cur_light_name}'] = []
@@ -75,7 +75,7 @@ def relight(dataset, args):
 
     for idx in tqdm(range(len(dataset))):
         relight_pred_img_with_bg, relight_pred_img_without_bg, relight_gt_img = dict(), dict(), dict()
-        for cur_light_name in dataset.light_names:
+        for cur_light_name in args.light_names:
             relight_pred_img_with_bg[f'{cur_light_name}'] = []
             relight_pred_img_without_bg[f'{cur_light_name}'] = []
             relight_gt_img[f'{cur_light_name}'] = []
@@ -117,7 +117,7 @@ def relight(dataset, args):
             masked_light_idx_chunk = light_idx[chunk_idx][acc_chunk_mask] # [surface_point_num, 1]
 
             ## Get incident light directions
-            for idx, cur_light_name in enumerate(dataset.light_names):
+            for idx, cur_light_name in enumerate(args.light_names):
                 # if os.path.exists(os.path.join(cur_dir_path, 'relighting', f'{cur_light_name}.png')):
                 #     continue
                 relight_rgb_chunk.fill_(1.0)
@@ -206,7 +206,7 @@ def relight(dataset, args):
         os.makedirs(os.path.join(cur_dir_path, 'relighting_with_bg'), exist_ok=True)
         os.makedirs(os.path.join(cur_dir_path, 'relighting_without_bg'), exist_ok=True)
 
-        for light_name_idx, cur_light_name in enumerate(dataset.light_names):
+        for light_name_idx, cur_light_name in enumerate(args.light_names):
             relight_map_with_bg = torch.cat(relight_pred_img_with_bg[cur_light_name], dim=0).reshape(H, W, 3).numpy()
             relight_map_without_bg = torch.cat(relight_pred_img_without_bg[cur_light_name], dim=0).reshape(H, W, 3).numpy()
 
@@ -233,7 +233,7 @@ def relight(dataset, args):
 
         # write relight image psnr to a txt file
         with open(os.path.join(cur_dir_path, 'relighting_without_bg', 'relight_psnr.txt'), 'w') as f:
-            for cur_light_name in dataset.light_names:
+            for cur_light_name in args.light_names:
                 f.write(f'{cur_light_name}: PNSR {relight_psnr[cur_light_name][-1]}; SSIM {relight_ssim[cur_light_name][-1]}; L_Alex {relight_l_alex[cur_light_name][-1]}; L_VGG {relight_l_vgg[cur_light_name][-1]}\n')
 
         rgb_map = (rgb_map.reshape(H, W, 3).numpy() * 255).astype('uint8')
@@ -291,7 +291,7 @@ def relight(dataset, args):
 
     # write relight image psnr to a txt file
     with open(os.path.join(args.geo_buffer_path, 'relight_psnr.txt'), 'w') as f:
-        for cur_light_name in dataset.light_names:
+        for cur_light_name in args.light_names:
             f.write(f'{cur_light_name}:  PSNR {np.mean(relight_psnr[cur_light_name])}; SSIM {np.mean(relight_ssim[cur_light_name])}; L_Alex {np.mean(relight_l_alex[cur_light_name])}; L_VGG {np.mean(relight_l_vgg[cur_light_name])}\n')
 
     if args.if_save_rgb_video:
@@ -322,7 +322,7 @@ def relight(dataset, args):
         video_path = os.path.join(args.geo_buffer_path,'video_without_bg')
         os.makedirs(video_path, exist_ok=True)
         
-        for cur_light_name in dataset.light_names:
+        for cur_light_name in args.light_names:
             frame_list = []
 
             for render_idx in range(len(dataset)):
@@ -334,7 +334,7 @@ def relight(dataset, args):
         video_path = os.path.join(args.geo_buffer_path,'video_with_bg')
         os.makedirs(video_path, exist_ok=True)
         
-        for cur_light_name in dataset.light_names:
+        for cur_light_name in args.light_names:
             frame_list = []
 
             for render_idx in range(len(dataset)):
@@ -373,6 +373,7 @@ if __name__ == "__main__":
 
     # names of the environment maps used for relighting
     light_name_list= ['bridge', 'city', 'fireplace', 'forest', 'night']
+    args.light_names = light_name_list
 
 
 
