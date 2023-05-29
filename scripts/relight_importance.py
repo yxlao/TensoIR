@@ -68,7 +68,7 @@ def relight(dataset, args):
         relight_ssim[f'{cur_light_name}'] = []
 
 
-    for idx in tqdm(range(len(dataset))):
+    for idx in tqdm(range(len(dataset)), desc="Rendering relight images"):
         relight_pred_img_with_bg, relight_pred_img_without_bg, relight_gt_img = dict(), dict(), dict()
         for cur_light_name in dataset.light_names:
             relight_pred_img_with_bg[f'{cur_light_name}'] = []

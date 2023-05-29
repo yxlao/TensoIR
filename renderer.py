@@ -8,6 +8,7 @@ import torch
 import torchvision.utils as vutils
 
 
+
 @torch.no_grad()
 def compute_rescale_ratio(tensoIR, dataset, sampled_num=20):
     '''compute three channel rescale ratio for albedo by sampling some views

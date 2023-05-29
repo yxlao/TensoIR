@@ -28,7 +28,8 @@ data
 ### Deps
 
 ```bash
-pip install setuptools==59.5.0 pip install imageio==2.11.1 ipdb
+pip install setuptools==59.5.0 imageio==2.11.1
+pip install ipdb matplotlib
 ```
 
 ### Train
