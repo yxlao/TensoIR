@@ -27,6 +27,7 @@ class ORD(Dataset):
             light_rotation=None,  # Ignored
             scene_bbox=None,  # Ignored
             is_stack=None,  # Ignored
+            random_test=None, # Ignored
     ):
         # Well, the scene_dir is the scene_name, for now.
         # The dataset path is hard-coded.
@@ -195,7 +196,7 @@ class ORD(Dataset):
         num_rays = len(self.all_rgbs)  # (len(self.meta['frames'])*h*w, 3)
         width, height = self.img_wh
         num_images = int(num_rays / (width * height))
-        assert num_images == len(self.meta['frames'])
+        # assert num_images == len(self.meta['frames'])
         return num_images
 
     def __getitem__(self, idx):
@@ -379,7 +380,8 @@ class ORD(Dataset):
         print(f"Estimated near: {estimated_near:.3f}, "
               f"far: {estimated_far:.3f}")
 
-        scene_bbox = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]])
+        # Give it some slacks.
+        scene_bbox = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]]) * 5
 
         # Write to result_dict
         result_dict = {}

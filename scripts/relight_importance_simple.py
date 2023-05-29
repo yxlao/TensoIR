@@ -386,8 +386,6 @@ if __name__ == "__main__":
     light_name_list= ['bridge', 'city', 'fireplace', 'forest', 'night']
     args.light_names = light_name_list
 
-
-
     # test_dataset = dataset(args.datadir, 
     #                        args.hdrdir, 
     #                        split='test', 
@@ -395,11 +393,11 @@ if __name__ == "__main__":
     #                        downsample=args.downsample_test,
     #                        light_names=light_name_list,
     #                        light_rotation=args.light_rotation)
-    test_dataset = dataset(datadir=args.datadir, 
+    test_dataset = dataset(args.datadir, 
                            split='test', 
                            random_test=False,
                            downsample=args.downsample_test,
-                           light_names=light_name_list,
+                        #    light_names=light_name_list,
                            light_rotation=args.light_rotation)
     relight(test_dataset , args)
 

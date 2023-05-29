@@ -174,7 +174,6 @@ class BlenderDataset(Dataset):
         num_rays = len(self.all_rgbs)  # (len(self.meta['frames'])*h*w, 3)
         width, height = self.img_wh
         num_images = int(num_rays / (width * height))
-        assert num_images == len(self.meta['frames'])
         return num_images
         
     
