@@ -161,7 +161,7 @@ class tensoIR_Relighting_test(Dataset):
                 relight_img = relight_img.resize(img_wh, Image.Resampling.LANCZOS)
             relight_img = self.transform(relight_img)  # [4, H, W]
             relight_img = relight_img.view(4, -1).permute(1, 0)  # [H*W, 4]
-            ## Blend A to RGB
+            ## Blend A to RGB                                         |<- white background ->|
             relight_rgbs = relight_img[:, :3] * relight_img[:, -1:] + (1 - relight_img[:, -1:])  # [H*W, 3]
             # relight_rgbs = relight_img[:, :3] 
             light_idx = torch.tensor(0, dtype=torch.int).repeat((img_wh[0] * img_wh[1], 1)) # [H*W, 1]
