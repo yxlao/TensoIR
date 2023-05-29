@@ -28,13 +28,19 @@ data
 ### Deps
 
 ```bash
-pip install setuptools==59.5.0 ipdb
+pip install setuptools==59.5.0 pip install imageio==2.11.1 ipdb
 ```
 
 ### Train
 
 ```bash
 export PYTHONPATH=.
+
+# TensoIR_Synthetic
+python train_tensoIR.py --config ./configs/single_light/armadillo.txt
+python scripts/relight_importance.py --ckpt log/log_single_light/armadillo_ds_1-20230529-121534/checkpoints/armadillo_ds_1_10000.th --config configs/relighting_test/armadillo.txt --batch_size 800
+
+# Blender
 python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
 python scripts/relight_importance.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
 ```
