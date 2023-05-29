@@ -14,6 +14,8 @@ from dataLoader.plotter import plot_cameras_and_scene_bbox, plot_rays
 
 from dataLoader.ray_utils import get_ray_directions, get_rays
 
+from matplotlib import pyplot as plt
+
 
 class ORD(Dataset):
     def __init__(
@@ -65,6 +67,13 @@ class ORD(Dataset):
             im_masks = result_dict["test_im_masks"]
         else:
             raise ValueError(f"split must be train, test or val, got {split}.")
+
+        # Use im_masks to set im_rgbs's background to white.
+        # im_masks: add dummy 1 dimension to the ned
+        im_rgbs = im_rgbs * im_masks.unsqueeze(3) + (1 - im_masks.unsqueeze(3))
+        plt.imshow(im_rgbs[0].numpy())
+        plt.show()
+
         num_images = len(im_rgbs)
         self.img_wh = (im_rgbs[0].shape[1], im_rgbs[0].shape[0])
         scene_bbox = result_dict["scene_bbox"]
@@ -289,6 +298,8 @@ class ORD(Dataset):
         # (num_train, 1165, 1746), float, from 0-1
         train_im_masks = np.array(
             [ct.io.imread(p) for p in train_im_mask_paths])
+        train_im_masks[train_im_masks < 0.99] = 0.0
+        train_im_masks[train_im_masks >= 0.99] = 1.0
 
         # Load test set: {scene_dir}.
         test_camera_paths = sorted(scene_dir.glob("gt_camera_*.txt"))
@@ -304,6 +315,12 @@ class ORD(Dataset):
         test_im_rgbs = np.array([ct.io.imread(p) for p in test_im_rgb_paths])
         # (num_test, 1165, 1746), float, from 0-1
         test_im_masks = np.array([ct.io.imread(p) for p in test_im_mask_paths])
+        test_im_masks[test_im_masks < 0.99] = 0.0
+        test_im_masks[test_im_masks >= 0.99] = 1.0
+
+        if test_im_masks.ndim == 4:
+            assert (test_im_masks.shape[-1] == 3)
+            test_im_masks = test_im_masks[..., 0]
 
         # Downsample: changes the image and intrinsics
         if downsample != 1.0:
