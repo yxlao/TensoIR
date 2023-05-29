@@ -123,18 +123,19 @@ class ORD(Dataset):
         self.all_depth = None
         self.all_light_idx = torch.zeros((total_num_pixels, 1),
                                          dtype=torch.long)
-        all_masks = im_masks.reshape((total_num_pixels, -1))
-        all_masks[all_masks > 0.5] = 1
-        all_masks[all_masks <= 0.5] = 0
-        all_masks = all_masks.bool()
-        self.all_masks = all_masks
+        # all_masks = im_masks.reshape((total_num_pixels, -1))
+        # all_masks[all_masks > 0.5] = 1
+        # all_masks[all_masks <= 0.5] = 0
+        # all_masks = all_masks.bool()
+        # self.all_masks = all_masks
+        self.all_masks = None
         self.all_rays = self.all_rays
         self.all_rgbs = im_rgbs.reshape((total_num_pixels, -1))
         self.blender2opencv = None
         self.center = None
         self.directions = self.directions
         self.downsample = downsample
-        self.focal = fx
+        self.focal = None
         self.image_paths = None
         self.img_wh = self.img_wh
         self.intrinsics = Ks[0]
