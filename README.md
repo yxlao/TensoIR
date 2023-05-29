@@ -25,12 +25,15 @@ data
 ### Deps
 
 ```bash
-pip install setuptools==59.5.0
+pip install setuptools==59.5.0 ipdb
 ```
 
 ### Train
 
 ```bash
+export PYTHONPATH=.
+python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
+python scripts/relight_importance.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)
