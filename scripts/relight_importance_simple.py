@@ -371,15 +371,19 @@ if __name__ == "__main__":
 
 
 
-    test_dataset = dataset(                            
-                            args.datadir, 
-                            args.hdrdir, 
-                            split='test', 
-                            random_test=False,
-                            downsample=args.downsample_test,
-                            light_names=light_name_list,
-                            light_rotation=args.light_rotation,
-                            )
+    # test_dataset = dataset(args.datadir, 
+    #                        args.hdrdir, 
+    #                        split='test', 
+    #                        random_test=False,
+    #                        downsample=args.downsample_test,
+    #                        light_names=light_name_list,
+    #                        light_rotation=args.light_rotation)
+    test_dataset = dataset(datadir=args.datadir, 
+                           split='test', 
+                           random_test=False,
+                           downsample=args.downsample_test,
+                           light_names=light_name_list,
+                           light_rotation=args.light_rotation)
     relight(test_dataset , args)
 
     
