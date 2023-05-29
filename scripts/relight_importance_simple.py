@@ -56,8 +56,13 @@ def relight(dataset, args):
     light_rotation_idx = 0
     ####
 
-    global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio(tensoIR, dataset)
-    rescale_value = global_rescale_value_three
+    # TODO: Fix me with proper rescale_value. This can be done by converting
+    #       albedo comparison to RGB comparison.
+    # global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio(tensoIR, dataset)
+    # rescale_value = global_rescale_value_three
+    # For armodillo, the rescale ratio is tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
+    # rescale_value = torch.tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
+    rescale_value = torch.tensor([1.0, 1.0, 1.0], device='cuda:0')
 
     relight_psnr = dict()
     relight_l_alex, relight_l_vgg, relight_ssim = dict(), dict(), dict() 
