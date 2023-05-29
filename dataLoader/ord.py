@@ -101,35 +101,37 @@ class ORD(Dataset):
         # All properties, some are not needed.
         # All tensors are stored in Torch on CPU
         # Below are the values from Blender mic scene.
-        # - N_vis         : Not needed.
-        # - all_depth     : Not needed.
-        # - all_light_idx : torch.Size([128000000, 1]), torch.int64
-        # - all_masks     : torch.Size([128000000, 1]), torch.bool
-        # - all_rays      : torch.Size([128000000, 6]), torch.float32
-        # - all_rgbs      : torch.Size([128000000, 3]), torch.float32
-        # - blender2opencv: Not needed. 4x4 matrix.
-        # - center        : Not needed. None
-        # - directions    : torch.Size([800, 800, 3]), torch.float32
-        # - downsample    : 1.0
-        # - focal         : 1111.1110311937682
-        # - image_paths   : 200 image paths
-        # - img_wh        : (800, 800)
-        # - intrinsics    : torch.Size([3, 3]), torch.float32
-        # - is_stack      : False
-        # - meta          : with keys dict_keys(['camera_angle_x', 'frames'])
-        # - near_far      : None
-        # - poses         : torch.Size([200, 4, 4]), torch.float32
-        # - proj_mat      : None
-        # - radius        : None
-        # - root_dir      : ./data/nerf_synthetic/mic/
-        # - scene_bbox    : torch.Size([2, 3]), torch.float32
-        # - split         : test
-        # - transform     : ToTensor()
-        # - white_bg      : None
-
+        # - N_vis: -1
+        # - all_depth: []
+        # - all_light_idx: torch.Size([64000000, 1]), torch.int64
+        # - all_masks: torch.Size([64000000, 1]), torch.bool
+        # - all_rays: torch.Size([64000000, 6]), torch.float32
+        # - all_rgbs: torch.Size([64000000, 3]), torch.float32
+        # - blender2opencv: [[ 1  0  0  0]
+        # -  [ 0 -1  0  0]
+        # -  [ 0  0 -1  0]
+        # -  [ 0  0  0  1]]
+        # - center: torch.Size([1, 1, 3]), torch.float32
+        # - directions: torch.Size([800, 800, 3]), torch.float32
+        # - downsample: 1.0
+        # - focal: 1111.1110311937682
+        # - image_paths: 100 image paths
+        # - img_wh: (800, 800)
+        # - intrinsics: torch.Size([3, 3]), torch.float32
+        # - is_stack: False
+        # - meta: with keys dict_keys(['camera_angle_x', 'frames'])
+        # - near_far: [2.0, 6.0]
+        # - poses: torch.Size([100, 4, 4]), torch.float32
+        # - proj_mat: torch.Size([100, 3, 4]), torch.float32
+        # - radius: torch.Size([1, 1, 3]), torch.float32
+        # - root_dir: ./data/nerf_synthetic/mic/
+        # - scene_bbox: torch.Size([2, 3]), torch.float32
+        # - split: train
+        # - transform: ToTensor()
+        # - white_bg: True
         total_num_pixels = num_images * h * w
-        self.N_vis = None
-        self.all_depth = None
+        self.N_vis = -1
+        self.all_depth = []
         self.all_light_idx = torch.zeros((total_num_pixels, 1),
                                          dtype=torch.long)
         all_masks = im_masks.reshape((total_num_pixels, -1))
@@ -140,10 +142,12 @@ class ORD(Dataset):
         self.all_rays = self.all_rays
         self.all_rgbs = im_rgbs.reshape((total_num_pixels, -1))
         self.blender2opencv = None
-        self.center = None
+        self.scene_bbox = scene_bbox
+        self.center = torch.mean(self.scene_bbox, axis=0).float().view(1, 1, 3)
+        self.radius = (self.scene_bbox[1] - self.center).float().view(1, 1, 3)
         self.directions = self.directions
         self.downsample = downsample
-        self.focal = None
+        self.focal = fx
         self.image_paths = None
         self.img_wh = self.img_wh
         self.intrinsics = Ks[0]
@@ -152,12 +156,10 @@ class ORD(Dataset):
         self.near_far = near_far
         self.poses = torch.stack([torch.linalg.inv(T) for T in Ts]).float()
         self.proj_mat = None
-        self.radius = None
         self.root_dir = None
-        self.scene_bbox = scene_bbox
         self.split = self.split
         self.transform = None
-        self.white_bg = None
+        self.white_bg = True
 
         # Visualize.
         if False:

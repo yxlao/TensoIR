@@ -33,6 +33,52 @@ class BlenderDataset(Dataset):
         self.radius = (self.scene_bbox[1] - self.center).float().view(1, 1, 3)
         self.downsample=downsample
 
+        # Print all properties.
+        import ipdb; ipdb.set_trace(); pass
+        all_properties = [
+            "N_vis",
+            "all_depth",
+            "all_light_idx",
+            "all_masks",
+            "all_rays",
+            "all_rgbs",
+            "blender2opencv",
+            "center",
+            "directions",
+            "downsample",
+            "focal",
+            "image_paths",
+            "img_wh",
+            "intrinsics",
+            "is_stack",
+            "meta",
+            "near_far",
+            "poses",
+            "proj_mat",
+            "radius",
+            "root_dir",
+            "scene_bbox",
+            "split",
+            "transform",
+            "white_bg",
+        ]
+        for key in all_properties:
+            try:
+                val = getattr(self, key)
+            except:
+                val = None
+            if isinstance(val, torch.Tensor):
+                print(f"{key}: {val.shape}, {val.dtype}")
+            elif key == "image_paths":
+                print(f"{key}: {len(val)} image paths")
+            elif key == "meta":
+                print(f"{key}: with keys {val.keys()}")
+            else:
+                print(f"{key}: {val}")
+
+        import ipdb; ipdb.set_trace(); pass
+
+
     def read_depth(self, filename):
         depth = np.array(read_pfm(filename)[0], dtype=np.float32)  # (800, 800)
         return depth
@@ -106,48 +152,7 @@ class BlenderDataset(Dataset):
                 Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
             )
-            # Print all properties.
-            all_properties = [
-                "N_vis",
-                "all_depth",
-                "all_light_idx",
-                "all_masks",
-                "all_rays",
-                "all_rgbs",
-                "blender2opencv"
-                "center",
-                "directions",
-                "downsample",
-                "focal",
-                "image_paths"
-                "img_wh",
-                "intrinsics",
-                "is_stack",
-                "meta",
-                "near_far",
-                "poses",
-                "proj_mat",
-                "radius",
-                "root_dir",
-                "scene_bbox",
-                "split",
-                "transform",
-                "white_bg",
-            ]
-            for key in all_properties:
-                try:
-                    val = getattr(self, key)
-                except:
-                    val = None
-                if isinstance(val, torch.Tensor):
-                    print(f"{key}: {val.shape}, {val.dtype}")
-                elif key == "image_paths":
-                    print(f"{key}: {len(val)} image paths")
-                elif key == "meta":
-                    print(f"{key}: with keys {val.keys()}")
-                else:
-                    print(f"{key}: {val}")
-
+            
 
     def define_transforms(self):
         self.transform = T.ToTensor()
