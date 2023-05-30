@@ -20,7 +20,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 from dataLoader import dataset_dict
 from models.relight_utils import *
 brdf_specular = GGX_specular
-from utils import rgb_ssim, rgb_lpips
+# from utils import rgb_ssim, rgb_lpips
 from models.relight_utils import Environment_Light
 from renderer import compute_rescale_ratio_rgb
 
@@ -230,22 +230,22 @@ def relight(dataset, args):
             gt_img_map = gt_rgb[light_name_idx].numpy()
    
             loss_relight = np.mean((relight_map_without_bg - gt_img_map) ** 2)
-            cur_psnr = -10.0 * np.log(loss_relight) / np.log(10.0)
+            # cur_psnr = -10.0 * np.log(loss_relight) / np.log(10.0)
 
-            ssim_relight = rgb_ssim(relight_map_without_bg, gt_img_map, 1)
-            l_a_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'alex', tensoIR.device)
-            l_v_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'vgg', tensoIR.device)
+            # ssim_relight = rgb_ssim(relight_map_without_bg, gt_img_map, 1)
+            # l_a_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'alex', tensoIR.device)
+            # l_v_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'vgg', tensoIR.device)
 
-            relight_psnr[cur_light_name].append(cur_psnr)
-            relight_ssim[cur_light_name].append(ssim_relight)
-            relight_l_alex[cur_light_name].append(l_a_relight)
-            relight_l_vgg[cur_light_name].append(l_v_relight)
+            # relight_psnr[cur_light_name].append(cur_psnr)
+            # relight_ssim[cur_light_name].append(ssim_relight)
+            # relight_l_alex[cur_light_name].append(l_a_relight)
+            # relight_l_vgg[cur_light_name].append(l_v_relight)
 
 
-        # write relight image psnr to a txt file
-        with open(os.path.join(cur_dir_path, 'relighting_without_bg', 'relight_psnr.txt'), 'w') as f:
-            for cur_light_name in args.light_names:
-                f.write(f'{cur_light_name}: PNSR {relight_psnr[cur_light_name][-1]}; SSIM {relight_ssim[cur_light_name][-1]}; L_Alex {relight_l_alex[cur_light_name][-1]}; L_VGG {relight_l_vgg[cur_light_name][-1]}\n')
+        # # write relight image psnr to a txt file
+        # with open(os.path.join(cur_dir_path, 'relighting_without_bg', 'relight_psnr.txt'), 'w') as f:
+        #     for cur_light_name in args.light_names:
+        #         f.write(f'{cur_light_name}: PNSR {relight_psnr[cur_light_name][-1]}; SSIM {relight_ssim[cur_light_name][-1]}; L_Alex {relight_l_alex[cur_light_name][-1]}; L_VGG {relight_l_vgg[cur_light_name][-1]}\n')
 
         rgb_map = (rgb_map.reshape(H, W, 3).numpy() * 255).astype('uint8')
         rgb_frames_list.append(rgb_map)
@@ -300,10 +300,10 @@ def relight(dataset, args):
             imageio.imwrite(os.path.join(cur_dir_path, 'normal.png'), normal_rgb_map)
 
 
-    # write relight image psnr to a txt file
-    with open(os.path.join(args.geo_buffer_path, 'relight_psnr.txt'), 'w') as f:
-        for cur_light_name in args.light_names:
-            f.write(f'{cur_light_name}:  PSNR {np.mean(relight_psnr[cur_light_name])}; SSIM {np.mean(relight_ssim[cur_light_name])}; L_Alex {np.mean(relight_l_alex[cur_light_name])}; L_VGG {np.mean(relight_l_vgg[cur_light_name])}\n')
+    # # write relight image psnr to a txt file
+    # with open(os.path.join(args.geo_buffer_path, 'relight_psnr.txt'), 'w') as f:
+    #     for cur_light_name in args.light_names:
+    #         f.write(f'{cur_light_name}:  PSNR {np.mean(relight_psnr[cur_light_name])}; SSIM {np.mean(relight_ssim[cur_light_name])}; L_Alex {np.mean(relight_l_alex[cur_light_name])}; L_VGG {np.mean(relight_l_vgg[cur_light_name])}\n')
 
     if args.if_save_rgb_video:
         video_path = os.path.join(args.geo_buffer_path,'video')
