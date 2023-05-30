@@ -72,11 +72,11 @@ python scripts/relight_importance.py --ckpt log/log_single_light/armadillo_ds_1-
 python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
 python scripts/relight_importance_simple.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
 
-# ORD (antman)
+# ORD (deprecated)
 python train_tensoIR_simple.py --config ./configs/single_light/ord_antman.txt
 python scripts/relight_importance_simple.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
 
-# ORD (general)
+# ORD (ord)
 python train_tensoIR_simple.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/ord/antman/test \
@@ -88,6 +88,12 @@ python scripts/relight_importance_simple.py \
   --hdrdir ./data/dataset/ord/antman/test \
   --geo_buffer_path ./relighting/ord_antman \
   --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
+
+# ORD (synth4relight_subsampled)
+python train_tensoIR_simple.py \
+  --config ./configs/single_light/ord.txt \
+  --datadir ./data/dataset/synth4relight_subsampled/air_baloons \
+  --expname synth4relight_subsampled_air_baloons
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)

@@ -158,15 +158,15 @@ class ORD(Dataset):
                 scene_bbox=self.scene_bbox.cpu().numpy(),
                 camera_size=0.05,
             )
-            plot_rays(
-                ray_os=self.all_rays[:h * w, :3].cpu().numpy(),
-                ray_ds=self.all_rays[:h * w, 3:].cpu().numpy(),
-                # near=self.near_far[0],
-                # far=self.near_far[1],
-                sample_rate=0.01,
-                near=0.01,
-                far=1.0,
-            )
+            # plot_rays(
+            #     ray_os=self.all_rays[:h * w, :3].cpu().numpy(),
+            #     ray_ds=self.all_rays[:h * w, 3:].cpu().numpy(),
+            #     # near=self.near_far[0],
+            #     # far=self.near_far[1],
+            #     sample_rate=0.01,
+            #     near=0.01,
+            #     far=1.0,
+            # )
 
     def __len__(self):
         """
@@ -287,13 +287,13 @@ class ORD(Dataset):
         train_im_masks[train_im_masks >= 0.5] = 1.0
         assert (train_im_masks.shape[-1] == 3)
         train_im_masks = train_im_masks[..., 0]
+        print(f"Num train images: {num_train}")
 
         # Load test set: {scene_dir}.
         test_camera_paths = sorted(scene_dir.glob("gt_camera_*.txt"))
         test_im_rgb_paths = sorted(scene_dir.glob("gt_image_*.png"))
         test_im_mask_paths = sorted(scene_dir.glob("gt_mask_*.png"))
         num_test = len(test_camera_paths)
-        assert num_test == 9
         assert num_test == len(test_camera_paths)
         assert num_test == len(test_im_rgb_paths)
         assert num_test == len(test_im_mask_paths)
@@ -306,6 +306,7 @@ class ORD(Dataset):
         test_im_masks[test_im_masks >= 0.5] = 1.0
         assert (test_im_masks.shape[-1] == 3)
         test_im_masks = test_im_masks[..., 0]
+        print(f"Num test images: {num_test}")
 
         # Downsample: changes the image and intrinsics
         if downsample != 1.0:
