@@ -8,6 +8,7 @@
 # Symlinks
 ln -s ~/data/object-relighting-dataset/extract data/dataset
 ln -s /media/yixing/hiksemi4t/dataset/object-relighting-dataset/extract data/dataset
+ossutil64 cp -r oss://xuanyuan-intern/yixing/data/object-relighting-dataset/extract/ data/dataset
 
 # Folder structure
 tree -L 2 data/dataset

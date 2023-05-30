@@ -1,6 +1,7 @@
 data/
 log/
 relighting/
+ossutil_output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
