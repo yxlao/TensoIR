@@ -20,7 +20,7 @@ from matplotlib import pyplot as plt
 class ORD(Dataset):
     def __init__(
             self,
-            scene_dir: str,
+            scene_dir: Path,
             split="train",
             downsample=1.0,
             light_name=None,  # Ignored
@@ -29,31 +29,13 @@ class ORD(Dataset):
             is_stack=None,  # Ignored
             random_test=None, # Ignored
     ):
-        # Well, the scene_dir is the scene_name, for now.
-        # The dataset path is hard-coded.
-        valid_scene_names = [
-            "antman",
-            "apple",
-            "chest",
-            "gamepad",
-            "ping_pong_racket",
-            "porcelain_mug",
-            "tpiece",
-            "wood_bowl",
-        ]
-        if scene_dir not in valid_scene_names:
-            raise ValueError(
-                f"scene_dir must be one of {valid_scene_names}, got {scene_dir}."
-            )
-
         # Remember inputs.
         self.scene_dir = scene_dir
         self.split = split
         self.downsample = downsample
 
         # Read entire dataset.
-        self.scene_name = self.scene_dir
-        result_dict = ORD.parse_ord_dataset(self.scene_name, self.downsample)
+        result_dict = ORD.parse_ord_dataset(self.scene_dir, self.downsample)
 
         # Unpack result_dict
         if self.split == "train":
@@ -263,28 +245,29 @@ class ORD(Dataset):
         return Ks, Ts
 
     @staticmethod
-    def parse_ord_dataset(scene_name, downsample=1.0):
+    def parse_ord_dataset(scene_dir, downsample=1.0):
         """
-        Return: result_dict.
+        Args:
+            - scene_dir: 
 
-        result_dict["train_Ks"]      : (num_train, 3, 3).
-        result_dict["train_Ts"]      : (num_train, 4, 4).
-        result_dict["train_im_rgbs"] : (num_train, height, width, 3).
-        result_dict["train_im_masks"]: (num_train, height, width), 0-1, float.
-
-        result_dict["test_Ks"]       : (num_test, 3, 3).
-        result_dict["test_Ts"]       : (num_test, 4, 4).
-        result_dict["test_im_rgbs"]  : (num_test, height, width, 3).
-        result_dict["test_im_masks"] : (num_test, height, width), 0-1, float.
- 
-        result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
-                                        [x_max, y_max, z_max]].
+        Return:
+            - result_dict["train_Ks"]      : (num_train, 3, 3).
+            - result_dict["train_Ts"]      : (num_train, 4, 4).
+            - result_dict["train_im_rgbs"] : (num_train, height, width, 3).
+            - result_dict["train_im_masks"]: (num_train, height, width), 0-1, float.
+            - result_dict["test_Ks"]       : (num_test, 3, 3).
+            - result_dict["test_Ts"]       : (num_test, 4, 4).
+            - result_dict["test_im_rgbs"]  : (num_test, height, width, 3).
+            - result_dict["test_im_masks"] : (num_test, height, width), 0-1, float.
+            - result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
+                                              [x_max, y_max, z_max]].
         """
 
-        # Only the "test" folder is required.
-        ord_root = Path.home() / "research" / "object-relighting-dataset"
-        scene_dir = ord_root / "dataset" / scene_name / "test"
 
+        scene_dir = Path(scene_dir)
+        if not scene_dir.is_dir():
+            raise ValueError(f"{scene_dir} is not a directory.")
+        
         # Load the training set: {scene_dir}/inputs.
         inputs_dir = scene_dir / "inputs"
         train_camera_paths = sorted(inputs_dir.glob("camera_*.txt"))

@@ -1,8 +1,8 @@
 dataset_name = ord
-datadir = antman
+datadir = ./data/dataset/ord/antman/test
 hdrdir = ""
-expname = antman
-basedir = ./log/log_ord
+expname = ord_antman
+basedir = ./log
 add_timestamp = 1
 downsample_train = 2
 downsample_test = 2
