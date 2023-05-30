@@ -59,9 +59,9 @@ def relight(dataset, args):
     # TODO: Fix me with proper rescale_value:
     # - This is the code to estimate rescale_value
     #   ```
-    #   global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio_rgb(tensoIR, dataset)
-    #   rescale_value = global_rescale_value_three
-    #   print(f"rescale_value computed with RGB (not accurate): {rescale_value}")
+    global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio_rgb(tensoIR, dataset)
+    rescale_value = global_rescale_value_three
+    print(f"rescale_value computed with RGB (not accurate): {rescale_value}")
     #   ```
     # - For armodillo, the rescale ratio is tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
     #   rescale_value = torch.tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
@@ -370,20 +370,31 @@ if __name__ == "__main__":
     # The following args are not defined in opt.py
     args.if_save_rgb = False
     args.if_save_depth = False
-    args.if_save_acc = True
+    args.if_save_acc = False
     args.if_save_rgb_video = False
     args.if_save_relight_rgb = True
     args.if_save_albedo = False
     args.if_save_albedo_gamma_corrected = True
     args.acc_mask_threshold = 0.5
-    args.if_render_normal = True
+    args.if_render_normal = False
     args.vis_equation = 'nerv'
-    args.render_video = True
+    args.render_video = False
 
     dataset = dataset_dict[args.dataset_name]
 
     # names of the environment maps used for relighting
-    light_name_list= ['bridge', 'city', 'fireplace', 'forest', 'night']
+    light_name_list = [
+        "gt_env_512_rotated_0000",
+        "gt_env_512_rotated_0001",
+        "gt_env_512_rotated_0002",
+        "gt_env_512_rotated_0003",
+        "gt_env_512_rotated_0004",
+        "gt_env_512_rotated_0005",
+        "gt_env_512_rotated_0006",
+        "gt_env_512_rotated_0007",
+        "gt_env_512_rotated_0008",
+    ]
+    
     args.light_names = light_name_list
 
     # test_dataset = dataset(args.datadir, 

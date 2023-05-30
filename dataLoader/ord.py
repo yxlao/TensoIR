@@ -289,7 +289,7 @@ class ORD(Dataset):
         inputs_dir = scene_dir / "inputs"
         train_camera_paths = sorted(inputs_dir.glob("camera_*.txt"))
         train_im_rgb_paths = sorted(inputs_dir.glob("image_*.png"))
-        train_im_mask_paths = sorted(inputs_dir.glob("mask_*.png"))
+        train_im_mask_paths = sorted(inputs_dir.glob("mask_binary_*.png"))
         num_train = len(train_camera_paths)
         assert num_train == len(train_camera_paths)
         assert num_train == len(train_im_rgb_paths)
@@ -300,8 +300,10 @@ class ORD(Dataset):
         # (num_train, 1165, 1746), float, from 0-1
         train_im_masks = np.array(
             [ct.io.imread(p) for p in train_im_mask_paths])
-        train_im_masks[train_im_masks < 0.99] = 0.0
-        train_im_masks[train_im_masks >= 0.99] = 1.0
+        train_im_masks[train_im_masks < 0.5] = 0.0
+        train_im_masks[train_im_masks >= 0.5] = 1.0
+        assert (train_im_masks.shape[-1] == 3)
+        train_im_masks = train_im_masks[..., 0]
 
         # Load test set: {scene_dir}.
         test_camera_paths = sorted(scene_dir.glob("gt_camera_*.txt"))
@@ -317,12 +319,10 @@ class ORD(Dataset):
         test_im_rgbs = np.array([ct.io.imread(p) for p in test_im_rgb_paths])
         # (num_test, 1165, 1746), float, from 0-1
         test_im_masks = np.array([ct.io.imread(p) for p in test_im_mask_paths])
-        test_im_masks[test_im_masks < 0.99] = 0.0
-        test_im_masks[test_im_masks >= 0.99] = 1.0
-
-        if test_im_masks.ndim == 4:
-            assert (test_im_masks.shape[-1] == 3)
-            test_im_masks = test_im_masks[..., 0]
+        test_im_masks[test_im_masks < 0.5] = 0.0
+        test_im_masks[test_im_masks >= 0.5] = 1.0
+        assert (test_im_masks.shape[-1] == 3)
+        test_im_masks = test_im_masks[..., 0]
 
         # Downsample: changes the image and intrinsics
         if downsample != 1.0:
