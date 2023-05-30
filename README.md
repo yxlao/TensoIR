@@ -67,20 +67,12 @@ export PYTHONPATH=.
 python train_tensoIR.py --config ./configs/single_light/armadillo.txt
 python scripts/relight_importance.py --ckpt log/log_single_light/armadillo_ds_1-20230529-121534/checkpoints/armadillo_ds_1_10000.th --config configs/relighting_test/armadillo.txt --batch_size 800
 
-# Train Blender
+# Blender (mic)
 python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
-
-# Relight Blender
-python scripts/relight_importance.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/
-blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
-
-# Relight Blender new
 python scripts/relight_importance_simple.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
 
-# Train ORD antman
+# ORD (antman)
 python train_tensoIR_simple.py --config ./configs/single_light/ord_antman.txt
-
-# Relight ORD antman
 python scripts/relight_importance_simple.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
 ```
 

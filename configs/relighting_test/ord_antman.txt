@@ -1,8 +1,8 @@
 dataset_name = ord
 datadir = antman
-hdrdir = ./data/Environment_Maps/high_res_envmaps_1k
-expname = antman_relighting
-basedir = ./log/log_ord_relighting
+hdrdir = ./data/dataset/dataset/antman/test
+expname = ""
+basedir = ""
 add_timestamp = 1
 downsample_train = 2
 downsample_test = 2
