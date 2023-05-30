@@ -74,6 +74,9 @@ python scripts/relight_importance_simple.py --ckpt log/log_original_blender/blen
 # ORD (antman)
 python train_tensoIR_simple.py --config ./configs/single_light/ord_antman.txt
 python scripts/relight_importance_simple.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
+
+# ORD (general)
+python train_tensoIR_simple.py --config ./configs/single_light/ord.txt --datadir ./data/dataset/ord/antman/test --expname ord_antman 
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)
