@@ -364,8 +364,10 @@ class ORD(Dataset):
               f"far: {estimated_far:.3f}")
 
         # Give it some slacks.
-        # scene_bbox = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]])
-        scene_bbox = np.array([[-1, -1, -1], [1, 1, 1]])
+        scene_bbox_estimated = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]])
+        scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
+        print(f"scene_bbox_estimated: {scene_bbox_estimated}")
+        print(f"scene_bbox          : {scene_bbox} (actually used)")
 
         # Write to result_dict
         result_dict = {}
