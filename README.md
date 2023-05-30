@@ -5,24 +5,50 @@
 ### Dataset
 
 ```bash
-(tensoir) ➜  ~/research/tensoir (main) tree -L 2 data
-data
-├── Environment_Maps
-│   ├── high_res_envmaps_1k
-│   └── high_res_envmaps_2k
-├── nerf_synthetic
-│   ├── chair
-│   ├── drums
-│   ├── ficus
-│   ├── hotdog
-│   ├── lego
-│   ├── materials
-│   ├── mic
-│   ├── README.txt
-│   └── ship
-└── TensoIR_Synthetic
-    ├── armadillo
-    └── ficus
+# Symlinks
+ln -s ~/data/object-relighting-dataset/extract data/dataset
+ln -s /media/yixing/hiksemi4t/dataset/object-relighting-dataset/extract data/dataset
+
+# Folder structure
+tree -L 2 data/dataset
+data/dataset
+# ├── bmvs
+# │   ├── bear
+# │   ├── clock
+# │   ├── dog
+# │   ├── durian
+# │   ├── jade
+# │   ├── man
+# │   ├── sculpture
+# │   └── stone
+# ├── dtu
+# │   ├── scan37
+# │   ├── scan40
+# │   ├── scan55
+# │   ├── scan63
+# │   ├── scan65
+# │   ├── scan69
+# │   ├── scan83
+# │   └── scan97
+# ├── ord
+# │   ├── antman
+# │   ├── apple
+# │   ├── chest
+# │   ├── gamepad
+# │   ├── ping_pong_racket
+# │   ├── porcelain_mug
+# │   ├── tpiece
+# │   └── wood_bowl
+# ├── synth4relight
+# │   ├── air_baloons
+# │   ├── chair
+# │   ├── hotdog
+# │   └── jugs
+# └── synth4relight_subsampled
+#     ├── air_baloons
+#     ├── chair
+#     ├── hotdog
+#     └── jugs
 ```
 
 ### Deps
