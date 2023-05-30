@@ -76,7 +76,17 @@ python train_tensoIR_simple.py --config ./configs/single_light/ord_antman.txt
 python scripts/relight_importance_simple.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
 
 # ORD (general)
-python train_tensoIR_simple.py --config ./configs/single_light/ord.txt --datadir ./data/dataset/ord/antman/test --expname ord_antman 
+python train_tensoIR_simple.py \
+  --config ./configs/single_light/ord.txt \
+  --datadir ./data/dataset/ord/antman/test \
+  --expname ord_antman
+python scripts/relight_importance_simple.py \
+  --config configs/relighting_test/ord_relight.txt \
+  --batch_size 800 \
+  --datadir ./data/dataset/ord/antman/test \
+  --hdrdir ./data/dataset/ord/antman/test \
+  --geo_buffer_path ./relighting/ord_antman \
+  --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)
