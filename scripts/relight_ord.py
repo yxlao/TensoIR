@@ -101,16 +101,6 @@ def relight(dataset, args):
             (frame_rays.shape[0], 1),
             dtype=torch.int).to(device).fill_(light_rotation_idx)
 
-        rgb_map = []
-        depth_map = []
-        normal_map = []
-        albedo_map = []
-        roughness_map = []
-        fresnel_map = []
-        normals_diff_map = []
-        normals_orientation_loss_map = []
-        acc_map = []
-
         chunk_idxs = torch.split(torch.arange(frame_rays.shape[0]),
                                  args.batch_size)  # choose the first light idx
         for chunk_idx in tqdm(chunk_idxs, desc="Rendering chunks"):
@@ -245,20 +235,6 @@ def relight(dataset, args):
                 relight_pred_img_without_bg[cur_light_name].append(
                     relight_without_bg.detach().clone().cpu())
 
-            rgb_map.append(rgb_chunk.cpu().detach())
-            depth_map.append(depth_chunk.cpu().detach())
-            acc_map.append(acc_chunk.cpu().detach())
-            normal_map.append(normal_chunk.cpu().detach())
-            albedo_map.append(albedo_chunk.cpu().detach())
-            roughness_map.append(roughness_chunk.cpu().detach())
-
-        rgb_map = torch.cat(rgb_map, dim=0)
-        depth_map = torch.cat(depth_map, dim=0)
-        acc_map = torch.cat(acc_map, dim=0)
-        normal_map = torch.cat(normal_map, dim=0)
-        acc_map_mask = (acc_map > args.acc_mask_threshold)
-        albedo_map = torch.cat(albedo_map, dim=0)
-        roughness_map = torch.cat(roughness_map, dim=0)
         os.makedirs(os.path.join(cur_dir_path, 'relighting_with_bg'),
                     exist_ok=True)
         os.makedirs(os.path.join(cur_dir_path, 'relighting_without_bg'),
