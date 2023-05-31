@@ -50,7 +50,7 @@ def relight(dataset, args):
     aligned_albedo_list = []
     roughness_list = []
 
-    envir_light = Environment_Light(args.hdrdir)
+    envir_light = Environment_Light(args.hdrdir, light_names)
 
     #### 
     light_rotation_idx = 0

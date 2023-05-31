@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from models.relight_utils import *
 from models.tensoRF_init import raw2alpha
 import os
-
+from pathlib import Path
 
 
 def safe_l2_normalize(x, dim=None, eps=1e-6):
@@ -108,41 +108,68 @@ def grid_sample(image, optical):
 
 
 class Environment_Light():
-    def __init__(self, hdr_directory, device='cuda'):
+    def __init__(self, hdr_directory, light_names, device='cuda'):
         # transverse the hdr image to get the environment light
         files = os.listdir(hdr_directory)
         self.hdr_rgbs = dict()
         self.hdr_pdf_sample = dict()
         self.hdr_pdf_return = dict()
         self.hdr_dir = dict()
-        for file in files:
-            if file.endswith(".hdr"):
-                self.hdr_directory = os.path.join(hdr_directory, file)
-                light_name = file.split(".")[0]
-                light_rgbs = read_hdr(self.hdr_directory)
-                light_rgbs = torch.from_numpy(light_rgbs)
-                self.hdr_rgbs[light_name] = light_rgbs.to(device)
-                # compute the pdf of importance sampling of the environment map
-                light_intensity = torch.sum(light_rgbs, dim=2, keepdim=True) # [H, W, 1]
-                env_map_h, env_map_w, _ = light_intensity.shape
-                h_interval = 1.0 / env_map_h
-                sin_theta = torch.sin(torch.linspace(0 + 0.5 * h_interval, np.pi - 0.5 * h_interval, env_map_h))
-                pdf = light_intensity * sin_theta.view(-1, 1, 1) # [H, W, 1]
-                pdf = pdf / torch.sum(pdf)
-                pdf_return = pdf * env_map_h * env_map_w / (2 * np.pi * np.pi * sin_theta.view(-1, 1, 1)) 
-                self.hdr_pdf_sample[light_name] = pdf.to(device)
-                self.hdr_pdf_return[light_name] = pdf_return.to(device)
 
-                lat_step_size = np.pi / env_map_h
-                lng_step_size = 2 * np.pi / env_map_w
-                phi, theta = torch.meshgrid([torch.linspace(np.pi / 2 - 0.5 * lat_step_size, -np.pi / 2 + 0.5 * lat_step_size, env_map_h), 
-                                    torch.linspace(np.pi - 0.5 * lng_step_size, -np.pi + 0.5 * lng_step_size, env_map_w)], indexing='ij')
+        # Get hdr paths.
+        hdr_directory = Path(hdr_directory)
+        hdr_paths = [hdr_directory / f"{light_name}.hdr" 
+                     for light_name in light_names]
+        for hdr_path in hdr_paths:
+            if not hdr_path.is_file():
+                raise ValueError(f"hdr_path {hdr_path} does not exist.")
+            
+        # TODO: This part is hard-coded.
+        # hdr_path      = gt_env_512_rotated_0000.hdr
+        # exposure_path = gt_exposure_0000.txt
+        hdr_idx = [int(hdr_path.stem[-4:]) for hdr_path in hdr_paths]
+        exposure_paths = [hdr_directory / f"gt_exposure_{idx:04d}.txt"
+                          for idx in hdr_idx]
+        for exposure_path in exposure_paths:
+            if not exposure_path.is_file():
+                raise ValueError(f"exposure_path {exposure_path} does not exist.")
+            
+        if not len(light_names) == len(hdr_paths) == len(exposure_paths):
+            raise ValueError(f"light_names, hdr_paths, and exposure_paths "
+                             f"should have the same length, but got "
+                             f"{len(light_names)}, {len(hdr_paths)}, and "
+                             f"{len(exposure_paths)} respectively.")
+
+        for light_name, hdr_path, exposure_path in zip(light_names, hdr_paths, exposure_paths):
+            light_rgbs = read_hdr(hdr_path)
+            light_rgbs = torch.from_numpy(light_rgbs)
+            # Apply exposure compensation.
+            exposure_comp = float(exposure_path.read_text())
+            print(f"Envmap: {light_name}, EV: {exposure_comp}")
+            light_rgbs = light_rgbs * (2.0 ** exposure_comp)
+            self.hdr_rgbs[light_name] = light_rgbs.to(device)
+            # compute the pdf of importance sampling of the environment map
+            light_intensity = torch.sum(light_rgbs, dim=2, keepdim=True) # [H, W, 1]
+            env_map_h, env_map_w, _ = light_intensity.shape
+            h_interval = 1.0 / env_map_h
+            sin_theta = torch.sin(torch.linspace(0 + 0.5 * h_interval, np.pi - 0.5 * h_interval, env_map_h))
+            pdf = light_intensity * sin_theta.view(-1, 1, 1) # [H, W, 1]
+            pdf = pdf / torch.sum(pdf)
+            pdf_return = pdf * env_map_h * env_map_w / (2 * np.pi * np.pi * sin_theta.view(-1, 1, 1)) 
+            self.hdr_pdf_sample[light_name] = pdf.to(device)
+            self.hdr_pdf_return[light_name] = pdf_return.to(device)
+
+            lat_step_size = np.pi / env_map_h
+            lng_step_size = 2 * np.pi / env_map_w
+            phi, theta = torch.meshgrid([torch.linspace(np.pi / 2 - 0.5 * lat_step_size, -np.pi / 2 + 0.5 * lat_step_size, env_map_h), 
+                                torch.linspace(np.pi - 0.5 * lng_step_size, -np.pi + 0.5 * lng_step_size, env_map_w)], indexing='ij')
 
 
-                view_dirs = torch.stack([  torch.cos(theta) * torch.cos(phi), 
-                                        torch.sin(theta) * torch.cos(phi), 
-                                        torch.sin(phi)], dim=-1).view(env_map_h, env_map_w, 3)    # [envH, envW, 3]
-                self.hdr_dir[light_name] = view_dirs.to(device)
+            view_dirs = torch.stack([  torch.cos(theta) * torch.cos(phi), 
+                                    torch.sin(theta) * torch.cos(phi), 
+                                    torch.sin(phi)], dim=-1).view(env_map_h, env_map_w, 3)    # [envH, envW, 3]
+            self.hdr_dir[light_name] = view_dirs.to(device)
+
         self.envir_map_uniform_pdf = torch.ones_like(light_intensity) * sin_theta.view(-1, 1, 1) / (env_map_h * env_map_w)
         self.envir_map_uniform_pdf = (self.envir_map_uniform_pdf / torch.sum(self.envir_map_uniform_pdf)).to(device)
         self.envir_map_uniform_pdf_return = self.envir_map_uniform_pdf * env_map_h * env_map_w / (2 * np.pi * np.pi  * sin_theta.view(-1, 1, 1).to(device))
