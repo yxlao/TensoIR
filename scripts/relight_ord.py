@@ -24,6 +24,10 @@ from models.relight_utils import Environment_Light
 from renderer import compute_rescale_ratio_rgb
 
 
+def tonemap():
+    pass
+
+
 @torch.no_grad()
 def relight(dataset, args):
 
