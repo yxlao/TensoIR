@@ -101,7 +101,14 @@ def relight(dataset, args):
             (frame_rays.shape[0], 1),
             dtype=torch.int).to(device).fill_(light_rotation_idx)
 
-        rgb_map, depth_map, normal_map, albedo_map, roughness_map, fresnel_map, normals_diff_map, normals_orientation_loss_map = [], [], [], [], [], [], [], []
+        rgb_map = []
+        depth_map = []
+        normal_map = []
+        albedo_map = []
+        roughness_map = []
+        fresnel_map = []
+        normals_diff_map = []
+        normals_orientation_loss_map = []
         acc_map = []
 
         chunk_idxs = torch.split(torch.arange(frame_rays.shape[0]),
