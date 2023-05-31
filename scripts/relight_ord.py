@@ -216,8 +216,9 @@ def relight(dataset, args):
                 light_rgbs = visibility * direct_light  # [bs, envW * envH, 3]
                 light_pix_contrib = surface_brdf_relighting * light_rgbs * cosine[:, :,
                                                                                   None] / masked_light_pdf
+                # [bs, 3]
                 surface_relight_rgb_chunk = torch.mean(light_pix_contrib,
-                                                       dim=1)  # [bs, 3]
+                                                       dim=1)
 
                 ### Tonemapping
                 surface_relight_rgb_chunk = torch.clamp(
@@ -226,9 +227,8 @@ def relight(dataset, args):
                 if surface_relight_rgb_chunk.shape[0] > 0:
                     surface_relight_rgb_chunk = linear2srgb_torch(
                         surface_relight_rgb_chunk)
-
-                bg_color = envir_light.get_light(cur_light_name,
-                                                 rays_d_chunk)  # [bs, 3]
+                # [bs, 3]
+                bg_color = envir_light.get_light(cur_light_name, rays_d_chunk)
                 bg_color = torch.clamp(bg_color, min=0.0, max=1.0)
                 bg_color = linear2srgb_torch(bg_color)
                 relight_without_bg = torch.ones_like(bg_color)
@@ -272,15 +272,14 @@ def relight(dataset, args):
                 relight_pred_img_without_bg[cur_light_name],
                 dim=0).reshape(H, W, 3).numpy()
 
-            if args.if_save_relight_rgb:
-                imageio.imwrite(
-                    os.path.join(cur_dir_path, 'relighting_with_bg',
-                                 f'{cur_light_name}.png'),
-                    (relight_map_with_bg * 255).astype('uint8'))
-                imageio.imwrite(
-                    os.path.join(cur_dir_path, 'relighting_without_bg',
-                                 f'{cur_light_name}.png'),
-                    (relight_map_without_bg * 255).astype('uint8'))
+            imageio.imwrite(
+                os.path.join(cur_dir_path, 'relighting_with_bg',
+                             f'{cur_light_name}.png'),
+                (relight_map_with_bg * 255).astype('uint8'))
+            imageio.imwrite(
+                os.path.join(cur_dir_path, 'relighting_without_bg',
+                             f'{cur_light_name}.png'),
+                (relight_map_without_bg * 255).astype('uint8'))
 
             # change the background color to white before computing metrics
             acc_map_mask = acc_map_mask.reshape(H, W)
