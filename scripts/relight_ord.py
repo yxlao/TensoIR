@@ -84,11 +84,11 @@ def relight(dataset, args):
         relight_ssim[f'{cur_light_name}'] = []
 
     for idx in tqdm(range(len(dataset)), desc="Rendering relight images"):
-        relight_pred_img_with_bg, relight_pred_img_without_bg, relight_gt_img = dict(
+        im_chunks_with_bg, im_chunks_wout_bg, relight_gt_img = dict(
         ), dict(), dict()
         for cur_light_name in args.light_names:
-            relight_pred_img_with_bg[f'{cur_light_name}'] = []
-            relight_pred_img_without_bg[f'{cur_light_name}'] = []
+            im_chunks_with_bg[f'{cur_light_name}'] = []
+            im_chunks_wout_bg[f'{cur_light_name}'] = []
             relight_gt_img[f'{cur_light_name}'] = []
 
         cur_dir_path = os.path.join(args.geo_buffer_path,
@@ -114,7 +114,7 @@ def relight(dataset, args):
                                  args.batch_size)  # choose the first light idx
         for chunk_idx in tqdm(chunk_idxs, desc="Rendering chunks"):
             with torch.enable_grad():
-                rgb_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, fresnel_chunk, acc_chunk, *temp = tensoIR(
+                fg_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, fresnel_chunk, acc_chunk, *temp = tensoIR(
                     frame_rays[chunk_idx],
                     light_idx[chunk_idx],
                     is_train=False,
@@ -215,54 +215,45 @@ def relight(dataset, args):
                 light_rgbs = visibility * direct_light  # [bs, envW * envH, 3]
                 light_pix_contrib = surface_brdf_relighting * light_rgbs * cosine[:, :,
                                                                                   None] / masked_light_pdf
-                # [bs, 3]
-                surface_relight_rgb_chunk = torch.mean(light_pix_contrib,
-                                                       dim=1)
+                # Foreground and background chunks in RGB.
+                linear_fg_chunk = torch.mean(light_pix_contrib, dim=1)
+                fg_chunk = tone_map(linear_fg_chunk)
+                linear_bg_chunk = envir_light.get_light(cur_light_name, rays_d_chunk)
+                bg_chunk = tone_map(linear_bg_chunk)
 
-                ### Tonemapping
-                surface_relight_rgb_chunk = torch.clamp(
-                    surface_relight_rgb_chunk, min=0.0, max=1.0)
-                if surface_relight_rgb_chunk.shape[0] > 0:
-                    surface_relight_rgb_chunk = linear2srgb_torch(
-                        surface_relight_rgb_chunk)
+                # Compute image chunk without background.
+                im_chunk_wout_bg = torch.ones_like(bg_chunk)
+                im_chunk_wout_bg[acc_chunk_mask] = fg_chunk
 
-                # [bs, 3]
-                bg_color = envir_light.get_light(cur_light_name, rays_d_chunk)
-                bg_color = torch.clamp(bg_color, min=0.0, max=1.0)
-                bg_color = linear2srgb_torch(bg_color)
-                relight_without_bg = torch.ones_like(bg_color)
-                relight_with_bg = torch.ones_like(bg_color)
-                relight_without_bg[acc_chunk_mask] = surface_relight_rgb_chunk
-
+                # Compute image chunk with background.
                 acc_temp = acc_chunk[..., None]
                 acc_temp[acc_temp <= 0.9] = 0.0
-                relight_with_bg = acc_temp * relight_without_bg + (
-                    1.0 - acc_temp) * bg_color
+                im_chunk_with_bg = torch.ones_like(bg_chunk)
+                im_chunk_with_bg = acc_temp * im_chunk_wout_bg + (1.0 - acc_temp) * bg_chunk
 
-                relight_pred_img_with_bg[cur_light_name].append(
-                    relight_with_bg.detach().clone().cpu())
-                relight_pred_img_without_bg[cur_light_name].append(
-                    relight_without_bg.detach().clone().cpu())
+                # Transfer to CPU and collect.
+                im_chunk_wout_bg = im_chunk_wout_bg.detach().clone().cpu()
+                im_chunk_with_bg = im_chunk_with_bg.detach().clone().cpu()
+                im_chunks_with_bg[cur_light_name].append(im_chunk_with_bg)
+                im_chunks_wout_bg[cur_light_name].append(im_chunk_wout_bg)
 
-        os.makedirs(os.path.join(cur_dir_path, 'relighting_with_bg'),
-                    exist_ok=True)
-        os.makedirs(os.path.join(cur_dir_path, 'relighting_without_bg'),
-                    exist_ok=True)
+        os.makedirs(os.path.join(cur_dir_path, 'with_bg'), exist_ok=True)
+        os.makedirs(os.path.join(cur_dir_path, 'wout_bg'), exist_ok=True)
 
         for cur_light_name in args.light_names:
             relight_map_with_bg = torch.cat(
-                relight_pred_img_with_bg[cur_light_name],
+                im_chunks_with_bg[cur_light_name],
                 dim=0).reshape(H, W, 3).numpy()
             relight_map_without_bg = torch.cat(
-                relight_pred_img_without_bg[cur_light_name],
+                im_chunks_wout_bg[cur_light_name],
                 dim=0).reshape(H, W, 3).numpy()
 
             imageio.imwrite(
-                os.path.join(cur_dir_path, 'relighting_with_bg',
+                os.path.join(cur_dir_path, 'with_bg',
                              f'{cur_light_name}.png'),
                 (relight_map_with_bg * 255).astype('uint8'))
             imageio.imwrite(
-                os.path.join(cur_dir_path, 'relighting_without_bg',
+                os.path.join(cur_dir_path, 'wout_bg',
                              f'{cur_light_name}.png'),
                 (relight_map_without_bg * 255).astype('uint8'))
 
