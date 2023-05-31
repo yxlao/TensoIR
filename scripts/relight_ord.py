@@ -88,16 +88,7 @@ def relight(dataset, args):
         os.makedirs(cur_dir_path, exist_ok=True)
         item = dataset[idx]
         frame_rays = item['rays'].squeeze(0).to(device)  # [H*W, 6]
-        # gt_normal = item['normals'].squeeze(0).cpu() # [H*W, 3]s
-        gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu()  # [H*W]
 
-        # gt_rgb = item['rgbs'].squeeze(0).reshape(len(light_names), H, W, 3).cpu()  # [N, H, W, 3]
-        # TODO: currently gt_rgb is simply replicated from [H, W, 3] -> [N, H, W, 3]
-        gt_rgb = item['rgbs'].squeeze(0).reshape(H, W, 3).cpu()
-        gt_rgb = gt_rgb.unsqueeze(0).repeat(len(args.light_names), 1, 1, 1)
-
-        # TOOD: current gt_albedo is disabled.
-        # gt_albedo = item['albedo'].squeeze(0).to(device) # [H*W, 3]
         light_idx = torch.zeros(
             (frame_rays.shape[0], 1),
             dtype=torch.int).to(device).fill_(light_rotation_idx)
