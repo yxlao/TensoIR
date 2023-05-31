@@ -123,8 +123,6 @@ def relight(dataset, args):
                     ndc_ray=False,
                     N_samples=-1)
 
-            relight_rgb_chunk = torch.ones_like(rgb_chunk)
-            # gt_albedo_chunk = gt_albedo[chunk_idx] # use GT to debug
             acc_chunk_mask = (acc_chunk > args.acc_mask_threshold)
             rays_o_chunk, rays_d_chunk = frame_rays[
                 chunk_idx][:, :3], frame_rays[chunk_idx][:, 3:]
@@ -146,7 +144,6 @@ def relight(dataset, args):
 
             ## Get incident light directions
             for idx, cur_light_name in enumerate(args.light_names):
-                relight_rgb_chunk.fill_(1.0)
                 masked_light_dir, masked_light_rgb, masked_light_pdf = envir_light.sample_light(
                     cur_light_name, masked_normal_chunk.shape[0],
                     512)  # [bs, envW * envH, 3]
@@ -229,7 +226,6 @@ def relight(dataset, args):
                 if surface_relight_rgb_chunk.shape[0] > 0:
                     surface_relight_rgb_chunk = linear2srgb_torch(
                         surface_relight_rgb_chunk)
-                relight_rgb_chunk[acc_chunk_mask] = surface_relight_rgb_chunk
 
                 bg_color = envir_light.get_light(cur_light_name,
                                                  rays_d_chunk)  # [bs, 3]
@@ -237,8 +233,7 @@ def relight(dataset, args):
                 bg_color = linear2srgb_torch(bg_color)
                 relight_without_bg = torch.ones_like(bg_color)
                 relight_with_bg = torch.ones_like(bg_color)
-                relight_without_bg[acc_chunk_mask] = relight_rgb_chunk[acc_chunk_mask]
-                assert torch.allclose(relight_rgb_chunk[acc_chunk_mask], surface_relight_rgb_chunk)
+                relight_without_bg[acc_chunk_mask] = surface_relight_rgb_chunk
 
                 acc_temp = acc_chunk[..., None]
                 acc_temp[acc_temp <= 0.9] = 0.0
@@ -313,13 +308,13 @@ if __name__ == "__main__":
     # names of the environment maps used for relighting
     light_names = [
         "gt_env_512_rotated_0000",
-        "gt_env_512_rotated_0001",
-        "gt_env_512_rotated_0002",
-        "gt_env_512_rotated_0003",
-        "gt_env_512_rotated_0004",
-        "gt_env_512_rotated_0005",
-        "gt_env_512_rotated_0006",
-        "gt_env_512_rotated_0007",
+        # "gt_env_512_rotated_0001",
+        # "gt_env_512_rotated_0002",
+        # "gt_env_512_rotated_0003",
+        # "gt_env_512_rotated_0004",
+        # "gt_env_512_rotated_0005",
+        # "gt_env_512_rotated_0006",
+        # "gt_env_512_rotated_0007",
         "gt_env_512_rotated_0008",
     ]
 
