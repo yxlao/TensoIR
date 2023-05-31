@@ -237,8 +237,9 @@ def relight(dataset, args):
                 bg_color = linear2srgb_torch(bg_color)
                 relight_without_bg = torch.ones_like(bg_color)
                 relight_with_bg = torch.ones_like(bg_color)
-                relight_without_bg[acc_chunk_mask] = relight_rgb_chunk[
-                    acc_chunk_mask]
+                relight_without_bg[acc_chunk_mask] = relight_rgb_chunk[acc_chunk_mask]
+                assert torch.allclose(relight_rgb_chunk[acc_chunk_mask], surface_relight_rgb_chunk)
+
                 acc_temp = acc_chunk[..., None]
                 acc_temp[acc_temp <= 0.9] = 0.0
                 relight_with_bg = acc_temp * relight_without_bg + (
