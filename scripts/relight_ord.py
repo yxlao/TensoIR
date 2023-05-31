@@ -274,15 +274,32 @@ def relight(dataset, args):
             linear_im_wout_bg = linear_im_wout_bg.reshape(H, W, 3).numpy()
             # yapf: enable
 
+            # Prepare paths.
+            cur_dir_path = Path(cur_dir_path)
+            with_bg_path = cur_dir_path / "with_bg" / f"{light_name}.png"
+            wout_bg_path = cur_dir_path / "wout_bg" / f"{light_name}.png"
+            linear_with_bg_path = cur_dir_path / "linear_with_bg" / f"{light_name}.npy"
+            linear_wout_bg_path = cur_dir_path / "linear_wout_bg" / f"{light_name}.npy"
+            with_bg_path.parent.mkdir(parents=True, exist_ok=True)
+            wout_bg_path.parent.mkdir(parents=True, exist_ok=True)
+            linear_with_bg_path.parent.mkdir(parents=True, exist_ok=True)
+            linear_wout_bg_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Save images.
             imageio.imwrite(
                 os.path.join(cur_dir_path, 'with_bg', f'{light_name}.png'),
                 (im_with_bg * 255).astype('uint8'))
             imageio.imwrite(
                 os.path.join(cur_dir_path, 'wout_bg', f'{light_name}.png'),
                 (im_wout_bg * 255).astype('uint8'))
-            
-            import ipdb; ipdb.set_trace(); 
-            pass
+            np.save(linear_with_bg_path, linear_im_with_bg)
+            np.save(linear_wout_bg_path, linear_im_wout_bg)
+
+            # Print.
+            print(f"Saved {with_bg_path}")
+            print(f"Saved {wout_bg_path}")
+            print(f"Saved {linear_with_bg_path}")
+            print(f"Saved {linear_wout_bg_path}")
 
 
 if __name__ == "__main__":
