@@ -117,26 +117,24 @@ def relight(dataset, args):
             acc_chunk_mask = (acc_chunk > args.acc_mask_threshold)
             rays_o_chunk, rays_d_chunk = frame_rays[
                 chunk_idx][:, :3], frame_rays[chunk_idx][:, 3:]
+            # [bs, 3]
             surface_xyz_chunk = rays_o_chunk + depth_chunk.unsqueeze(
-                -1) * rays_d_chunk  # [bs, 3]
-            masked_surface_pts = surface_xyz_chunk[
-                acc_chunk_mask]  # [surface_point_num, 3]
-
-            masked_normal_chunk = normal_chunk[
-                acc_chunk_mask]  # [surface_point_num, 3]
-            masked_albedo_chunk = albedo_chunk[
-                acc_chunk_mask]  # [surface_point_num, 3]
-            masked_roughness_chunk = roughness_chunk[
-                acc_chunk_mask]  # [surface_point_num, 1]
-            masked_fresnel_chunk = fresnel_chunk[
-                acc_chunk_mask]  # [surface_point_num, 1]
-            masked_light_idx_chunk = light_idx[chunk_idx][
-                acc_chunk_mask]  # [surface_point_num, 1]
+                -1) * rays_d_chunk
+            # [surface_point_num, 3]
+            masked_surface_pts = surface_xyz_chunk[acc_chunk_mask]
+            # [surface_point_num, 3]
+            masked_normal_chunk = normal_chunk[acc_chunk_mask]
+            # [surface_point_num, 3]
+            masked_albedo_chunk = albedo_chunk[acc_chunk_mask]
+            # [surface_point_num, 1]
+            masked_roughness_chunk = roughness_chunk[acc_chunk_mask]
+            # [surface_point_num, 1]
+            masked_fresnel_chunk = fresnel_chunk[acc_chunk_mask]
+            # [surface_point_num, 1]
+            masked_light_idx_chunk = light_idx[chunk_idx][acc_chunk_mask]
 
             ## Get incident light directions
             for idx, cur_light_name in enumerate(args.light_names):
-                # if os.path.exists(os.path.join(cur_dir_path, 'relighting', f'{cur_light_name}.png')):
-                #     continue
                 relight_rgb_chunk.fill_(1.0)
                 masked_light_dir, masked_light_rgb, masked_light_pdf = envir_light.sample_light(
                     cur_light_name, masked_normal_chunk.shape[0],
@@ -147,19 +145,19 @@ def relight(dataset, args):
                 surf2c = safe_l2_normalize(surf2c,
                                            dim=-1)  # [surface_point_num, 3]
 
-                cosine = torch.einsum(
-                    "ijk,ik->ij", surf2l, masked_normal_chunk
-                )  # surf2l:[surface_point_num, envW * envH, 3] * masked_normal_chunk:[surface_point_num, 3] -> cosine:[surface_point_num, envW * envH]
-                cosine_mask = (
-                    cosine > 1e-6
-                )  # [surface_point_num, envW * envH] mask half of the incident light that is behind the surface
-                visibility = torch.zeros(
-                    (*cosine_mask.shape, 1),
-                    device=device)  # [surface_point_num, envW * envH, 1]
-
+                # surf2l:[surface_point_num, envW * envH, 3] *
+                #        masked_normal_chunk:[surface_point_num, 3]
+                # -> cosine:[surface_point_num, envW * envH]
+                cosine = torch.einsum("ijk,ik->ij", surf2l,
+                                      masked_normal_chunk)
+                # [surface_point_num, envW * envH] mask half of the incident light that is behind the surface
+                cosine_mask = (cosine > 1e-6)
+                # [surface_point_num, envW * envH, 1]
+                visibility = torch.zeros((*cosine_mask.shape, 1),
+                                         device=device)
+                # [surface_point_num, envW * envH, 3]
                 masked_surface_xyz = masked_surface_pts[:, None, :].expand(
-                    (*cosine_mask.shape,
-                     3))  # [surface_point_num, envW * envH, 3]
+                    (*cosine_mask.shape, 3))
 
                 cosine_masked_surface_pts = masked_surface_xyz[
                     cosine_mask]  # [num_of_vis_to_get, 3]
@@ -279,178 +277,6 @@ def relight(dataset, args):
 
             # change the background color to white before computing metrics
             acc_map_mask = acc_map_mask.reshape(H, W)
-            gt_img_map = gt_rgb[light_name_idx].numpy()
-
-            loss_relight = np.mean((relight_map_without_bg - gt_img_map)**2)
-            # cur_psnr = -10.0 * np.log(loss_relight) / np.log(10.0)
-
-            # ssim_relight = rgb_ssim(relight_map_without_bg, gt_img_map, 1)
-            # l_a_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'alex', tensoIR.device)
-            # l_v_relight = rgb_lpips(gt_img_map, relight_map_without_bg, 'vgg', tensoIR.device)
-
-            # relight_psnr[cur_light_name].append(cur_psnr)
-            # relight_ssim[cur_light_name].append(ssim_relight)
-            # relight_l_alex[cur_light_name].append(l_a_relight)
-            # relight_l_vgg[cur_light_name].append(l_v_relight)
-
-        # # write relight image psnr to a txt file
-        # with open(os.path.join(cur_dir_path, 'relighting_without_bg', 'relight_psnr.txt'), 'w') as f:
-        #     for cur_light_name in args.light_names:
-        #         f.write(f'{cur_light_name}: PNSR {relight_psnr[cur_light_name][-1]}; SSIM {relight_ssim[cur_light_name][-1]}; L_Alex {relight_l_alex[cur_light_name][-1]}; L_VGG {relight_l_vgg[cur_light_name][-1]}\n')
-
-        rgb_map = (rgb_map.reshape(H, W, 3).numpy() * 255).astype('uint8')
-        rgb_frames_list.append(rgb_map)
-        depth_map, _ = visualize_depth_numpy(
-            depth_map.reshape(H, W, 1).numpy(), near_far)
-        acc_map = (acc_map.reshape(H, W, 1).numpy() * 255).astype('uint8')
-
-        if args.if_save_rgb:
-            imageio.imwrite(os.path.join(cur_dir_path, 'rgb.png'), rgb_map)
-
-        if args.if_save_depth:
-            imageio.imwrite(os.path.join(cur_dir_path, 'depth.png'), depth_map)
-        if args.if_save_acc:
-            imageio.imwrite(os.path.join(cur_dir_path, 'acc.png'), acc_map)
-        if args.if_save_albedo:
-            gt_albedo_reshaped = gt_albedo.reshape(H, W, 3).cpu()
-            albedo_map = albedo_map.reshape(H, W, 3)
-            # three channels rescale
-            gt_albedo_mask = gt_mask.reshape(H, W)
-            ratio_value, _ = (
-                gt_albedo_reshaped[gt_albedo_mask] /
-                albedo_map[gt_albedo_mask].clamp(min=1e-6)).median(dim=0)
-            # ratio_value = gt_albedo_reshaped[gt_albedo_mask].median(dim=0)[0] / albedo_map[gt_albedo_mask].median(dim=0)[0]
-            albedo_map[gt_albedo_mask] = (ratio_value *
-                                          albedo_map[gt_albedo_mask]).clamp(
-                                              min=0.0, max=1.0)
-
-            albedo_map_to_save = (albedo_map * 255).numpy().astype('uint8')
-            albedo_map_to_save = np.concatenate([albedo_map_to_save, acc_map],
-                                                axis=2).astype('uint8')
-            imageio.imwrite(os.path.join(cur_dir_path, 'albedo.png'),
-                            albedo_map_to_save)
-            if args.if_save_albedo_gamma_corrected:
-                to_save_albedo = (albedo_map**(1 / 2.2) *
-                                  255).numpy().astype('uint8')
-                to_save_albedo = np.concatenate([to_save_albedo, acc_map],
-                                                axis=2)
-                # gamma cororection
-                imageio.imwrite(
-                    os.path.join(cur_dir_path, 'albedo_gamma_corrected.png'),
-                    to_save_albedo)
-
-            # save GT gamma corrected albedo
-            gt_albedo_reshaped = (gt_albedo_reshaped**(1 / 2.2) *
-                                  255).numpy().astype('uint8')
-            gt_albedo_reshaped = np.concatenate([gt_albedo_reshaped, acc_map],
-                                                axis=2)
-            imageio.imwrite(
-                os.path.join(cur_dir_path, 'gt_albedo_gamma_corrected.png'),
-                gt_albedo_reshaped)
-
-            aligned_albedo_list.append(
-                ((albedo_map**(1.0 / 2.2)) * 255).numpy().astype('uint8'))
-
-            roughness_map = roughness_map.reshape(H, W, 1)
-            # expand to three channels
-            roughness_map = (roughness_map.expand(-1, -1, 3) * 255)
-            roughness_map = np.concatenate([roughness_map, acc_map], axis=2)
-            imageio.imwrite(os.path.join(cur_dir_path, 'roughness.png'),
-                            (roughness_map).astype('uint8'))
-            roughness_list.append((roughness_map).astype('uint8'))
-        if args.if_render_normal:
-            normal_map = F.normalize(normal_map, dim=-1)
-            normal_rgb_map = normal_map * 0.5 + 0.5
-            normal_rgb_map = (normal_rgb_map.reshape(H, W, 3).numpy() *
-                              255).astype('uint8')
-            normal_rgb_map = np.concatenate([normal_rgb_map, acc_map], axis=2)
-            imageio.imwrite(os.path.join(cur_dir_path, 'normal.png'),
-                            normal_rgb_map)
-
-    # # write relight image psnr to a txt file
-    # with open(os.path.join(args.geo_buffer_path, 'relight_psnr.txt'), 'w') as f:
-    #     for cur_light_name in args.light_names:
-    #         f.write(f'{cur_light_name}:  PSNR {np.mean(relight_psnr[cur_light_name])}; SSIM {np.mean(relight_ssim[cur_light_name])}; L_Alex {np.mean(relight_l_alex[cur_light_name])}; L_VGG {np.mean(relight_l_vgg[cur_light_name])}\n')
-
-    if args.if_save_rgb_video:
-        video_path = os.path.join(args.geo_buffer_path, 'video')
-        os.makedirs(video_path, exist_ok=True)
-        imageio.mimsave(os.path.join(video_path, 'rgb_video.mp4'),
-                        np.stack(rgb_frames_list),
-                        fps=24,
-                        macro_block_size=1)
-
-    if args.if_render_normal:
-        video_path = os.path.join(args.geo_buffer_path, 'video')
-        os.makedirs(video_path, exist_ok=True)
-        for render_idx in range(len(dataset)):
-            cur_dir_path = os.path.join(args.geo_buffer_path,
-                                        f'{dataset.split}_{render_idx:0>3d}')
-            normal_map = imageio.v2.imread(
-                os.path.join(cur_dir_path, 'normal.png'))
-            normal_mask = (normal_map[..., -1] / 255) > args.acc_mask_threshold
-            normal_map = normal_map[..., :3] * (normal_mask[
-                ..., 3:4] / 255.0) + 255 * (1 - normal_mask[..., 3:4] / 255.0)
-
-            optimized_normal_list.append(normal_map)
-
-        imageio.mimsave(os.path.join(video_path, 'render_normal_video.mp4'),
-                        np.stack(optimized_normal_list),
-                        fps=24,
-                        macro_block_size=1)
-
-    if args.if_save_albedo:
-        video_path = os.path.join(args.geo_buffer_path, 'video')
-        os.makedirs(video_path, exist_ok=True)
-        imageio.mimsave(os.path.join(video_path, 'aligned_albedo_video.mp4'),
-                        np.stack(aligned_albedo_list),
-                        fps=24,
-                        macro_block_size=1)
-        imageio.mimsave(os.path.join(video_path, 'roughness_video.mp4'),
-                        np.stack(roughness_list),
-                        fps=24,
-                        macro_block_size=1)
-
-    if args.render_video:
-        video_path = os.path.join(args.geo_buffer_path, 'video_without_bg')
-        os.makedirs(video_path, exist_ok=True)
-
-        for cur_light_name in args.light_names:
-            frame_list = []
-
-            for render_idx in range(len(dataset)):
-                cur_dir_path = os.path.join(
-                    args.geo_buffer_path, f'{dataset.split}_{render_idx:0>3d}',
-                    'relighting_without_bg')
-                frame_list.append(
-                    imageio.v2.imread(
-                        os.path.join(cur_dir_path, f'{cur_light_name}.png')))
-
-            imageio.mimsave(os.path.join(video_path,
-                                         f'{cur_light_name}_video.mp4'),
-                            np.stack(frame_list),
-                            fps=24,
-                            macro_block_size=1)
-
-        video_path = os.path.join(args.geo_buffer_path, 'video_with_bg')
-        os.makedirs(video_path, exist_ok=True)
-
-        for cur_light_name in args.light_names:
-            frame_list = []
-
-            for render_idx in range(len(dataset)):
-                cur_dir_path = os.path.join(
-                    args.geo_buffer_path, f'{dataset.split}_{render_idx:0>3d}',
-                    'relighting_with_bg')
-                frame_list.append(
-                    imageio.v2.imread(
-                        os.path.join(cur_dir_path, f'{cur_light_name}.png')))
-
-            imageio.mimsave(os.path.join(video_path,
-                                         f'{cur_light_name}_video.mp4'),
-                            np.stack(frame_list),
-                            fps=24,
-                            macro_block_size=1)
 
 
 if __name__ == "__main__":
@@ -466,17 +292,9 @@ if __name__ == "__main__":
     np.random.seed(20211202)
 
     # The following args are not defined in opt.py
-    args.if_save_rgb = False
-    args.if_save_depth = False
-    args.if_save_acc = False
-    args.if_save_rgb_video = False
-    args.if_save_relight_rgb = True
-    args.if_save_albedo = False
-    args.if_save_albedo_gamma_corrected = True
     args.acc_mask_threshold = 0.5
     args.if_render_normal = False
     args.vis_equation = 'nerv'
-    args.render_video = False
 
     dataset = dataset_dict[args.dataset_name]
 
