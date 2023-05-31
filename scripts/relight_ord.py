@@ -77,19 +77,19 @@ def relight(dataset, args):
 
     relight_psnr = dict()
     relight_l_alex, relight_l_vgg, relight_ssim = dict(), dict(), dict()
-    for cur_light_name in args.light_names:
-        relight_psnr[f'{cur_light_name}'] = []
-        relight_l_alex[f'{cur_light_name}'] = []
-        relight_l_vgg[f'{cur_light_name}'] = []
-        relight_ssim[f'{cur_light_name}'] = []
+    for light_name in args.light_names:
+        relight_psnr[light_name] = []
+        relight_l_alex[light_name] = []
+        relight_l_vgg[light_name] = []
+        relight_ssim[light_name] = []
 
     for idx in tqdm(range(len(dataset)), desc="Rendering relight images"):
         im_chunks_with_bg, im_chunks_wout_bg, relight_gt_img = dict(
         ), dict(), dict()
-        for cur_light_name in args.light_names:
-            im_chunks_with_bg[f'{cur_light_name}'] = []
-            im_chunks_wout_bg[f'{cur_light_name}'] = []
-            relight_gt_img[f'{cur_light_name}'] = []
+        for light_name in args.light_names:
+            im_chunks_with_bg[light_name] = []
+            im_chunks_wout_bg[light_name] = []
+            relight_gt_img[light_name] = []
 
         cur_dir_path = os.path.join(args.geo_buffer_path,
                                     f'{dataset.split}_{idx:0>3d}')
@@ -142,9 +142,9 @@ def relight(dataset, args):
             masked_light_idx_chunk = light_idx[chunk_idx][acc_chunk_mask]
 
             ## Get incident light directions
-            for idx, cur_light_name in enumerate(args.light_names):
+            for idx, light_name in enumerate(args.light_names):
                 masked_light_dir, masked_light_rgb, masked_light_pdf = envir_light.sample_light(
-                    cur_light_name, masked_normal_chunk.shape[0],
+                    light_name, masked_normal_chunk.shape[0],
                     512)  # [bs, envW * envH, 3]
                 surf2l = masked_light_dir  # [surface_point_num, envW * envH, 3]
                 surf2c = -rays_d_chunk[
@@ -218,7 +218,7 @@ def relight(dataset, args):
                 # Foreground and background chunks in RGB.
                 linear_fg_chunk = torch.mean(light_pix_contrib, dim=1)
                 fg_chunk = tone_map(linear_fg_chunk)
-                linear_bg_chunk = envir_light.get_light(cur_light_name, rays_d_chunk)
+                linear_bg_chunk = envir_light.get_light(light_name, rays_d_chunk)
                 bg_chunk = tone_map(linear_bg_chunk)
 
                 # Compute image chunk without background.
@@ -234,27 +234,27 @@ def relight(dataset, args):
                 # Transfer to CPU and collect.
                 im_chunk_wout_bg = im_chunk_wout_bg.detach().clone().cpu()
                 im_chunk_with_bg = im_chunk_with_bg.detach().clone().cpu()
-                im_chunks_with_bg[cur_light_name].append(im_chunk_with_bg)
-                im_chunks_wout_bg[cur_light_name].append(im_chunk_wout_bg)
+                im_chunks_with_bg[light_name].append(im_chunk_with_bg)
+                im_chunks_wout_bg[light_name].append(im_chunk_wout_bg)
 
         os.makedirs(os.path.join(cur_dir_path, 'with_bg'), exist_ok=True)
         os.makedirs(os.path.join(cur_dir_path, 'wout_bg'), exist_ok=True)
 
-        for cur_light_name in args.light_names:
+        for light_name in args.light_names:
             relight_map_with_bg = torch.cat(
-                im_chunks_with_bg[cur_light_name],
+                im_chunks_with_bg[light_name],
                 dim=0).reshape(H, W, 3).numpy()
             relight_map_without_bg = torch.cat(
-                im_chunks_wout_bg[cur_light_name],
+                im_chunks_wout_bg[light_name],
                 dim=0).reshape(H, W, 3).numpy()
 
             imageio.imwrite(
                 os.path.join(cur_dir_path, 'with_bg',
-                             f'{cur_light_name}.png'),
+                             f'{light_name}.png'),
                 (relight_map_with_bg * 255).astype('uint8'))
             imageio.imwrite(
                 os.path.join(cur_dir_path, 'wout_bg',
-                             f'{cur_light_name}.png'),
+                             f'{light_name}.png'),
                 (relight_map_without_bg * 255).astype('uint8'))
 
 
