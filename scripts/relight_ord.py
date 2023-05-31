@@ -47,19 +47,8 @@ def relight(dataset, args):
     tensoIR.load(ckpt)
 
     W, H = dataset.img_wh
-    near_far = dataset.near_far
-
-    rgb_frames_list = []
-    optimized_normal_list = []
-
-    aligned_albedo_list = []
-    roughness_list = []
-
-    envir_light = Environment_Light(args.hdrdir, light_names)
-
-    ####
     light_rotation_idx = 0
-    ####
+    envir_light = Environment_Light(args.hdrdir, args.light_names)
 
     # TODO: Fix me with proper rescale_value:
     # - This is the code to estimate rescale_value
@@ -302,7 +291,7 @@ def relight(dataset, args):
             print(f"Saved {linear_wout_bg_path}")
 
 
-if __name__ == "__main__":
+def main():
     args = config_parser()
     print(args)
     print("*" * 80)
@@ -318,34 +307,26 @@ if __name__ == "__main__":
     args.acc_mask_threshold = 0.5
     args.if_render_normal = False
     args.vis_equation = 'nerv'
-
-    dataset = dataset_dict[args.dataset_name]
-
-    # names of the environment maps used for relighting
-    light_names = [
+    args.light_names = [
         "gt_env_512_rotated_0000",
-        # "gt_env_512_rotated_0001",
-        # "gt_env_512_rotated_0002",
-        # "gt_env_512_rotated_0003",
-        # "gt_env_512_rotated_0004",
-        # "gt_env_512_rotated_0005",
-        # "gt_env_512_rotated_0006",
-        # "gt_env_512_rotated_0007",
+        "gt_env_512_rotated_0001",
+        "gt_env_512_rotated_0002",
+        "gt_env_512_rotated_0003",
+        "gt_env_512_rotated_0004",
+        "gt_env_512_rotated_0005",
+        "gt_env_512_rotated_0006",
+        "gt_env_512_rotated_0007",
         "gt_env_512_rotated_0008",
     ]
 
-    args.light_names = light_names
-
-    # test_dataset = dataset(args.datadir,
-    #                        args.hdrdir,
-    #                        split='test',
-    #                        random_test=False,
-    #                        downsample=args.downsample_test,
-    #                        light_names=light_names,
-    #                        light_rotation=args.light_rotation)
+    dataset = dataset_dict[args.dataset_name]
     test_dataset = dataset(args.datadir,
                            split='test',
                            random_test=False,
                            downsample=args.downsample_test,
                            light_rotation=args.light_rotation)
     relight(test_dataset, args)
+
+
+if __name__ == "__main__":
+    main()
