@@ -169,23 +169,23 @@ def relight(dataset, args):
                 # [surface_point_num, envW * envH, 3]
                 masked_surface_xyz = masked_surface_pts[:, None, :].expand(
                     (*cosine_mask.shape, 3))
-
-                cosine_masked_surface_pts = masked_surface_xyz[
-                    cosine_mask]  # [num_of_vis_to_get, 3]
-                cosine_masked_surf2l = surf2l[
-                    cosine_mask]  # [num_of_vis_to_get, 3]
+                # [num_of_vis_to_get, 3]
+                cosine_masked_surface_pts = masked_surface_xyz[cosine_mask]
+                # [num_of_vis_to_get, 3]
+                cosine_masked_surf2l = surf2l[cosine_mask]
+                # [num_of_vis_to_get, 1]
                 cosine_masked_visibility = torch.zeros(
-                    cosine_masked_surf2l.shape[0], 1,
-                    device=device)  # [num_of_vis_to_get, 1]
+                    cosine_masked_surf2l.shape[0], 1, device=device)
 
                 chunk_idxs_vis = torch.split(
                     torch.arange(cosine_masked_surface_pts.shape[0]), 100000)
 
                 for chunk_vis_idx in chunk_idxs_vis:
+                    # [chunk_size, 3]
                     chunk_surface_pts = cosine_masked_surface_pts[
-                        chunk_vis_idx]  # [chunk_size, 3]
-                    chunk_surf2light = cosine_masked_surf2l[
-                        chunk_vis_idx]  # [chunk_size, 3]
+                        chunk_vis_idx]
+                    # [chunk_size, 3]
+                    chunk_surf2light = cosine_masked_surf2l[chunk_vis_idx]
                     nerv_vis, nerfactor_vis = compute_transmittance(
                         tensoIR=tensoIR,
                         surf_pts=chunk_surface_pts,
