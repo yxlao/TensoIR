@@ -213,10 +213,10 @@ def relight(dataset, args):
                 ### Tonemapping
                 surface_relight_rgb_chunk = torch.clamp(
                     surface_relight_rgb_chunk, min=0.0, max=1.0)
-                ### Colorspace transform
                 if surface_relight_rgb_chunk.shape[0] > 0:
                     surface_relight_rgb_chunk = linear2srgb_torch(
                         surface_relight_rgb_chunk)
+
                 # [bs, 3]
                 bg_color = envir_light.get_light(cur_light_name, rays_d_chunk)
                 bg_color = torch.clamp(bg_color, min=0.0, max=1.0)
@@ -240,7 +240,7 @@ def relight(dataset, args):
         os.makedirs(os.path.join(cur_dir_path, 'relighting_without_bg'),
                     exist_ok=True)
 
-        for light_name_idx, cur_light_name in enumerate(args.light_names):
+        for cur_light_name in args.light_names:
             relight_map_with_bg = torch.cat(
                 relight_pred_img_with_bg[cur_light_name],
                 dim=0).reshape(H, W, 3).numpy()
@@ -256,9 +256,6 @@ def relight(dataset, args):
                 os.path.join(cur_dir_path, 'relighting_without_bg',
                              f'{cur_light_name}.png'),
                 (relight_map_without_bg * 255).astype('uint8'))
-
-            # change the background color to white before computing metrics
-            acc_map_mask = acc_map_mask.reshape(H, W)
 
 
 if __name__ == "__main__":
