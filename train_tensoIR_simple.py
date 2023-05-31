@@ -85,7 +85,7 @@ def render_test(args):
 
 
 
-    logfolder = f'{args.basedir}/test_{args.expname}{datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")}'
+    logfolder = f'{args.basedir}/test_{args.expname}'
 
 
 
@@ -95,7 +95,7 @@ def render_test(args):
                                                             tensoIR, 
                                                             args, 
                                                             renderer, 
-                                                            f'{logfolder}/imgs_test_all/', 
+                                                            f'{logfolder}/', 
                                                             N_samples=-1,
                                                             white_bg=white_bg, 
                                                             ndc_ray=ndc_ray, 
