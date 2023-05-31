@@ -115,9 +115,13 @@ def relight(dataset, args):
                                  args.batch_size)  # choose the first light idx
         for chunk_idx in tqdm(chunk_idxs, desc="Rendering chunks"):
             with torch.enable_grad():
-                rgb_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, \
-                    fresnel_chunk, acc_chunk, *temp \
-                    = tensoIR(frame_rays[chunk_idx], light_idx[chunk_idx], is_train=False, white_bg=True, ndc_ray=False, N_samples=-1)
+                rgb_chunk, depth_chunk, normal_chunk, albedo_chunk, roughness_chunk, fresnel_chunk, acc_chunk, *temp = tensoIR(
+                    frame_rays[chunk_idx],
+                    light_idx[chunk_idx],
+                    is_train=False,
+                    white_bg=True,
+                    ndc_ray=False,
+                    N_samples=-1)
 
             relight_rgb_chunk = torch.ones_like(rgb_chunk)
             # gt_albedo_chunk = gt_albedo[chunk_idx] # use GT to debug
