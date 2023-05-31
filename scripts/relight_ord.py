@@ -59,9 +59,9 @@ def relight(dataset, args):
     # TODO: Fix me with proper rescale_value:
     # - This is the code to estimate rescale_value
     #   ```
-    global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio_rgb(tensoIR, dataset)
-    rescale_value = global_rescale_value_three
-    print(f"rescale_value computed with RGB (not accurate): {rescale_value}")
+    # global_rescale_value_single, global_rescale_value_three = compute_rescale_ratio_rgb(tensoIR, dataset)
+    # rescale_value = global_rescale_value_three
+    # print(f"rescale_value computed with RGB (not accurate): {rescale_value}")
     #   ```
     # - For armodillo, the rescale ratio is tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
     #   rescale_value = torch.tensor([0.1594, 0.0485, 0.0070], device='cuda:0')
