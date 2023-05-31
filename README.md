@@ -69,26 +69,26 @@ python train_tensoIR.py --config ./configs/single_light/armadillo.txt
 python scripts/relight_importance.py --ckpt log/log_single_light/armadillo_ds_1-20230529-121534/checkpoints/armadillo_ds_1_10000.th --config configs/relighting_test/armadillo.txt --batch_size 800
 
 # Blender (mic)
-python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
-python scripts/relight_importance_simple.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
+python train_ord.py --config ./configs/single_light/blender.txt
+python scripts/relight_ord.py --ckpt log/log_original_blender/blender_ds_1-20230529-104030/checkpoints/blender_ds_1_10000.th --config configs/relighting_test/mic.txt --batch_size 800
 
 # ORD (deprecated)
-python train_tensoIR_simple.py --config ./configs/single_light/ord_antman.txt
-python scripts/relight_importance_simple.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
+python train_ord.py --config ./configs/single_light/ord_antman.txt
+python scripts/relight_ord.py --ckpt log/log_ord/antman-20230530-054923/checkpoints/antman_10000.th --config configs/relighting_test/ord_antman.txt --batch_size 800
 
 # ORD (ord)
-python train_tensoIR_simple.py \
+python train_ord.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/ord/antman/test \
   --expname ord_antman
-python train_tensoIR_simple.py \
+python train_ord.py \
    --config ./configs/single_light/ord.txt \
    --datadir ./data/dataset/ord/antman/test \
    --expname ord_antman \
    --render_only 1 \
    --render_test 1 \
    --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
-python scripts/relight_importance_simple.py \
+python scripts/relight_ord.py \
   --config configs/relighting_test/ord_relight.txt \
   --batch_size 800 \
   --datadir ./data/dataset/ord/antman/test \
@@ -97,7 +97,7 @@ python scripts/relight_importance_simple.py \
   --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
 
 # ORD (synth4relight_subsampled)
-python train_tensoIR_simple.py \
+python train_ord.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/synth4relight_subsampled/air_baloons \
   --expname synth4relight_subsampled_air_baloons
@@ -182,7 +182,7 @@ export PYTHONPATH=. && python train_tensoIR_general_multi_lights.py  --config ./
 We don't do quantitative and qualitative comparisons for the original NeRF-Synthetic dataset in our paper (the reasons have been discussed above), but you can still train TensoIR on the original NeRF-Synthetic dataset for some analysis.
 
 ```bash
-export PYTHONPATH=. && python train_tensoIR_simple.py --config ./configs/single_light/blender.txt
+export PYTHONPATH=. && python train_ord.py --config ./configs/single_light/blender.txt
 ```
 
 ## Testing and Validation
