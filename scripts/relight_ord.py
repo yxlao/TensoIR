@@ -24,8 +24,13 @@ from models.relight_utils import Environment_Light
 from renderer import compute_rescale_ratio_rgb
 
 
-def tonemap():
-    pass
+def tone_map(linear_rgbs):
+    linear_rgbs = torch.clamp(linear_rgbs, min=0.0, max=1.0)
+    if linear_rgbs.shape[0] > 0:
+        srgbs = linear2srgb_torch(linear_rgbs)
+    else:
+        srgbs = linear_rgbs
+    return srgbs
 
 
 @torch.no_grad()
