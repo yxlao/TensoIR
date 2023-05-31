@@ -93,7 +93,7 @@ def relight(dataset, args):
         # gt_normal = item['normals'].squeeze(0).cpu() # [H*W, 3]s
         gt_mask = item['rgbs_mask'].squeeze(0).squeeze(-1).cpu() # [H*W]        
         
-        # gt_rgb = item['rgbs'].squeeze(0).reshape(len(light_name_list), H, W, 3).cpu()  # [N, H, W, 3]
+        # gt_rgb = item['rgbs'].squeeze(0).reshape(len(light_names), H, W, 3).cpu()  # [N, H, W, 3]
         # TODO: currently gt_rgb is simply replicated from [H, W, 3] -> [N, H, W, 3]
         gt_rgb = item['rgbs'].squeeze(0).reshape(H, W, 3).cpu()
         gt_rgb = gt_rgb.unsqueeze(0).repeat(len(args.light_names), 1, 1, 1)
@@ -383,7 +383,7 @@ if __name__ == "__main__":
     dataset = dataset_dict[args.dataset_name]
 
     # names of the environment maps used for relighting
-    light_name_list = [
+    light_names = [
         "gt_env_512_rotated_0000",
         "gt_env_512_rotated_0001",
         "gt_env_512_rotated_0002",
@@ -395,20 +395,19 @@ if __name__ == "__main__":
         "gt_env_512_rotated_0008",
     ]
     
-    args.light_names = light_name_list
+    args.light_names = light_names
 
     # test_dataset = dataset(args.datadir, 
     #                        args.hdrdir, 
     #                        split='test', 
     #                        random_test=False,
     #                        downsample=args.downsample_test,
-    #                        light_names=light_name_list,
+    #                        light_names=light_names,
     #                        light_rotation=args.light_rotation)
     test_dataset = dataset(args.datadir, 
                            split='test', 
                            random_test=False,
                            downsample=args.downsample_test,
-                        #    light_names=light_name_list,
                            light_rotation=args.light_rotation)
     relight(test_dataset , args)
 
