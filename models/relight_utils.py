@@ -108,18 +108,18 @@ def grid_sample(image, optical):
 
 
 class Environment_Light():
-    def __init__(self, hdr_path, device='cuda'):
+    def __init__(self, hdr_directory, device='cuda'):
         # transverse the hdr image to get the environment light
-        files = os.listdir(hdr_path)
+        files = os.listdir(hdr_directory)
         self.hdr_rgbs = dict()
         self.hdr_pdf_sample = dict()
         self.hdr_pdf_return = dict()
         self.hdr_dir = dict()
         for file in files:
             if file.endswith(".hdr"):
-                self.hdr_path = os.path.join(hdr_path, file)
+                self.hdr_directory = os.path.join(hdr_directory, file)
                 light_name = file.split(".")[0]
-                light_rgbs = read_hdr(self.hdr_path)
+                light_rgbs = read_hdr(self.hdr_directory)
                 light_rgbs = torch.from_numpy(light_rgbs)
                 self.hdr_rgbs[light_name] = light_rgbs.to(device)
                 # compute the pdf of importance sampling of the environment map
