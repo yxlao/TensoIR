@@ -66,8 +66,10 @@ def export_mesh(args):
 def render_test(args):
     # init dataset
     dataset = dataset_dict[args.dataset_name]
-    test_dataset = dataset(args.datadir, split='test', downsample=args.downsample_train, is_stack=True,
-                           sub=args.test_number)
+    test_dataset = dataset(args.datadir,
+                           split='test',
+                           downsample=args.downsample_train,
+                           is_stack=True)
     white_bg = test_dataset.white_bg
     ndc_ray = args.ndc_ray
 

@@ -266,10 +266,12 @@ class ORD(Dataset):
 
         scene_dir = Path(scene_dir)
         if not scene_dir.is_dir():
-            raise ValueError(f"{scene_dir} is not a directory.")
+            raise ValueError(f"scene_dir {scene_dir} is not a directory.")
         
         # Load the training set: {scene_dir}/inputs.
         inputs_dir = scene_dir / "inputs"
+        if not inputs_dir.is_dir():
+            raise ValueError(f"inputs_dir {inputs_dir} is not a directory.")
         train_camera_paths = sorted(inputs_dir.glob("camera_*.txt"))
         train_im_rgb_paths = sorted(inputs_dir.glob("image_*.png"))
         train_im_mask_paths = sorted(inputs_dir.glob("mask_binary_*.png"))

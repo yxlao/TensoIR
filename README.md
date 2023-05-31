@@ -81,6 +81,12 @@ python train_tensoIR_simple.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/ord/antman/test \
   --expname ord_antman
+python train_tensoIR_simple.py \
+   --config ./configs/single_light/ord.txt \
+   --datadir ./data/dataset/ord/antman/test \
+   --render_only 1 \
+   --render_test 1 \
+   --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
 python scripts/relight_importance_simple.py \
   --config configs/relighting_test/ord_relight.txt \
   --batch_size 800 \
