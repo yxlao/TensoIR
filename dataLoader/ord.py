@@ -145,7 +145,7 @@ class ORD(Dataset):
         self.white_bg = True
 
         # Visualize.
-        if True:
+        if False:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
@@ -369,6 +369,8 @@ class ORD(Dataset):
         # Give it some slacks.
         scene_bbox_from_config = np.array([[x_min, y_min, z_min], 
                                            [x_max, y_max, z_max]])
+        print(f"scene_bbox_from_config: {scene_bbox_from_config}")
+
         if scene_dir.name == "test":
             dataset_name = scene_dir.parent.parent.name
         else:
@@ -381,10 +383,11 @@ class ORD(Dataset):
                                     [1.5, 1.5, 1.5]])
         elif dataset_name == "dtu":
             scene_bbox = scene_bbox_from_config
+        elif dataset_name == "bmvs":
+            scene_bbox = scene_bbox_from_config
         else:
             raise ValueError(f"Unknown dataset type: {dataset_name}")
 
-        print(f"scene_bbox_from_config: {scene_bbox_from_config}")
         print(f"scene_bbox            : {scene_bbox} (actually used)")
 
         # Write to result_dict
