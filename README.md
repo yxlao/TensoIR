@@ -101,6 +101,12 @@ python train_ord.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/synth4relight_subsampled/air_baloons \
   --expname synth4relight_subsampled_air_baloons
+
+# ORD (dtu)
+python train_ord.py \
+  --config ./configs/single_light/ord.txt \
+  --datadir ./data/dataset/dtu/scan37 \
+  --expname dtu_scan37
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)

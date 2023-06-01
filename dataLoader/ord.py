@@ -145,7 +145,7 @@ class ORD(Dataset):
         self.white_bg = True
 
         # Visualize.
-        if False:
+        if True:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
@@ -156,7 +156,7 @@ class ORD(Dataset):
                     for pose in self.poses.cpu().numpy()
                 ],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
-                camera_size=0.25,
+                camera_size=self.near_far[0] / 5,
             )
             # plot_rays(
             #     ray_os=self.all_rays[:h * w, :3].cpu().numpy(),
@@ -367,10 +367,25 @@ class ORD(Dataset):
               f"far: {estimated_far:.3f}")
 
         # Give it some slacks.
-        scene_bbox_estimated = np.array([[x_min, y_min, z_min], [x_max, y_max, z_max]])
-        scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
-        print(f"scene_bbox_estimated: {scene_bbox_estimated}")
-        print(f"scene_bbox          : {scene_bbox} (actually used)")
+        scene_bbox_from_config = np.array([[x_min, y_min, z_min], 
+                                           [x_max, y_max, z_max]])
+        if scene_dir.name == "test":
+            dataset_name = scene_dir.parent.parent.name
+        else:
+            dataset_name = scene_dir.parent.name
+        if dataset_name == "ord":
+            scene_bbox = np.array([[-1.5, -1.5, -1.5],
+                                    [1.5, 1.5, 1.5]])
+        elif dataset_name == "synth4relight_subsampled":
+            scene_bbox = np.array([[-1.5, -1.5, -1.5],
+                                    [1.5, 1.5, 1.5]])
+        elif dataset_name == "dtu":
+            scene_bbox = scene_bbox_from_config
+        else:
+            raise ValueError(f"Unknown dataset type: {dataset_name}")
+
+        print(f"scene_bbox_from_config: {scene_bbox_from_config}")
+        print(f"scene_bbox            : {scene_bbox} (actually used)")
 
         # Write to result_dict
         result_dict = {}
