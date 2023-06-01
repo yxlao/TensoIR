@@ -156,7 +156,7 @@ class ORD(Dataset):
                     for pose in self.poses.cpu().numpy()
                 ],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
-                camera_size=0.05,
+                camera_size=0.25,
             )
             # plot_rays(
             #     ray_os=self.all_rays[:h * w, :3].cpu().numpy(),

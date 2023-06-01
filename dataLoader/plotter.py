@@ -158,7 +158,8 @@ def plot_cameras_and_scene_bbox(
     camera_size = 0.1 if camera_size is None else camera_size
     camera_frames = ct.camera.create_camera_ray_frames(Ks,
                                                        Ts,
-                                                       size=camera_size)
+                                                       size=camera_size,
+                                                       center_line=False)
 
     # Scene box frames.
     x_min, y_min, z_min = scene_bbox[0]
