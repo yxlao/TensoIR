@@ -9,6 +9,26 @@ _datasets_scenes = [
     ("ord", "porcelain_mug"),
     ("ord", "tpiece"),
     ("ord", "wood_bowl"),
+    ("synth4relight_subsampled", "air_baloons"),
+    ("synth4relight_subsampled", "chair"),
+    ("synth4relight_subsampled", "hotdog"),
+    ("synth4relight_subsampled", "jugs"),
+    # ("bmvs", "bear"),
+    # ("bmvs", "clock"),
+    # ("bmvs", "dog"),
+    # ("bmvs", "durian"),
+    # ("bmvs", "jade"),
+    # ("bmvs", "man"),
+    # ("bmvs", "sculpture"),
+    # ("bmvs", "stone"),
+    # ("dtu", "scan37"),
+    # ("dtu", "scan40"),
+    # ("dtu", "scan55"),
+    # ("dtu", "scan63"),
+    # ("dtu", "scan65"),
+    # ("dtu", "scan69"),
+    # ("dtu", "scan83"),
+    # ("dtu", "scan97"),
 ]
 
 
@@ -20,6 +40,8 @@ def get_latest_checkpoint_path(dataset, scene):
     Example checkpoint path:
         "log/ord_antman-20230530-181906/checkpoints/ord_antman_70000.th"
     """
+    print(f"Getting the latest checkpoint path for {dataset}_{scene}...")
+
     log_dir = Path("log")
     dataset_scene = f"{dataset}_{scene}"
     exp_dirs = [
@@ -94,22 +116,34 @@ def gen_commands(dataset, scene):
                    f"--geo_buffer_path ./relighting/{dataset}_{scene} "
                    f"--ckpt {ckpt_path}")
 
-    return train_cmd, render_cmd, relight_cmd
+    # Render and relight in one command.
+    render_relight_cmd = (
+        f"python train_ord.py "
+        f"--config ./configs/single_light/{dataset}.txt "
+        f"--datadir ./data/dataset/{dataset}/{scene}/test "
+        f"--expname {dataset}_{scene} "
+        f"--render_only 1 "
+        f"--render_test 1 "
+        f"--ckpt {ckpt_path} && "
+        f"python scripts/relight_ord.py "
+        f"--config configs/relighting_test/{dataset}_relight.txt "
+        f"--batch_size 800 "
+        f"--datadir ./data/dataset/{dataset}/{scene}/test "
+        f"--hdrdir ./data/dataset/{dataset}/{scene}/test "
+        f"--geo_buffer_path ./relighting/{dataset}_{scene} "
+        f"--ckpt {ckpt_path}")
+
+    return train_cmd, render_cmd, relight_cmd, render_relight_cmd
 
 
 def main():
     all_cmds = []
     for dataset, scene in _datasets_scenes:
-        train_cmd, render_cmd, relight_cmd = gen_commands(dataset, scene)
+        train_cmd, render_cmd, relight_cmd, render_relight_cmd = gen_commands(dataset, scene)
         print("######################")
         print(f"{dataset}_{scene}:")
-        print(train_cmd)
-        print(render_cmd)
-        print(relight_cmd)
-
-        # Write render and relight command to a file.
-        all_cmds.append(render_cmd)
-        all_cmds.append(relight_cmd)
+        print(render_relight_cmd)
+        all_cmds.append(render_relight_cmd)
 
     with open("commands.txt", "w") as f:
         f.write("\n".join(all_cmds))
