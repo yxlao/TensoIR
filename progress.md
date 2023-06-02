@@ -1,4 +1,6 @@
 ## Train PSNR at last iteration
+
+### ord (1746x1165) 40-60 train, 9 test
 - ("ord", "antman")                           : train_rgb = 34.85
 - ("ord", "apple")                            : train_rgb = 38.35
 - ("ord", "chest")                            : train_rgb = 37.56
@@ -7,10 +9,14 @@
 - ("ord", "porcelain_mug")                    : train_rgb = 42.08
 - ("ord", "tpiece")                           : train_rgb = 44.25
 - ("ord", "wood_bowl")                        : train_rgb = 40.40
+
+### synth4relight_subsampled (800x800)
 - ("synth4relight_subsampled", "air_baloons") : train_rgb = 37.48
 - ("synth4relight_subsampled", "chair")       : train_rgb = 39.89
 - ("synth4relight_subsampled", "hotdog")      : train_rgb = 42.07
 - ("synth4relight_subsampled", "jugs")        : train_rgb = 44.16
+
+### bmvs (768x576)
 - ("bmvs", "bear")                            : train_rgb = 30.18
 - ("bmvs", "clock")                           : train_rgb = 26.26
 - ("bmvs", "dog")                             : train_rgb = 35.50
@@ -23,6 +29,8 @@
 - ("bmvs", "man")                             : train_rgb = 44.50
 - ("bmvs", "sculpture")                       : train_rgb = 42.16
 - ("bmvs", "stone")                           : train_rgb = 31.41
+
+### dtu (1600x1200)
 - ("dtu", "scan37")                           : train_rgb = 25.10
   - CUDA OOM since iter 10000
   - https://mindfree.alibaba-inc.com/train/detail?id=17741
