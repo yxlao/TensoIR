@@ -27,7 +27,7 @@ class ORD(Dataset):
             light_rotation=None,  # Ignored
             scene_bbox=None,  # Ignored
             is_stack=None,  # Ignored
-            random_test=None, # Ignored
+            random_test=None,  # Ignored
     ):
         # Remember inputs.
         self.scene_dir = scene_dir
@@ -262,12 +262,19 @@ class ORD(Dataset):
             - result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
                                               [x_max, y_max, z_max]].
         """
-
+        # Guess the dataset name for scene_dir. Of course, this is not robust,
+        # but it is enough for now.
+        # TODO: improve this.
+        if scene_dir.name == "test":
+            dataset_name = scene_dir.parent.parent.name
+        else:
+            dataset_name = scene_dir.parent.name
+        print(f"Parsed dataset name from scene_dir: {dataset_name}")
 
         scene_dir = Path(scene_dir)
         if not scene_dir.is_dir():
             raise ValueError(f"scene_dir {scene_dir} is not a directory.")
-        
+
         # Load the training set: {scene_dir}/inputs.
         inputs_dir = scene_dir / "inputs"
         if not inputs_dir.is_dir():
@@ -309,6 +316,50 @@ class ORD(Dataset):
         assert (test_im_masks.shape[-1] == 3)
         test_im_masks = test_im_masks[..., 0]
         print(f"Num test images: {num_test}")
+
+        # For every image in the test set, there is one corresponding
+        # environment light. The environment light may be shared across
+        # multiple images, which is dataset dependent.
+        if dataset_name == "ord":
+            light_names = [
+                "gt_env_512_rotated_0000",
+                "gt_env_512_rotated_0001",
+                "gt_env_512_rotated_0002",
+                "gt_env_512_rotated_0003",
+                "gt_env_512_rotated_0004"
+                "gt_env_512_rotated_0005",
+                "gt_env_512_rotated_0006",
+                "gt_env_512_rotated_0007",
+                "gt_env_512_rotated_0008",
+            ]
+        elif dataset_name == "synth4relight_subsampled":
+            light_names = []
+            light_names += ["gt_env_512_rotated_0000"] * 13
+            light_names += ["gt_env_512_rotated_0013"] * 13
+            light_names += ["gt_env_512_rotated_0026"] * 13
+        elif dataset_name == "dtu":
+            light_names = [None] * num_test
+        elif dataset_name == "bmvs":
+            light_names = [None] * num_test
+        else:
+            raise ValueError(f"Unknown dataset type: {dataset_name}")
+        # Print.
+        print("Found test lights:")
+        for test_im_rgb_path, light_name in zip(test_im_rgb_paths,
+                                                light_names):
+            print(f"- {test_im_rgb_path.name}: {light_name}")
+        # Check numbers matching.
+        if num_test != len(light_names):
+            raise ValueError(
+                f"num_test ({num_test}) != len(light_names) ({len(light_names)})."
+            )
+        # Check .hdr file exist.
+        for light_name in light_names:
+            if light_name is None:
+                continue
+            light_path = scene_dir / f"{light_name}.hdr"
+            if not light_path.is_file():
+                raise ValueError(f"Light path {light_path} does not exist.")
 
         # Downsample: changes the image and intrinsics
         if downsample != 1.0:
@@ -367,20 +418,14 @@ class ORD(Dataset):
               f"far: {estimated_far:.3f}")
 
         # Give it some slacks.
-        scene_bbox_from_config = np.array([[x_min, y_min, z_min], 
+        scene_bbox_from_config = np.array([[x_min, y_min, z_min],
                                            [x_max, y_max, z_max]])
         print(f"scene_bbox_from_config: {scene_bbox_from_config}")
 
-        if scene_dir.name == "test":
-            dataset_name = scene_dir.parent.parent.name
-        else:
-            dataset_name = scene_dir.parent.name
         if dataset_name == "ord":
-            scene_bbox = np.array([[-1.5, -1.5, -1.5],
-                                    [1.5, 1.5, 1.5]])
+            scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         elif dataset_name == "synth4relight_subsampled":
-            scene_bbox = np.array([[-1.5, -1.5, -1.5],
-                                    [1.5, 1.5, 1.5]])
+            scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         elif dataset_name == "dtu":
             scene_bbox = scene_bbox_from_config
         elif dataset_name == "bmvs":
@@ -402,6 +447,7 @@ class ORD(Dataset):
         result_dict["test_im_masks"] = torch.tensor(test_im_masks).float()
         result_dict["scene_bbox"] = torch.tensor(scene_bbox).float()
         result_dict["near_far"] = [estimated_near, estimated_far]
+        result_dict["light_names"] = light_names
 
         return result_dict
 
