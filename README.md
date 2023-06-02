@@ -107,6 +107,13 @@ python train_ord.py \
   --config ./configs/single_light/ord.txt \
   --datadir ./data/dataset/dtu/scan37 \
   --expname dtu_scan37
+python train_ord.py \
+   --config ./configs/single_light/ord.txt \
+   --datadir ./data/dataset/dtu/scan37 \
+   --expname dtu_scan37 \
+   --render_only 1 \
+   --render_test 1 \
+   --ckpt log/dtu_scan37-20230602-144207/checkpoints/dtu_scan37_10000.th
 
 # ORD (bmvs)
 python train_ord.py \
