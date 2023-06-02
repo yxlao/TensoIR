@@ -94,13 +94,13 @@ def gen_commands(dataset, scene):
 
     # Train.
     train_cmd = (f"python train_ord.py "
-                 f"--config ./configs/single_light/{dataset}.txt "
+                 f"--config ./configs/single_light/ord.txt "
                  f"--datadir ./data/dataset/{dataset}/{scene}/test "
                  f"--expname {dataset}_{scene}")
 
     # Render.
     render_cmd = (f"python train_ord.py "
-                  f"--config ./configs/single_light/{dataset}.txt "
+                  f"--config ./configs/single_light/ord.txt "
                   f"--datadir ./data/dataset/{dataset}/{scene}/test "
                   f"--expname {dataset}_{scene} "
                   f"--render_only 1 "
@@ -109,7 +109,7 @@ def gen_commands(dataset, scene):
 
     # Relighting.
     relight_cmd = (f"python scripts/relight_ord.py "
-                   f"--config configs/relighting_test/{dataset}_relight.txt "
+                   f"--config configs/relighting_test/ord_relight.txt "
                    f"--batch_size 800 "
                    f"--datadir ./data/dataset/{dataset}/{scene}/test "
                    f"--hdrdir ./data/dataset/{dataset}/{scene}/test "
@@ -119,14 +119,14 @@ def gen_commands(dataset, scene):
     # Render and relight in one command.
     render_relight_cmd = (
         f"python train_ord.py "
-        f"--config ./configs/single_light/{dataset}.txt "
+        f"--config ./configs/single_light/ord.txt "
         f"--datadir ./data/dataset/{dataset}/{scene}/test "
         f"--expname {dataset}_{scene} "
         f"--render_only 1 "
         f"--render_test 1 "
         f"--ckpt {ckpt_path} && "
         f"python scripts/relight_ord.py "
-        f"--config configs/relighting_test/{dataset}_relight.txt "
+        f"--config configs/relighting_test/ord_relight.txt "
         f"--batch_size 800 "
         f"--datadir ./data/dataset/{dataset}/{scene}/test "
         f"--hdrdir ./data/dataset/{dataset}/{scene}/test "
