@@ -92,16 +92,18 @@ def gen_commands(dataset, scene):
     ckpt_path = get_latest_checkpoint_path(dataset, scene)
     print(f"{dataset}_{scene}: {ckpt_path}")
 
+    test_suffix = "test" if dataset == "ord" else ""
+
     # Train.
     train_cmd = (f"python train_ord.py "
                  f"--config ./configs/single_light/ord.txt "
-                 f"--datadir ./data/dataset/{dataset}/{scene}/test "
+                 f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
                  f"--expname {dataset}_{scene}")
 
     # Render.
     render_cmd = (f"python train_ord.py "
                   f"--config ./configs/single_light/ord.txt "
-                  f"--datadir ./data/dataset/{dataset}/{scene}/test "
+                  f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
                   f"--expname {dataset}_{scene} "
                   f"--render_only 1 "
                   f"--render_test 1 "
@@ -111,8 +113,8 @@ def gen_commands(dataset, scene):
     relight_cmd = (f"python scripts/relight_ord.py "
                    f"--config configs/relighting_test/ord_relight.txt "
                    f"--batch_size 800 "
-                   f"--datadir ./data/dataset/{dataset}/{scene}/test "
-                   f"--hdrdir ./data/dataset/{dataset}/{scene}/test "
+                   f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+                   f"--hdrdir ./data/dataset/{dataset}/{scene}/{test_suffix} "
                    f"--geo_buffer_path ./relighting/{dataset}_{scene} "
                    f"--ckpt {ckpt_path}")
 
@@ -120,7 +122,7 @@ def gen_commands(dataset, scene):
     render_relight_cmd = (
         f"python train_ord.py "
         f"--config ./configs/single_light/ord.txt "
-        f"--datadir ./data/dataset/{dataset}/{scene}/test "
+        f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
         f"--expname {dataset}_{scene} "
         f"--render_only 1 "
         f"--render_test 1 "
@@ -128,8 +130,8 @@ def gen_commands(dataset, scene):
         f"python scripts/relight_ord.py "
         f"--config configs/relighting_test/ord_relight.txt "
         f"--batch_size 800 "
-        f"--datadir ./data/dataset/{dataset}/{scene}/test "
-        f"--hdrdir ./data/dataset/{dataset}/{scene}/test "
+        f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+        f"--hdrdir ./data/dataset/{dataset}/{scene}/{test_suffix} "
         f"--geo_buffer_path ./relighting/{dataset}_{scene} "
         f"--ckpt {ckpt_path}")
 
