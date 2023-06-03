@@ -145,6 +145,7 @@ def plot_cameras_and_scene_bbox(
     Ks,
     Ts,
     scene_bbox,
+    mesh=None,
     camera_size=None,
     load_cache: bool = True,
     update_cache: bool = True,
@@ -195,6 +196,10 @@ def plot_cameras_and_scene_bbox(
         np.array([[1, 0, 0]] * len(scene_bbox_lines)))
 
     geometries = [scene_bbox_frame, camera_frames]
+
+    if mesh is not None:
+        mesh.compute_vertex_normals()
+        geometries.append(mesh)
 
     # Handle cache.
     if load_cache:

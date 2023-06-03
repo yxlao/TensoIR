@@ -6,15 +6,14 @@ from typing import List
 import camtools as ct
 import cv2
 import numpy as np
+import open3d as o3d
 import torch
+from matplotlib import pyplot as plt
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from dataLoader.plotter import plot_cameras_and_scene_bbox, plot_rays
-
 from dataLoader.ray_utils import get_ray_directions, get_rays
-
-from matplotlib import pyplot as plt
 
 
 class ORD(Dataset):
@@ -138,7 +137,8 @@ class ORD(Dataset):
         self.is_stack = False
         self.meta = None
         self.near_far = near_far
-        self.poses = torch.stack([torch.linalg.inv(T) for T in Ts]).float()
+        self.poses = torch.tensor(
+            np.array([ct.convert.T_to_pose(T.numpy()) for T in Ts])).float()
         self.proj_mat = None
         self.root_dir = None
         self.split = self.split
@@ -146,7 +146,7 @@ class ORD(Dataset):
         self.white_bg = True
 
         # Visualize.
-        if False:
+        if True:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
@@ -157,6 +157,7 @@ class ORD(Dataset):
                     for pose in self.poses.cpu().numpy()
                 ],
                 scene_bbox=self.scene_bbox.cpu().numpy(),
+                mesh=result_dict["mesh"],
                 camera_size=self.near_far[0] / 5,
             )
             # plot_rays(
@@ -252,6 +253,19 @@ class ORD(Dataset):
         return Ks, Ts
 
     @staticmethod
+    def transform_T_with_normalize_mat(T, normalize_mat):
+        """
+        Transform T with normalize_mat computed by ct.normalize.compute_normalize_mat().
+        """
+        C = ct.convert.T_to_C(T)
+        C_new = ct.project.homo_project(C.reshape((-1, 3)),
+                                        normalize_mat).flatten()
+        pose_new = np.linalg.inv(T)
+        pose_new[:3, 3] = C_new
+        T_new = ct.convert.pose_to_T(pose_new)
+        return T_new
+
+    @staticmethod
     def parse_ord_dataset(scene_dir, downsample=1.0):
         """
         Parse train, test, and env light data from the scene directory.
@@ -271,6 +285,7 @@ class ORD(Dataset):
             - result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
                                               [x_max, y_max, z_max]].
             - result_dict["light_names"]   : (num_env_lights, 3).
+            - result_dict["mesh"]          : open3d.geometry.TriangleMesh GT mesh.
         """
         scene_dir = Path(scene_dir)
         if not scene_dir.is_dir():
@@ -285,6 +300,21 @@ class ORD(Dataset):
             dataset_name = scene_dir.parent.name
         print(f"Parsed dataset name from scene_dir: {dataset_name}")
 
+        # Load the ground-truth mesh, this is privileged information, it is only
+        # used for scaling the scene, and it shall NOT be used for training.
+        mesh_path = scene_dir / "neus_mesh.ply"
+        if not mesh_path.is_file():
+            raise ValueError(f"mesh_path {mesh_path} does not exist.")
+        mesh = o3d.io.read_triangle_mesh(str(mesh_path))
+        print(f"Loaded mesh from {mesh_path}")
+        mesh.compute_vertex_normals()
+        points = np.array(mesh.vertices)
+        normalize_mat = ct.normalize.compute_normalize_mat(points)
+        if dataset_name == "dtu" or dataset_name == "bmvs":
+            print("Normalize mesh with normalize_mat")
+            points_normalized = ct.project.homo_project(points, normalize_mat)
+            mesh.vertices = o3d.utility.Vector3dVector(points_normalized)
+
         # Load the training set: {scene_dir}/inputs.
         inputs_dir = scene_dir / "inputs"
         if not inputs_dir.is_dir():
@@ -297,6 +327,12 @@ class ORD(Dataset):
         assert num_train == len(train_im_rgb_paths)
         assert num_train == len(train_im_mask_paths)
         train_Ks, train_Ts = ORD.read_cameras_from_txts(train_camera_paths)
+        if dataset_name == "dtu" or dataset_name == "bmvs":
+            print("Normalize train_Ts with normalize_mat.")
+            train_Ts = [
+                ORD.transform_T_with_normalize_mat(train_T, normalize_mat)
+                for train_T in train_Ts
+            ]
         # (num_train, h, w, 3)
         train_im_rgbs = np.array([ct.io.imread(p) for p in train_im_rgb_paths])
         # (num_train, 1165, 1746), float, from 0-1
@@ -317,6 +353,12 @@ class ORD(Dataset):
         assert num_test == len(test_im_rgb_paths)
         assert num_test == len(test_im_mask_paths)
         test_Ks, test_Ts = ORD.read_cameras_from_txts(test_camera_paths)
+        if dataset_name == "dtu" or dataset_name == "bmvs":
+            print("Normalize test_Ts with normalize_mat.")
+            test_Ts = [
+                ORD.transform_T_with_normalize_mat(test_T, normalize_mat)
+                for test_T in test_Ts
+            ]
         # (num_test, h, w, 3)
         test_im_rgbs = np.array([ct.io.imread(p) for p in test_im_rgb_paths])
         # (num_test, 1165, 1746), float, from 0-1
@@ -406,6 +448,17 @@ class ORD(Dataset):
         bbox = np.loadtxt(bbox_path)
         x_min, x_max, y_min, y_max, z_min, z_max = bbox
 
+        if dataset_name == "dtu" or dataset_name == "bmvs":
+            print("Normalize the bounding box.")
+            bbox_diag_vertices = np.array([
+                [x_min, y_min, z_min],
+                [x_max, y_max, z_max],
+            ])
+            bbox_diag_vertices = ct.project.homo_project(bbox_diag_vertices,
+                                                        normalize_mat)
+            x_min, y_min, z_min = bbox_diag_vertices[0]
+            x_max, y_max, z_max = bbox_diag_vertices[1]
+
         # Compute min/max distance to bounding box vertex to get near far estimate.
         # Camera centers (N, 3)
         train_Cs = np.array([ct.convert.T_to_C(T) for T in train_Ts])
@@ -430,20 +483,20 @@ class ORD(Dataset):
         # Give it some slacks.
         scene_bbox_from_config = np.array([[x_min, y_min, z_min],
                                            [x_max, y_max, z_max]])
-        print(f"scene_bbox_from_config: {scene_bbox_from_config}")
+        print(f"scene_bbox_from_config:\n{scene_bbox_from_config}")
 
         if dataset_name == "ord":
             scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         elif dataset_name == "synth4relight_subsampled":
             scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         elif dataset_name == "dtu":
-            scene_bbox = scene_bbox_from_config
+            scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         elif dataset_name == "bmvs":
-            scene_bbox = scene_bbox_from_config
+            scene_bbox = np.array([[-1.5, -1.5, -1.5], [1.5, 1.5, 1.5]])
         else:
             raise ValueError(f"Unknown dataset type: {dataset_name}")
 
-        print(f"scene_bbox            : {scene_bbox} (actually used)")
+        print(f"scene_bbox            :\n{scene_bbox} (actually used)")
 
         # Write to result_dict
         result_dict = {}
@@ -458,6 +511,7 @@ class ORD(Dataset):
         result_dict["scene_bbox"] = torch.tensor(scene_bbox).float()
         result_dict["near_far"] = [estimated_near, estimated_far]
         result_dict["light_names"] = light_names
+        result_dict["mesh"] = mesh
 
         return result_dict
 
