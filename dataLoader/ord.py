@@ -146,7 +146,7 @@ class ORD(Dataset):
         self.white_bg = True
 
         # Visualize.
-        if True:
+        if False:
             plot_cameras_and_scene_bbox(
                 Ks=[
                     self.intrinsics.cpu().numpy()
