@@ -6,12 +6,12 @@ import camtools as ct
 script_dir = Path(__file__).parent.absolute()
 
 
-def prepare_ord_relight():
-    with open(script_dir / "ord_relight.json", "r") as f:
-        ord_relight_list = json.load(f)
+def prepare_relight(json_path):
+    with open(json_path, "r") as f:
+        eval_items = json.load(f)
 
     # Check.
-    for eval_item in ord_relight_list:
+    for eval_item in eval_items:
         gt_path = Path(eval_item["gt_path"])
         pd_src_path = Path(eval_item["pd_src_path"])
         if not gt_path.exists():
@@ -21,7 +21,7 @@ def prepare_ord_relight():
 
     # Prepare.
     # Copy pd_src_path -> pd_dst_path, mkdir if not exists.
-    for eval_item in ord_relight_list:
+    for eval_item in eval_items:
         pd_src_path = Path(eval_item["pd_src_path"])
         pd_dst_path = Path(eval_item["pd_dst_path"])
         pd_dst_path.parent.mkdir(parents=True, exist_ok=True)
@@ -29,12 +29,12 @@ def prepare_ord_relight():
         print(f"Copy {pd_src_path} -> {pd_dst_path}")
 
 
-def prepare_ord_nvs():
-    with open(script_dir / "ord_nvs.json", "r") as f:
-        ord_nvs_list = json.load(f)
+def prepare_nvs(json_path):
+    with open(json_path, "r") as f:
+        eval_items = json.load(f)
 
     # Check.
-    for eval_item in ord_nvs_list:
+    for eval_item in eval_items:
         gt_path = Path(eval_item["gt_path"])
         pd_src_path = Path(eval_item["pd_src_path"])
         if not gt_path.exists():
@@ -45,7 +45,7 @@ def prepare_ord_nvs():
     # Prepare.
     # Copy pd_src_path -> pd_dst_path, mkdir if not exists.
     # Instead of simple copying, we need to crop the image by the left 1/3.
-    for eval_item in ord_nvs_list:
+    for eval_item in eval_items:
         pd_src_path = Path(eval_item["pd_src_path"])
         pd_dst_path = Path(eval_item["pd_dst_path"])
 
@@ -69,8 +69,11 @@ def main():
         print(f"Removing {eval_relight_dir}")
         shutil.rmtree(eval_relight_dir)
 
-    prepare_ord_relight()
-    prepare_ord_nvs()
+    prepare_relight(script_dir / "ord_relight.json")
+    prepare_nvs(script_dir / "ord_nvs.json")
+
+    # prepare_relight(script_dir / "synth4relight_relight.json")
+    # prepare_nvs(script_dir / "synth4relight_nvs.json")
 
 
 if __name__ == "__main__":
