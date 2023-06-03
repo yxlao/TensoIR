@@ -101,7 +101,7 @@ def main():
     prepare_nvs(script_dir / "ord_nvs.json")
 
     prepare_relight(script_dir / "synth4relight_relight.json")
-    # prepare_nvs(script_dir / "synth4relight_nvs.json")
+    prepare_nvs(script_dir / "synth4relight_nvs.json")
 
 
 if __name__ == "__main__":
