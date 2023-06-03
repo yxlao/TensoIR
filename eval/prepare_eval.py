@@ -6,14 +6,18 @@ script_dir = Path(__file__).parent.absolute()
 
 def main():
     with open(script_dir / "ord_relight.json", "r") as f:
-        ord_dict = json.load(f)
+        ord_relight_list = json.load(f)
+    with open(script_dir / "ord_nvs.json", "r") as f:
+        ord_nvs_list = json.load(f)
 
     # Check gt_path and pd_src_path exist.
-    for ord_item in ord_dict:
-        gt_path = Path(ord_item["gt_path"])
-        pd_src_path = Path(ord_item["pd_src_path"])
+    for eval_item in ord_relight_list + ord_nvs_list:
+        gt_path = Path(eval_item["gt_path"])
+        pd_src_path = Path(eval_item["pd_src_path"])
         if not gt_path.exists():
-            print(f"{gt_path} not found.")
+            print(f"{gt_path} does not exist.")
+        if not pd_src_path.exists():
+            print(f"{pd_src_path} does not exist.")
 
 
 if __name__ == "__main__":
