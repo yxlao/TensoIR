@@ -2,6 +2,8 @@ data/
 log/
 relighting/
 ossutil_output/
+eval_nvs/
+eval_relight/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
