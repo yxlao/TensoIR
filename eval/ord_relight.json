@@ -1,362 +1,362 @@
 [
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_antman/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_antman/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_antman/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_antman/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_antman/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_antman/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_antman/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_antman/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/antman/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/antman/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/antman/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_antman/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_apple/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_apple/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_apple/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_apple/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_apple/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_apple/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_apple/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_apple/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/apple/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/apple/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/apple/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_apple/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_chest/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_chest/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_chest/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_chest/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_chest/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_chest/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_chest/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_chest/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/chest/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/chest/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/chest/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_chest/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_gamepad/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_gamepad/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_gamepad/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_gamepad/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_gamepad/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_gamepad/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_gamepad/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_gamepad/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/gamepad/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/gamepad/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/gamepad/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_gamepad/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/ping_pong_racket/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/ping_pong_racket/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_ping_pong_racket/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/porcelain_mug/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/porcelain_mug/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_porcelain_mug/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_tpiece/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_tpiece/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_tpiece/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_tpiece/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_tpiece/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_tpiece/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_tpiece/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_tpiece/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/tpiece/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/tpiece/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/tpiece/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_tpiece/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0000.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0000.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0000.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_000/linear_with_bg/gt_env_512_rotated_0000.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0001.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0001.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0001.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_001/linear_with_bg/gt_env_512_rotated_0001.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0002.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0002.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0002.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_002/linear_with_bg/gt_env_512_rotated_0002.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0003.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0003.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0003.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_003/linear_with_bg/gt_env_512_rotated_0003.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0004.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0004.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0004.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_004/linear_with_bg/gt_env_512_rotated_0004.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0005.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0005.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0005.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_005/linear_with_bg/gt_env_512_rotated_0005.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0006.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0006.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0006.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_006/linear_with_bg/gt_env_512_rotated_0006.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0007.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0007.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0007.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_007/linear_with_bg/gt_env_512_rotated_0007.npy"
     },
     {
         "gt_path": "data/dataset/ord/wood_bowl/test/gt_image_0008.png",
-        "pd_dst_path": "eval_relight/ord/wood_bowl/test/gt_image_0008.png",
+        "pd_dst_path": "eval_relight/ord/wood_bowl/test/pd_image_0008.npy",
         "pd_src_path": "relighting/ord_wood_bowl/test_008/linear_with_bg/gt_env_512_rotated_0008.npy"
     }
 ]
