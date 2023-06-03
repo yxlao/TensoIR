@@ -54,7 +54,7 @@ def prepare_ord_nvs():
         src_shape = im_pd.shape
         im_pd = im_pd[:, :src_shape[1] // 3, :]
         dst_shape = im_pd.shape
-        ct.io.imwrite(im_pd, pd_dst_path)
+        ct.io.imwrite(pd_dst_path, im_pd)
         print(f"Copy {pd_src_path} -> {pd_dst_path}, "
               f"shape: {src_shape} -> {dst_shape}")
 
