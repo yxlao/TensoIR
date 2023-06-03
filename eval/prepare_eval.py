@@ -6,22 +6,50 @@ import camtools as ct
 script_dir = Path(__file__).parent.absolute()
 
 
-def prepare_relight(json_path):
-    with open(json_path, "r") as f:
-        eval_items = json.load(f)
+def all_eval_items_are_valid(eval_items):
+    """
+    eval_items: list of dicts, with key: "gt_path", "pd_src_path", "pd_dst_path".
 
-    # Check.
-    found_invalid = False
+    Return True if all paths are valid.
+    """
+    all_paths = set()
+    is_path_missing = False
+    is_path_duplicated = False
     for eval_item in eval_items:
         gt_path = Path(eval_item["gt_path"])
         pd_src_path = Path(eval_item["pd_src_path"])
+        pd_dst_path = Path(eval_item["pd_dst_path"])
+
         if not gt_path.exists():
-            found_invalid = True
+            is_path_missing = True
             print(f"{gt_path} does not exist.")
         if not pd_src_path.exists():
-            found_invalid = True
+            is_path_missing = True
             print(f"{pd_src_path} does not exist.")
-    if found_invalid:
+
+        if gt_path in all_paths:
+            is_path_duplicated = True
+            print(f"{gt_path} is duplicated.")
+        else:
+            all_paths.add(gt_path)
+        if pd_src_path in all_paths:
+            is_path_duplicated = True
+            print(f"{pd_src_path} is duplicated.")
+        else:
+            all_paths.add(pd_src_path)
+        if pd_dst_path in all_paths:
+            is_path_duplicated = True
+            print(f"{pd_dst_path} is duplicated.")
+        else:
+            all_paths.add(pd_dst_path)
+
+    return not is_path_missing and not is_path_duplicated
+
+
+def prepare_relight(json_path):
+    with open(json_path, "r") as f:
+        eval_items = json.load(f)
+    if not all_eval_items_are_valid(eval_items):
         print("Aborted.")
         return
 
@@ -38,19 +66,7 @@ def prepare_relight(json_path):
 def prepare_nvs(json_path):
     with open(json_path, "r") as f:
         eval_items = json.load(f)
-
-    # Check.
-    found_invalid = False
-    for eval_item in eval_items:
-        gt_path = Path(eval_item["gt_path"])
-        pd_src_path = Path(eval_item["pd_src_path"])
-        if not gt_path.exists():
-            found_invalid = True
-            print(f"{gt_path} does not exist.")
-        if not pd_src_path.exists():
-            found_invalid = True
-            print(f"{pd_src_path} does not exist.")
-    if found_invalid:
+    if not all_eval_items_are_valid(eval_items):
         print("Aborted.")
         return
 
@@ -81,8 +97,8 @@ def main():
         print(f"Removing {eval_relight_dir}")
         shutil.rmtree(eval_relight_dir)
 
-    # prepare_relight(script_dir / "ord_relight.json")
-    # prepare_nvs(script_dir / "ord_nvs.json")
+    prepare_relight(script_dir / "ord_relight.json")
+    prepare_nvs(script_dir / "ord_nvs.json")
 
     prepare_relight(script_dir / "synth4relight_relight.json")
     # prepare_nvs(script_dir / "synth4relight_nvs.json")
