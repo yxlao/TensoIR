@@ -1,0 +1,123 @@
+dtu
+|-- scan37
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan40
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan55
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan63
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan65
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan69
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+|-- scan83
+|   |-- gt_camera_0000.txt
+|   |-- gt_camera_0001.txt
+|   |-- gt_camera_0002.txt
+|   |-- gt_camera_0003.txt
+|   |-- gt_image_0000.png
+|   |-- gt_image_0001.png
+|   |-- gt_image_0002.png
+|   |-- gt_image_0003.png
+|   |-- gt_mask_0000.png
+|   |-- gt_mask_0001.png
+|   |-- gt_mask_0002.png
+|   |-- gt_mask_0003.png
+|   |-- inputs
+|   `-- neus_mesh.ply
+`-- scan97
+    |-- gt_camera_0000.txt
+    |-- gt_camera_0001.txt
+    |-- gt_camera_0002.txt
+    |-- gt_camera_0003.txt
+    |-- gt_image_0000.png
+    |-- gt_image_0001.png
+    |-- gt_image_0002.png
+    |-- gt_image_0003.png
+    |-- gt_mask_0000.png
+    |-- gt_mask_0001.png
+    |-- gt_mask_0002.png
+    |-- gt_mask_0003.png
+    |-- inputs
+    `-- neus_mesh.ply
+
+16 directories, 104 files
