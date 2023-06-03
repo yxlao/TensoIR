@@ -11,13 +11,19 @@ def prepare_relight(json_path):
         eval_items = json.load(f)
 
     # Check.
+    found_invalid = False
     for eval_item in eval_items:
         gt_path = Path(eval_item["gt_path"])
         pd_src_path = Path(eval_item["pd_src_path"])
         if not gt_path.exists():
+            found_invalid = True
             print(f"{gt_path} does not exist.")
         if not pd_src_path.exists():
+            found_invalid = True
             print(f"{pd_src_path} does not exist.")
+    if found_invalid:
+        print("Aborted.")
+        return
 
     # Prepare.
     # Copy pd_src_path -> pd_dst_path, mkdir if not exists.
@@ -34,13 +40,19 @@ def prepare_nvs(json_path):
         eval_items = json.load(f)
 
     # Check.
+    found_invalid = False
     for eval_item in eval_items:
         gt_path = Path(eval_item["gt_path"])
         pd_src_path = Path(eval_item["pd_src_path"])
         if not gt_path.exists():
+            found_invalid = True
             print(f"{gt_path} does not exist.")
         if not pd_src_path.exists():
+            found_invalid = True
             print(f"{pd_src_path} does not exist.")
+    if found_invalid:
+        print("Aborted.")
+        return
 
     # Prepare.
     # Copy pd_src_path -> pd_dst_path, mkdir if not exists.
@@ -69,10 +81,10 @@ def main():
         print(f"Removing {eval_relight_dir}")
         shutil.rmtree(eval_relight_dir)
 
-    prepare_relight(script_dir / "ord_relight.json")
-    prepare_nvs(script_dir / "ord_nvs.json")
+    # prepare_relight(script_dir / "ord_relight.json")
+    # prepare_nvs(script_dir / "ord_nvs.json")
 
-    # prepare_relight(script_dir / "synth4relight_relight.json")
+    prepare_relight(script_dir / "synth4relight_relight.json")
     # prepare_nvs(script_dir / "synth4relight_nvs.json")
 
 
