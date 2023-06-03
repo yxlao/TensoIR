@@ -48,6 +48,7 @@ class ORD(Dataset):
             Ts = result_dict["test_Ts"]
             im_rgbs = result_dict["test_im_rgbs"]
             im_masks = result_dict["test_im_masks"]
+            self.light_names = result_dict["light_names"]
         else:
             raise ValueError(f"split must be train, test or val, got {split}.")
 
@@ -207,12 +208,18 @@ class ORD(Dataset):
                                                        height * width, 1)
 
             sample = {
-                'img_wh': self.img_wh,  # (int, int)
-                'light_idx': all_light_idx[idx].view(-1, wth,
-                                                     1),  # [light_num, H*W, 1]
-                'rays': all_rays[idx],  # [H*W, 6]
-                'rgbs': all_rgbs[idx].view(-1, wth, 3),  # [light_num, H*W, 3]
-                'rgbs_mask': all_masks[idx]  # [H*W, 1]
+                # (int, int)
+                'img_wh': self.img_wh,
+                # [light_num, H*W, 1]
+                'light_idx': all_light_idx[idx].view(-1, wth, 1),
+                # [H*W, 6]
+                'rays': all_rays[idx],
+                # [light_num, H*W, 3]
+                'rgbs': all_rgbs[idx].view(-1, wth, 3),
+                # [H*W, 1]
+                'rgbs_mask': all_masks[idx],
+                # str, currently, lights for test views are hard-coded
+                'light_name': self.light_names[idx],
             }
             print(f"light_idx.shape: {sample['light_idx'].shape}")
             print(f"rays.shape     : {sample['rays'].shape}")
@@ -247,8 +254,10 @@ class ORD(Dataset):
     @staticmethod
     def parse_ord_dataset(scene_dir, downsample=1.0):
         """
+        Parse train, test, and env light data from the scene directory.
+
         Args:
-            - scene_dir: 
+            - scene_dir: Scene directory, contianing both train and test.
 
         Return:
             - result_dict["train_Ks"]      : (num_train, 3, 3).
@@ -261,7 +270,12 @@ class ORD(Dataset):
             - result_dict["test_im_masks"] : (num_test, height, width), 0-1, float.
             - result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
                                               [x_max, y_max, z_max]].
+            - result_dict["light_names"]   : (num_env_lights, 3).
         """
+        scene_dir = Path(scene_dir)
+        if not scene_dir.is_dir():
+            raise ValueError(f"scene_dir {scene_dir} is not a directory.")
+
         # Guess the dataset name for scene_dir. Of course, this is not robust,
         # but it is enough for now.
         # TODO: improve this.
@@ -270,10 +284,6 @@ class ORD(Dataset):
         else:
             dataset_name = scene_dir.parent.name
         print(f"Parsed dataset name from scene_dir: {dataset_name}")
-
-        scene_dir = Path(scene_dir)
-        if not scene_dir.is_dir():
-            raise ValueError(f"scene_dir {scene_dir} is not a directory.")
 
         # Load the training set: {scene_dir}/inputs.
         inputs_dir = scene_dir / "inputs"
