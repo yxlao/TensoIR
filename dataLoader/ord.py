@@ -336,7 +336,7 @@ class ORD(Dataset):
                 "gt_env_512_rotated_0001",
                 "gt_env_512_rotated_0002",
                 "gt_env_512_rotated_0003",
-                "gt_env_512_rotated_0004"
+                "gt_env_512_rotated_0004",
                 "gt_env_512_rotated_0005",
                 "gt_env_512_rotated_0006",
                 "gt_env_512_rotated_0007",
