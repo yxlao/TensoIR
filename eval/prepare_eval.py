@@ -60,6 +60,15 @@ def prepare_ord_nvs():
 
 
 def main():
+    eval_nvs_dir = script_dir.parent / "eval_nvs"
+    eval_relight_dir = script_dir.parent / "eval_relight"
+    if eval_nvs_dir.is_dir():
+        print(f"Removing {eval_nvs_dir}")
+        shutil.rmtree(eval_nvs_dir)
+    if eval_relight_dir.is_dir():
+        print(f"Removing {eval_relight_dir}")
+        shutil.rmtree(eval_relight_dir)
+
     prepare_ord_relight()
     prepare_ord_nvs()
 
