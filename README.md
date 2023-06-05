@@ -117,9 +117,16 @@ python train_ord.py \
 
 # ORD (bmvs)
 python train_ord.py \
-  --config ./configs/single_light/ord.txt \
-  --datadir ./data/dataset/bmvs/bear \
-  --expname bmvs_bear
+  --config ./configs/single_light/ord.txt \ 
+  --datadir ./data/dataset/bmvs/man \
+  --expname bmvs_man
+python train_ord.py \
+   --config ./configs/single_light/ord.txt \
+   --datadir ./data/dataset/bmvs/man \
+   --expname bmvs_man \
+   --render_only 1 \
+   --render_test 1 \
+   --ckpt log/bmvs_man-20230604-002748/checkpoints/bmvs_man_70000.th
 ```
 
 ## [Project Page](https://haian-jin.github.io/TensoIR/) |  [Paper](https://arxiv.org/abs/2304.12461)
