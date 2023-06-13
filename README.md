@@ -55,9 +55,13 @@ dependencies as well.
 pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0 ipdb matplotlib
 ```
 
-## Train
+## Train, NVS, and Relighting
 
-### object-relighting-dataset (ord)
+We provide example commands for running training, novel view synthesis (NVS)
+and relighting.
+
+We also provide `gen_commands.py` to automatically generate commands to run
+novel view synthesis and relighting using the latest checkpoint. 
 
 ```bash
 export PYTHONPATH=.
@@ -89,48 +93,17 @@ python scripts/relight_ord.py \
   --ckpt log/ord_antman-xxx-xxx/checkpoints/ord_antman_xxx.th
 ```
 
-### ORD (synth4relight_subsampled)
+## Evaluation
 
-```bash
+We provide lists of files for evaluation.
 
-# Train
-python train_ord.py \
-  --config ./configs/single_light/ord.txt \
-  --datadir ./data/dataset/synth4relight_subsampled/air_baloons \
-  --expname synth4relight_subsampled_air_baloons
-
-# Novel view synthesis
-
-```
-
-### ORD (dtu)
-
-```bash
-python train_ord.py \
-  --config ./configs/single_light/ord.txt \
-  --datadir ./data/dataset/dtu/scan37 \
-  --expname dtu_scan37
-python train_ord.py \
-   --config ./configs/single_light/ord.txt \
-   --datadir ./data/dataset/dtu/scan37 \
-   --expname dtu_scan37 \
-   --render_only 1 \
-   --render_test 1 \
-   --ckpt log/dtu_scan37-20230602-144207/checkpoints/dtu_scan37_10000.th
-```
-
-### ORD (bmvs)
-
-```bash
-python train_ord.py \
-  --config ./configs/single_light/ord.txt \ 
-  --datadir ./data/dataset/bmvs/man \
-  --expname bmvs_man
-python train_ord.py \
-   --config ./configs/single_light/ord.txt \
-   --datadir ./data/dataset/bmvs/man \
-   --expname bmvs_man \
-   --render_only 1 \
-   --render_test 1 \
-   --ckpt log/bmvs_man-20230604-002748/checkpoints/bmvs_man_70000.th
-```
+```bash                  
+eval
+├── bmvs_nvs.json              # List of files for NVS on BMVS
+├── dtu_nvs.json               # List of files for NVS on DTU
+├── ord_nvs.json               # List of files for NVS on object-relighting-dataset
+├── ord_relight.json           # List of files for relighting on object-relighting-dataset
+├── prepare_eval.py            # Copy the files to the evaluation folder
+├── synth4relight_nvs.json     # List of files for NVS on synth4relight
+└── synth4relight_relight.json # List of files for relighting on synth4relight
+``` 
