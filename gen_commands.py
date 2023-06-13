@@ -1,18 +1,18 @@
 from pathlib import Path
 
 _datasets_scenes = [
-    # ("ord", "antman"),
-    # ("ord", "apple"),
-    # ("ord", "chest"),
-    # ("ord", "gamepad"),
-    # ("ord", "ping_pong_racket"),
-    # ("ord", "porcelain_mug"),
-    # ("ord", "tpiece"),
-    # ("ord", "wood_bowl"),
-    # ("synth4relight_subsampled", "air_baloons"),
-    # ("synth4relight_subsampled", "chair"),
-    # ("synth4relight_subsampled", "hotdog"),
-    # ("synth4relight_subsampled", "jugs"),
+    ("ord", "antman"),
+    ("ord", "apple"),
+    ("ord", "chest"),
+    ("ord", "gamepad"),
+    ("ord", "ping_pong_racket"),
+    ("ord", "porcelain_mug"),
+    ("ord", "tpiece"),
+    ("ord", "wood_bowl"),
+    ("synth4relight_subsampled", "air_baloons"),
+    ("synth4relight_subsampled", "chair"),
+    ("synth4relight_subsampled", "hotdog"),
+    ("synth4relight_subsampled", "jugs"),
     ("bmvs", "bear"),
     ("bmvs", "clock"),
     ("bmvs", "dog"),
@@ -45,7 +45,7 @@ def get_latest_checkpoint_path(dataset, scene):
     log_dir = Path("log")
     dataset_scene = f"{dataset}_{scene}"
     exp_dirs = [
-        d for d in log_dir.iterdir() if d.is_dir() and dataset_scene in d.name
+        d for d in log_dir.iterdir() if d.is_dir() and d.name.startswith(dataset_scene)
     ]
     if len(exp_dirs) == 0:
         raise ValueError(f"No experiment directory found for {dataset_scene}.")
@@ -159,8 +159,12 @@ def main():
             dataset, scene)
         print("######################")
         print(f"{dataset}_{scene}:")
+        print(train_cmd)
         print(render_cmd)
+        print(relight_cmd)
+        all_cmds.append(train_cmd)
         all_cmds.append(render_cmd)
+        all_cmds.append(relight_cmd)
 
     with open("commands.txt", "w") as f:
         f.write("\n".join(all_cmds))
