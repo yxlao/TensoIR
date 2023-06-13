@@ -49,7 +49,7 @@ Download and extract the dataset as follows:
 ## Dependencies
 
 In addition to the author's original dependencies, install the following 
-dependencies as well.
+dependencies. See `README_old.md` for the author's original dependencies.
 
 ```bash
 pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0 ipdb matplotlib
@@ -60,8 +60,9 @@ pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0 ipdb matplotlib
 We provide example commands for running training, novel view synthesis (NVS)
 and relighting.
 
-We also provide `gen_commands.py` to automatically generate commands to run
-novel view synthesis and relighting using the latest checkpoint. 
+We provide `gen_commands.py` to automatically generate commands to run novel
+view synthesis and relighting. This script will locate the latest checkpoint
+automatically.
 
 ```bash
 export PYTHONPATH=.
@@ -95,7 +96,7 @@ python scripts/relight_ord.py \
 
 ## Evaluation
 
-We provide lists of files for evaluation.
+We provide lists of files for preparing evaluation.
 
 ```bash                  
 eval
@@ -107,3 +108,11 @@ eval
 ├── synth4relight_nvs.json     # List of files for NVS on synth4relight
 └── synth4relight_relight.json # List of files for relighting on synth4relight
 ``` 
+
+In the file list json files:
+
+- `gt_path`": Path to the ground-truth file
+- `pd_dst_path`": Path to the location where the prediction file will be copied
+- `pd_src_path`": Path to the prediction file
+
+Run `prepare_eval.py` to copy all `pd_src_path` to `pd_dst_path`.
