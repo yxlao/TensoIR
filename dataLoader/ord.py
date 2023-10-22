@@ -258,7 +258,7 @@ class ORD(Dataset):
         Transform T with normalize_mat computed by ct.normalize.compute_normalize_mat().
         """
         C = ct.convert.T_to_C(T)
-        C_new = ct.project.homo_project(C.reshape((-1, 3)),
+        C_new = ct.transform.transform_points(C.reshape((-1, 3)),
                                         normalize_mat).flatten()
         pose_new = np.linalg.inv(T)
         pose_new[:3, 3] = C_new
@@ -282,7 +282,7 @@ class ORD(Dataset):
             - result_dict["test_Ts"]       : (num_test, 4, 4).
             - result_dict["test_im_rgbs"]  : (num_test, height, width, 3).
             - result_dict["test_im_masks"] : (num_test, height, width), 0-1, float.
-            - result_dict["scene_bbox"]    : [[x_min, y_min, z_min], 
+            - result_dict["scene_bbox"]    : [[x_min, y_min, z_min],
                                               [x_max, y_max, z_max]].
             - result_dict["light_names"]   : (num_env_lights, 3).
             - result_dict["mesh"]          : open3d.geometry.TriangleMesh GT mesh.
@@ -312,7 +312,7 @@ class ORD(Dataset):
         normalize_mat = ct.normalize.compute_normalize_mat(points)
         if dataset_name == "dtu" or dataset_name == "bmvs":
             print("Normalize mesh with normalize_mat")
-            points_normalized = ct.project.homo_project(points, normalize_mat)
+            points_normalized = ct.transform.transform_points(points, normalize_mat)
             mesh.vertices = o3d.utility.Vector3dVector(points_normalized)
 
         # Load the training set: {scene_dir}/inputs.
@@ -454,7 +454,7 @@ class ORD(Dataset):
                 [x_min, y_min, z_min],
                 [x_max, y_max, z_max],
             ])
-            bbox_diag_vertices = ct.project.homo_project(bbox_diag_vertices,
+            bbox_diag_vertices = ct.transform.transform_points(bbox_diag_vertices,
                                                         normalize_mat)
             x_min, y_min, z_min = bbox_diag_vertices[0]
             x_max, y_max, z_max = bbox_diag_vertices[1]
