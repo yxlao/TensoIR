@@ -271,7 +271,7 @@ class ORD(Dataset):
         Parse train, test, and env light data from the scene directory.
 
         Args:
-            - scene_dir: Scene directory, contianing both train and test.
+            - scene_dir: Scene directory, containing both train and test.
 
         Return:
             - result_dict["train_Ks"]      : (num_train, 3, 3).
@@ -321,7 +321,7 @@ class ORD(Dataset):
             raise ValueError(f"inputs_dir {inputs_dir} is not a directory.")
         train_camera_paths = sorted(inputs_dir.glob("camera_*.txt"))
         train_im_rgb_paths = sorted(inputs_dir.glob("image_*.png"))
-        train_im_mask_paths = sorted(inputs_dir.glob("mask_binary_*.png"))
+        train_im_mask_paths = sorted(inputs_dir.glob("mask_*.png"))
         num_train = len(train_camera_paths)
         assert num_train == len(train_camera_paths)
         assert num_train == len(train_im_rgb_paths)
@@ -333,15 +333,15 @@ class ORD(Dataset):
                 ORD.transform_T_with_normalize_mat(train_T, normalize_mat)
                 for train_T in train_Ts
             ]
-        # (num_train, h, w, 3)
+        # (num_train, h, w)
         train_im_rgbs = np.array([ct.io.imread(p) for p in train_im_rgb_paths])
         # (num_train, 1165, 1746), float, from 0-1
         train_im_masks = np.array(
             [ct.io.imread(p) for p in train_im_mask_paths])
         train_im_masks[train_im_masks < 0.5] = 0.0
         train_im_masks[train_im_masks >= 0.5] = 1.0
-        assert (train_im_masks.shape[-1] == 3)
-        train_im_masks = train_im_masks[..., 0]
+        assert train_im_masks.ndim == 3
+        assert train_im_masks.shape[0] == num_train
         print(f"Num train images: {num_train}")
 
         # Load test set: {scene_dir}.
