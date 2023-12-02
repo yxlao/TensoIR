@@ -81,13 +81,13 @@ def gen_commands(dataset, scene):
     # Example train command:
     python train_ord.py \
         --config ./configs/single_light/ord.txt \
-        --datadir ./data/dataset/ord/antman/test \
+        --datadir ./data/ord/antman/test \
         --expname ord_antman
 
     # Example render command:
     python train_ord.py \
         --config ./configs/single_light/ord.txt \
-        --datadir ./data/dataset/ord/antman/test \
+        --datadir ./data/ord/antman/test \
         --expname ord_antman \
         --render_only 1 \
         --render_test 1 \
@@ -97,8 +97,8 @@ def gen_commands(dataset, scene):
     python scripts/relight_ord.py \
         --config configs/relighting_test/ord_relight.txt \
         --batch_size 800 \
-        --datadir ./data/dataset/ord/antman/test \
-        --hdrdir ./data/dataset/ord/antman/test \
+        --datadir ./data/ord/antman/test \
+        --hdrdir ./data/ord/antman/test \
         --geo_buffer_path ./relighting/ord_antman \
         --ckpt log/ord_antman-20230531-013113/checkpoints/ord_antman_10000.th
     """
@@ -111,13 +111,13 @@ def gen_commands(dataset, scene):
     # Train.
     train_cmd = (f"python train_ord.py "
                  f"--config ./configs/single_light/ord.txt "
-                 f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+                 f"--datadir ./data/{dataset}/{scene}/{test_suffix} "
                  f"--expname {dataset}_{scene}")
 
     # Render.
     render_cmd = (f"python train_ord.py "
                   f"--config ./configs/single_light/ord.txt "
-                  f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+                  f"--datadir ./data/{dataset}/{scene}/{test_suffix} "
                   f"--expname {dataset}_{scene} "
                   f"--render_only 1 "
                   f"--render_test 1 "
@@ -127,8 +127,8 @@ def gen_commands(dataset, scene):
     relight_cmd = (f"python scripts/relight_ord.py "
                    f"--config configs/relighting_test/ord_relight.txt "
                    f"--batch_size 800 "
-                   f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
-                   f"--hdrdir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+                   f"--datadir ./data/{dataset}/{scene}/{test_suffix} "
+                   f"--hdrdir ./data/{dataset}/{scene}/{test_suffix} "
                    f"--geo_buffer_path ./relighting/{dataset}_{scene} "
                    f"--ckpt {ckpt_path}")
 
@@ -136,7 +136,7 @@ def gen_commands(dataset, scene):
     render_relight_cmd = (
         f"python train_ord.py "
         f"--config ./configs/single_light/ord.txt "
-        f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+        f"--datadir ./data/{dataset}/{scene}/{test_suffix} "
         f"--expname {dataset}_{scene} "
         f"--render_only 1 "
         f"--render_test 1 "
@@ -144,8 +144,8 @@ def gen_commands(dataset, scene):
         f"python scripts/relight_ord.py "
         f"--config configs/relighting_test/ord_relight.txt "
         f"--batch_size 800 "
-        f"--datadir ./data/dataset/{dataset}/{scene}/{test_suffix} "
-        f"--hdrdir ./data/dataset/{dataset}/{scene}/{test_suffix} "
+        f"--datadir ./data/{dataset}/{scene}/{test_suffix} "
+        f"--hdrdir ./data/{dataset}/{scene}/{test_suffix} "
         f"--geo_buffer_path ./relighting/{dataset}_{scene} "
         f"--ckpt {ckpt_path}")
 

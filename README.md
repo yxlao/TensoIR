@@ -6,7 +6,7 @@ Download and extract the dataset as follows:
 
 ```bash
 # Folder structure
-# data/dataset
+# data
 # ├── bmvs
 # │   ├── bear
 # │   ├── clock
@@ -78,14 +78,14 @@ export PYTHONPATH=.
 # Train
 python train_ord.py \
   --config ./configs/single_light/ord.txt \
-  --datadir ./data/dataset/ord/antman/test \
+  --datadir ./data/ord/antman/test \
   --expname ord_antman
 
 # Novel view synthesis
 # Note: change the checkpoint path accordingly.
 python train_ord.py \
    --config ./configs/single_light/ord.txt \
-   --datadir ./data/dataset/ord/antman/test \
+   --datadir ./data/ord/antman/test \
    --expname ord_antman \
    --render_only 1 \
    --render_test 1 \
@@ -96,8 +96,8 @@ python train_ord.py \
 python scripts/relight_ord.py \
   --config configs/relighting_test/ord_relight.txt \
   --batch_size 800 \
-  --datadir ./data/dataset/ord/antman/test \
-  --hdrdir ./data/dataset/ord/antman/test \
+  --datadir ./data/ord/antman/test \
+  --hdrdir ./data/ord/antman/test \
   --geo_buffer_path ./relighting/ord_antman \
   --ckpt log/ord_antman-xxx-xxx/checkpoints/ord_antman_xxx.th
 ```
