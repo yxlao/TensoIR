@@ -52,6 +52,14 @@ In addition to the author's original dependencies, install the following
 dependencies. See `README_old.md` for the author's original dependencies.
 
 ```bash
+conda create -n tensoir python=3.8
+conda activate tensoir
+
+# Official deps.
+pip install torch==1.10 torchvision
+pip install tqdm scikit-image opencv-python configargparse lpips imageio-ffmpeg kornia lpips tensorboard loguru plyfile
+
+# Additional deps.
 pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0 ipdb matplotlib
 ```
 
