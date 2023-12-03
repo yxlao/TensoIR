@@ -6,8 +6,9 @@ import os
 from PIL import Image
 from torchvision import transforms as T
 
-
 from dataLoader.ray_utils import *
+from dataLoader.plotter import plot_cameras_and_scene_bbox
+import camtools as ct
 
 
 class BlenderDataset(Dataset):
@@ -31,6 +32,52 @@ class BlenderDataset(Dataset):
         self.center = torch.mean(self.scene_bbox, axis=0).float().view(1, 1, 3)
         self.radius = (self.scene_bbox[1] - self.center).float().view(1, 1, 3)
         self.downsample=downsample
+
+        # Print all properties.
+        import ipdb; ipdb.set_trace(); pass
+        all_properties = [
+            "N_vis",
+            "all_depth",
+            "all_light_idx",
+            "all_masks",
+            "all_rays",
+            "all_rgbs",
+            "blender2opencv",
+            "center",
+            "directions",
+            "downsample",
+            "focal",
+            "image_paths",
+            "img_wh",
+            "intrinsics",
+            "is_stack",
+            "meta",
+            "near_far",
+            "poses",
+            "proj_mat",
+            "radius",
+            "root_dir",
+            "scene_bbox",
+            "split",
+            "transform",
+            "white_bg",
+        ]
+        for key in all_properties:
+            try:
+                val = getattr(self, key)
+            except:
+                val = None
+            if isinstance(val, torch.Tensor):
+                print(f"{key}: {val.shape}, {val.dtype}")
+            elif key == "image_paths":
+                print(f"{key}: {len(val)} image paths")
+            elif key == "meta":
+                print(f"{key}: with keys {val.keys()}")
+            else:
+                print(f"{key}: {val}")
+
+        import ipdb; ipdb.set_trace(); pass
+
 
     def read_depth(self, filename):
         depth = np.array(read_pfm(filename)[0], dtype=np.float32)  # (800, 800)
@@ -87,17 +134,25 @@ class BlenderDataset(Dataset):
 
         self.poses = torch.stack(self.poses)
         if not self.is_stack:
-            self.all_rays = torch.cat(self.all_rays, 0)  # (len(self.meta['frames])*h*w, 6)
-            self.all_rgbs = torch.cat(self.all_rgbs, 0)  # (len(self.meta['frames])*h*w, 3)
-            self.all_masks = torch.cat(self.all_masks, 0)  # (len(self.meta['frames])*h*w, 1)
-#             self.all_depth = torch.cat(self.all_depth, 0)  # (len(self.meta['frames])*h*w, 3)
+            self.all_rays = torch.cat(self.all_rays, 0)  # (len(self.meta['frames'])*h*w, 6)
+            self.all_rgbs = torch.cat(self.all_rgbs, 0)  # (len(self.meta['frames'])*h*w, 3)
+            self.all_masks = torch.cat(self.all_masks, 0)  # (len(self.meta['frames'])*h*w, 1)
+#             self.all_depth = torch.cat(self.all_depth, 0)  # (len(self.meta['frames'])*h*w, 3)
             self.all_light_idx = torch.zeros((*self.all_rays.shape[:-1], 1),dtype=torch.long)
         else:
-            self.all_rays = torch.stack(self.all_rays, 0)  # (len(self.meta['frames]),h*w, 6)
-            self.all_rgbs = torch.stack(self.all_rgbs, 0).reshape(-1,*self.img_wh[::-1], 3)  # (len(self.meta['frames]),h,w,3)
-            self.all_masks = torch.stack(self.all_masks, 0).reshape(-1,*self.img_wh[::-1])  # (len(self.meta['frames]),h,w,1)
+            self.all_rays = torch.stack(self.all_rays, 0)  # (len(self.meta['frames']),h*w, 6)
+            self.all_rgbs = torch.stack(self.all_rgbs, 0).reshape(-1,*self.img_wh[::-1], 3)  # (len(self.meta['frames']),h,w,3)
+            self.all_masks = torch.stack(self.all_masks, 0).reshape(-1,*self.img_wh[::-1])  # (len(self.meta['frames']),h,w,1)
             self.all_light_idx = torch.zeros((*self.all_rays.shape[:-1], 1),dtype=torch.long).reshape(-1,*self.img_wh[::-1])
-        
+
+        # Try plotting with camtools
+        if False:
+            plot_cameras_and_scene_bbox(
+                Ks=[self.intrinsics.cpu().numpy() for _ in range(len(self.poses))],
+                Ts=[ct.convert.pose_to_T(pose) for pose in  self.poses.cpu().numpy()],
+                scene_bbox=self.scene_bbox.cpu().numpy(),
+            )
+            
 
     def define_transforms(self):
         self.transform = T.ToTensor()
@@ -110,30 +165,56 @@ class BlenderDataset(Dataset):
         return (points - self.center.to(device)) / self.radius.to(device)
 
     def __len__(self):
-        return len(self.all_rgbs)
-
+        """
+        Returns the number of images.
+        """
+        if self.split == "train":
+            raise NotImplementedError("In train, you should not call __len__")
+        
+        num_rays = len(self.all_rgbs)  # (len(self.meta['frames'])*h*w, 3)
+        width, height = self.img_wh
+        num_images = int(num_rays / (width * height))
+        return num_images
+        
+    
     def __getitem__(self, idx):
+        print(f"BlenderDataset.__getitem__(): {idx}")
 
-        if self.split == 'train':  # use data in the buffers
+        # use data in the buffers
+        if self.split == 'train':
             sample = {
                       'rays': self.all_rays[idx],
                       'rgbs': self.all_rgbs[idx]
-                      
                       }
+            raise NotImplementedError("In train, you should not call __getitem__")
 
-        else:  # create data for each image separately
+        # create data for each image separately
+        else:
+            width, height = self.img_wh
+            wth = width * height
+            num_images = self.__len__()
 
-            img = self.all_rgbs[idx]
-            rays = self.all_rays[idx]
-            mask = self.all_masks[idx] # for quantity evaluation
-            light_idx = self.all_light_idx[idx]
+            # [128000000, 3] -> [200, 800 * 800, 3]
+            all_rgbs = self.all_rgbs.reshape(num_images, height * width, 3)
+            # [128000000, 6] -> [200, 800 * 800, 6]
+            all_rays = self.all_rays.reshape(num_images, height * width, 6)
+            # [128000000, 1] -> [200, 800 * 800, 1]
+            all_masks = self.all_masks.reshape(num_images, height * width, 1)
+            # [128000000, 1] -> [200, 800 * 800, 1]
+            all_light_idx = self.all_light_idx.reshape(num_images, height * width, 1)
+
             sample = {
-                      'img_wh': self.img_wh,  # (int, int)
-                      'light_idx': light_idx.view(1, -1, 1),
-                      'rays': rays,
-                      'rgbs': img.view(1, -1, 3),
-                      'rgbs_mask': mask
-                      }
+                'img_wh': self.img_wh,                            # (int, int)
+                'light_idx': all_light_idx[idx].view(-1, wth, 1), # [light_num, H*W, 1]
+                'rays': all_rays[idx],                            # [H*W, 6]
+                'rgbs': all_rgbs[idx].view(-1, wth, 3),           # [light_num, H*W, 3]
+                'rgbs_mask': all_masks[idx]                       # [H*W, 1]
+            }
+            print(f"light_idx.shape: {sample['light_idx'].shape}")
+            print(f"rays.shape     : {sample['rays'].shape}")
+            print(f"rgbs.shape     : {sample['rgbs'].shape}")
+            print(f"rgbs_mask.shape: {sample['rgbs_mask'].shape}")
+
         return sample
 
 
@@ -149,4 +230,3 @@ if __name__ == '__main__':
     print(f'rays.shape {dataset.all_rays.shape}')  # [640000, 6]
 
     print(f'rgbs.shape : {dataset.all_rgbs.shape}')  # [640000, 3]
-

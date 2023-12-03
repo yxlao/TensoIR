@@ -161,7 +161,7 @@ class tensoIR_Relighting_test(Dataset):
                 relight_img = relight_img.resize(img_wh, Image.Resampling.LANCZOS)
             relight_img = self.transform(relight_img)  # [4, H, W]
             relight_img = relight_img.view(4, -1).permute(1, 0)  # [H*W, 4]
-            ## Blend A to RGB
+            ## Blend A to RGB                                         |<- white background ->|
             relight_rgbs = relight_img[:, :3] * relight_img[:, -1:] + (1 - relight_img[:, -1:])  # [H*W, 3]
             # relight_rgbs = relight_img[:, :3] 
             light_idx = torch.tensor(0, dtype=torch.int).repeat((img_wh[0] * img_wh[1], 1)) # [H*W, 1]
@@ -215,16 +215,16 @@ class tensoIR_Relighting_test(Dataset):
         normals_white = normal_white.view(-1, 3)  # [H*W, 3]
 
         item = {
-            'img_wh': img_wh,  # (int, int)
-            'light_idx': light_idx,  # [light_num, H*W, 1]
-            'rgbs': relight_rgbs,  # [light_num, H*W, 3],
-            'rgbs_mask': relight_mask,  # [H*W, 1]
-            'albedo': albedo,  # [H*W, 3]
-            'rays': rays,  # [H*W, 6]
-            'normals': normals,  # [H*W, 3],
+            'img_wh': img_wh,                # (int, int)
+            'light_idx': light_idx,          # [light_num, H*W, 1]
+            'rgbs': relight_rgbs,            # [light_num, H*W, 3],
+            'rgbs_mask': relight_mask,       # [H*W, 1]
+            'albedo': albedo,                # [H*W, 3]
+            'rays': rays,                    # [H*W, 6]
+            'normals': normals,              # [H*W, 3],
             'normals_white': normals_white,  # [H*W, 3],
-            'c2w': c2w,  # [4, 4]
-            'w2c': w2c  # [4, 4]
+            'c2w': c2w,                      # [4, 4]
+            'w2c': w2c                       # [4, 4]
         }
         return item
 

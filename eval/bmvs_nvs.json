@@ -1,0 +1,212 @@
+[
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0004.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0005.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0006.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/bear/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/bmvs/bear/pr_image_0007.png",
+        "pd_src_path": "log/test_bmvs_bear/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0004.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0005.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0006.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0007.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/clock/gt_image_0008.png",
+        "pd_dst_path": "eval_nvs/bmvs/clock/pr_image_0008.png",
+        "pd_src_path": "log/test_bmvs_clock/nvs_with_radiance_field/008.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/dog/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/dog/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_dog/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/dog/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/dog/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_dog/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0004.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0005.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0006.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/durian/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/bmvs/durian/pr_image_0007.png",
+        "pd_src_path": "log/test_bmvs_durian/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/jade/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/jade/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_jade/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/jade/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/jade/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_jade/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/jade/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/jade/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_jade/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/jade/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/jade/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_jade/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/man/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/man/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_man/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/man/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/man/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_man/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/sculpture/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/sculpture/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_sculpture/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/sculpture/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/sculpture/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_sculpture/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/sculpture/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/sculpture/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_sculpture/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/sculpture/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/sculpture/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_sculpture/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/sculpture/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/bmvs/sculpture/pr_image_0004.png",
+        "pd_src_path": "log/test_bmvs_sculpture/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/stone/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/bmvs/stone/pr_image_0000.png",
+        "pd_src_path": "log/test_bmvs_stone/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/stone/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/bmvs/stone/pr_image_0001.png",
+        "pd_src_path": "log/test_bmvs_stone/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/stone/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/bmvs/stone/pr_image_0002.png",
+        "pd_src_path": "log/test_bmvs_stone/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/bmvs/stone/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/bmvs/stone/pr_image_0003.png",
+        "pd_src_path": "log/test_bmvs_stone/nvs_with_radiance_field/003.png"
+    }
+]

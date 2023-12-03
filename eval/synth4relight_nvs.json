@@ -1,0 +1,262 @@
+[
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0000.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0001.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0002.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0003.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0004.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0005.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0006.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0007.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0008.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0008.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/008.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0009.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0009.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/009.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0010.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0010.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/010.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0011.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0011.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/011.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/air_baloons/gt_image_0012.png",
+        "pd_dst_path": "eval_nvs/synth4relight/air_baloons/pr_image_0012.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_air_baloons/nvs_with_radiance_field/012.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0000.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0001.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0002.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0003.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0004.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0005.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0006.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0007.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0008.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0008.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/008.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0009.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0009.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/009.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0010.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0010.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/010.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0011.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0011.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/011.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/chair/gt_image_0012.png",
+        "pd_dst_path": "eval_nvs/synth4relight/chair/pr_image_0012.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_chair/nvs_with_radiance_field/012.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0000.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0001.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0002.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0003.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0004.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0005.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0006.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0007.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0008.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0008.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/008.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0009.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0009.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/009.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0010.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0010.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/010.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0011.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0011.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/011.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/hotdog/gt_image_0012.png",
+        "pd_dst_path": "eval_nvs/synth4relight/hotdog/pr_image_0012.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_hotdog/nvs_with_radiance_field/012.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0000.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0000.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/000.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0001.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0001.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/001.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0002.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0002.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/002.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0003.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0003.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/003.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0004.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0004.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/004.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0005.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0005.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/005.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0006.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0006.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/006.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0007.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0007.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/007.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0008.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0008.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/008.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0009.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0009.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/009.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0010.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0010.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/010.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0011.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0011.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/011.png"
+    },
+    {
+        "gt_path": "data/dataset/synth4relight_subsampled/jugs/gt_image_0012.png",
+        "pd_dst_path": "eval_nvs/synth4relight/jugs/pr_image_0012.png",
+        "pd_src_path": "log/test_synth4relight_subsampled_jugs/nvs_with_radiance_field/012.png"
+    }
+]
