@@ -105,6 +105,9 @@ python scripts/relight_ord.py \
   --hdrdir ./data/ord/antman/test \
   --geo_buffer_path ./relighting/ord_antman \
   --ckpt log/ord_antman-xxx-xxx/checkpoints/ord_antman_xxx.th
+
+# Copy files to a canonical folder for metrics evaluation.
+python eval/prepare_eval.py
 ```
 
 ## Evaluation
