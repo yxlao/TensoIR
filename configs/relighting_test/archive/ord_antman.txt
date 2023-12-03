@@ -1,6 +1,6 @@
 dataset_name = ord
-datadir = ./data/dataset/ord/antman/test
-hdrdir = ./data/dataset/ord/antman/test
+datadir = ./data/ord/antman/test
+hdrdir = ./data/ord/antman/test
 expname = ""
 basedir = ""
 add_timestamp = 1

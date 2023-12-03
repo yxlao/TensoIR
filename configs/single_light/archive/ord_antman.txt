@@ -1,5 +1,5 @@
 dataset_name = ord
-datadir = ./data/dataset/ord/antman/test
+datadir = ./data/ord/antman/test
 hdrdir = ""
 expname = ord_antman
 basedir = ./log

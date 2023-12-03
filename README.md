@@ -1,4 +1,4 @@
-# TensoIR Experiments for "ERROR: Evaluation of Reconstruction and Rendering for Object Relighting"
+# TensoIR Experiments for "Objects with Lighting: A Real-World Dataset for Evaluating Reconstruction and Rendering for Object Relighting"
 
 ## Dataset
 
@@ -6,7 +6,7 @@ Download and extract the dataset as follows:
 
 ```bash
 # Folder structure
-# data/dataset
+# data
 # ├── bmvs
 # │   ├── bear
 # │   ├── clock
@@ -52,7 +52,15 @@ In addition to the author's original dependencies, install the following
 dependencies. See `README_old.md` for the author's original dependencies.
 
 ```bash
-pip install setuptools==59.5.0 imageio==2.11.1 yapf==0.30.0 ipdb matplotlib
+conda create -n tensoir python=3.8
+conda activate tensoir
+
+# Official deps (install specific version of torch base on your system).
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install tqdm scikit-image opencv-python configargparse lpips imageio-ffmpeg kornia lpips tensorboard loguru plyfile
+
+# Additional deps.
+pip install setuptools imageio yapf ipdb matplotlib camtools==0.1.4
 ```
 
 ## Train, NVS, and Relighting
@@ -65,19 +73,24 @@ view synthesis and relighting. This script will locate the latest checkpoint
 automatically.
 
 ```bash
+# This is important!
 export PYTHONPATH=.
 
 # Train
 python train_ord.py \
   --config ./configs/single_light/ord.txt \
-  --datadir ./data/dataset/ord/antman/test \
+  --datadir ./data/ord/antman/test \
   --expname ord_antman
+
+# Gen commands to automatically detect the latest checkpoint.
+# Commands will be saved to commands.txt
+python gen_commands.py
 
 # Novel view synthesis
 # Note: change the checkpoint path accordingly.
 python train_ord.py \
    --config ./configs/single_light/ord.txt \
-   --datadir ./data/dataset/ord/antman/test \
+   --datadir ./data/ord/antman/test \
    --expname ord_antman \
    --render_only 1 \
    --render_test 1 \
@@ -88,10 +101,13 @@ python train_ord.py \
 python scripts/relight_ord.py \
   --config configs/relighting_test/ord_relight.txt \
   --batch_size 800 \
-  --datadir ./data/dataset/ord/antman/test \
-  --hdrdir ./data/dataset/ord/antman/test \
+  --datadir ./data/ord/antman/test \
+  --hdrdir ./data/ord/antman/test \
   --geo_buffer_path ./relighting/ord_antman \
   --ckpt log/ord_antman-xxx-xxx/checkpoints/ord_antman_xxx.th
+
+# Copy files to a canonical folder for metrics evaluation.
+python eval/prepare_eval.py
 ```
 
 ## Evaluation
