@@ -73,6 +73,7 @@ view synthesis and relighting. This script will locate the latest checkpoint
 automatically.
 
 ```bash
+# This is important!
 export PYTHONPATH=.
 
 # Train
