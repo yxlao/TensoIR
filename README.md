@@ -1,4 +1,4 @@
-# TensoIR Experiments for "ERROR: Evaluation of Reconstruction and Rendering for Object Relighting"
+# TensoIR Experiments for "Objects with Lighting: A Real-World Dataset for Evaluating Reconstruction and Rendering for Object Relighting"
 
 ## Dataset
 
