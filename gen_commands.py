@@ -9,26 +9,26 @@ _datasets_scenes = [
     ("ord", "porcelain_mug"),
     ("ord", "tpiece"),
     ("ord", "wood_bowl"),
-    ("synth4relight_subsampled", "air_baloons"),
-    ("synth4relight_subsampled", "chair"),
-    ("synth4relight_subsampled", "hotdog"),
-    ("synth4relight_subsampled", "jugs"),
-    ("bmvs", "bear"),
-    ("bmvs", "clock"),
-    ("bmvs", "dog"),
-    ("bmvs", "durian"),
-    ("bmvs", "jade"),
-    ("bmvs", "man"),
-    ("bmvs", "sculpture"),
-    ("bmvs", "stone"),
-    ("dtu", "scan37"),
-    ("dtu", "scan40"),
-    ("dtu", "scan55"),
-    ("dtu", "scan63"),
-    ("dtu", "scan65"),
-    ("dtu", "scan69"),
-    ("dtu", "scan83"),
-    ("dtu", "scan97"),
+    # ("synth4relight_subsampled", "air_baloons"),
+    # ("synth4relight_subsampled", "chair"),
+    # ("synth4relight_subsampled", "hotdog"),
+    # ("synth4relight_subsampled", "jugs"),
+    # ("bmvs", "bear"),
+    # ("bmvs", "clock"),
+    # ("bmvs", "dog"),
+    # ("bmvs", "durian"),
+    # ("bmvs", "jade"),
+    # ("bmvs", "man"),
+    # ("bmvs", "sculpture"),
+    # ("bmvs", "stone"),
+    # ("dtu", "scan37"),
+    # ("dtu", "scan40"),
+    # ("dtu", "scan55"),
+    # ("dtu", "scan63"),
+    # ("dtu", "scan65"),
+    # ("dtu", "scan69"),
+    # ("dtu", "scan83"),
+    # ("dtu", "scan97"),
 ]
 
 
@@ -162,7 +162,7 @@ def main():
         print(train_cmd)
         print(render_cmd)
         print(relight_cmd)
-        all_cmds.append(train_cmd)
+        # all_cmds.append(train_cmd)
         all_cmds.append(render_cmd)
         all_cmds.append(relight_cmd)
 

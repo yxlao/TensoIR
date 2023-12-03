@@ -81,6 +81,10 @@ python train_ord.py \
   --datadir ./data/ord/antman/test \
   --expname ord_antman
 
+# Gen commands to automatically detect the latest checkpoint.
+# Commands will be saved to commands.txt
+python gen_commands.py
+
 # Novel view synthesis
 # Note: change the checkpoint path accordingly.
 python train_ord.py \
